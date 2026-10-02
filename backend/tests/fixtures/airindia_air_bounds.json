@@ -1,0 +1,729 @@
+{
+ "responsePayload": [
+  {
+   "airBoundGroups": [
+    {
+     "boundDetails": {
+      "originLocationCode": "DEL",
+      "destinationLocationCode": "NMI",
+      "duration": 7800,
+      "segments": [
+       {
+        "flightId": "SEG-AI9780-DELNMI-2026-10-02-1735"
+       }
+      ]
+     },
+     "airBounds": [
+      {
+       "fareFamilyCode": "YXININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7658,
+          "base": 5521,
+          "totalTaxes": 1738,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 8078,
+          "base": 5921,
+          "totalTaxes": 1758,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 8918,
+          "base": 6721,
+          "totalTaxes": 1798,
+          "totalFees": null
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "boundDetails": {
+      "originLocationCode": "DEL",
+      "destinationLocationCode": "BOM",
+      "duration": 8100,
+      "segments": [
+       {
+        "flightId": "SEG-AI2678-DELBOM-2026-10-02-0830"
+       }
+      ]
+     },
+     "airBounds": [
+      {
+       "fareFamilyCode": "YHININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7138,
+          "base": 5244,
+          "totalTaxes": 1495,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YXININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7558,
+          "base": 5644,
+          "totalTaxes": 1515,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 8083,
+          "base": 6144,
+          "totalTaxes": 1540,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 9133,
+          "base": 7144,
+          "totalTaxes": 1590,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "PWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "ecoPremium"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 9679,
+          "base": 6741,
+          "totalTaxes": 2539,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "PFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "ecoPremium"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 11502,
+          "base": 8286,
+          "totalTaxes": 2817,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "CWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "business"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 31163,
+          "base": 24948,
+          "totalTaxes": 5816,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "CFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "business"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 32933,
+          "base": 26448,
+          "totalTaxes": 6086,
+          "totalFees": null
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "boundDetails": {
+      "originLocationCode": "DEL",
+      "destinationLocationCode": "BOM",
+      "duration": 8400,
+      "segments": [
+       {
+        "flightId": "SEG-AI2951-DELBOM-2026-10-02-1330"
+       }
+      ]
+     },
+     "airBounds": [
+      {
+       "fareFamilyCode": "YHININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 6979,
+          "base": 5093,
+          "totalTaxes": 1487,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YXININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7399,
+          "base": 5493,
+          "totalTaxes": 1507,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7924,
+          "base": 5993,
+          "totalTaxes": 1532,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 8974,
+          "base": 6993,
+          "totalTaxes": 1582,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "PWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "ecoPremium"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 9862,
+          "base": 6896,
+          "totalTaxes": 2567,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "PFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "ecoPremium"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 11685,
+          "base": 8441,
+          "totalTaxes": 2845,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "CWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "business"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 44665,
+          "base": 36390,
+          "totalTaxes": 7876,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "CFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "business"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 46435,
+          "base": 37890,
+          "totalTaxes": 8146,
+          "totalFees": null
+         }
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "boundDetails": {
+      "originLocationCode": "DEL",
+      "destinationLocationCode": "BOM",
+      "duration": 8400,
+      "segments": [
+       {
+        "flightId": "SEG-AI2425-DELBOM-2026-10-02-1030"
+       }
+      ]
+     },
+     "airBounds": [
+      {
+       "fareFamilyCode": "YHININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7138,
+          "base": 5244,
+          "totalTaxes": 1495,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YXININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 7558,
+          "base": 5644,
+          "totalTaxes": 1515,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 8083,
+          "base": 6144,
+          "totalTaxes": 1540,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "YFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "eco"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 9133,
+          "base": 7144,
+          "totalTaxes": 1590,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "PWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "ecoPremium"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 10044,
+          "base": 7050,
+          "totalTaxes": 2595,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "PFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "ecoPremium"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 11867,
+          "base": 8595,
+          "totalTaxes": 2873,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "CWININ",
+       "availabilityDetails": [
+        {
+         "cabin": "business"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 31163,
+          "base": 24948,
+          "totalTaxes": 5816,
+          "totalFees": null
+         }
+        ]
+       }
+      },
+      {
+       "fareFamilyCode": "CFININ",
+       "availabilityDetails": [
+        {
+         "cabin": "business"
+        }
+       ],
+       "prices": {
+        "totalPrices": [
+         {
+          "total": 32933,
+          "base": 26448,
+          "totalTaxes": 6086,
+          "totalFees": null
+         }
+        ]
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "dictionaries": {
+  "flight": {
+   "SEG-AI2425-DELBOM-2026-10-02-1030": {
+    "marketingAirlineCode": "AI",
+    "operatingAirlineCode": "AI",
+    "marketingFlightNumber": "2425",
+    "departure": {
+     "locationCode": "DEL",
+     "dateTime": "2026-10-02T10:30:00.000+05:30",
+     "terminal": "3"
+    },
+    "arrival": {
+     "locationCode": "BOM",
+     "dateTime": "2026-10-02T12:50:00.000+05:30",
+     "terminal": "2"
+    },
+    "aircraftCode": "32N",
+    "duration": 8400,
+    "connectionTime": 0,
+    "secureFlightIndicator": false
+   },
+   "SEG-AI2951-DELBOM-2026-10-02-1330": {
+    "marketingAirlineCode": "AI",
+    "operatingAirlineCode": "AI",
+    "marketingFlightNumber": "2951",
+    "departure": {
+     "locationCode": "DEL",
+     "dateTime": "2026-10-02T13:30:00.000+05:30",
+     "terminal": "3"
+    },
+    "arrival": {
+     "locationCode": "BOM",
+     "dateTime": "2026-10-02T15:50:00.000+05:30",
+     "terminal": "2"
+    },
+    "aircraftCode": "32N",
+    "duration": 8400,
+    "connectionTime": 0,
+    "secureFlightIndicator": false
+   },
+   "SEG-AI2678-DELBOM-2026-10-02-0830": {
+    "marketingAirlineCode": "AI",
+    "operatingAirlineCode": "AI",
+    "marketingFlightNumber": "2678",
+    "departure": {
+     "locationCode": "DEL",
+     "dateTime": "2026-10-02T08:30:00.000+05:30",
+     "terminal": "3"
+    },
+    "arrival": {
+     "locationCode": "BOM",
+     "dateTime": "2026-10-02T10:45:00.000+05:30",
+     "terminal": "2"
+    },
+    "aircraftCode": "32N",
+    "duration": 8100,
+    "connectionTime": 0,
+    "secureFlightIndicator": false
+   },
+   "SEG-AI9780-DELNMI-2026-10-02-1735": {
+    "marketingAirlineCode": "AI",
+    "operatingAirlineCode": "IX",
+    "marketingFlightNumber": "9780",
+    "departure": {
+     "locationCode": "DEL",
+     "dateTime": "2026-10-02T17:35:00.000+05:30",
+     "terminal": "1"
+    },
+    "arrival": {
+     "locationCode": "NMI",
+     "dateTime": "2026-10-02T19:45:00.000+05:30"
+    },
+    "aircraftCode": "737",
+    "duration": 7800,
+    "connectionTime": 0,
+    "secureFlightIndicator": false
+   }
+  },
+  "location": {
+   "BOM": {
+    "type": "airport",
+    "airportName": "CHHATRAPATI S MAHARAJ",
+    "cityCode": "BOM",
+    "cityName": "MUMBAI",
+    "stateCode": "MH",
+    "countryCode": "IN"
+   },
+   "DEL": {
+    "type": "airport",
+    "airportName": "INDIRA GANDHI INTL",
+    "cityCode": "DEL",
+    "cityName": "DELHI",
+    "stateCode": "DL",
+    "countryCode": "IN"
+   },
+   "NMI": {
+    "type": "airport",
+    "airportName": "NAVI MUMBAI INTERNATIONAL",
+    "cityCode": "BOM",
+    "cityName": "MUMBAI",
+    "stateCode": "MH",
+    "countryCode": "IN"
+   }
+  },
+  "fareFamilyWithServices": {
+   "YXININ": {
+    "hierarchy": 9200,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "eco",
+    "aiChangeFee": "INR3000",
+    "aiCancelRefundFee": "INR5000",
+    "aiFareFamilyName": "Value",
+    "aiCabinName": "Economy"
+   },
+   "PFININ": {
+    "hierarchy": 8000,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "ecoPremium",
+    "aiChangeFee": "INR250",
+    "aiCancelRefundFee": "INR999",
+    "aiFareFamilyName": "Flex",
+    "aiCabinName": "Premium Economy "
+   },
+   "YHININ": {
+    "hierarchy": 9300,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "eco",
+    "aiChangeFee": "INR3000",
+    "aiCancelRefundFee": "INR5000",
+    "aiFareFamilyName": "BASIC",
+    "aiCabinName": "Economy"
+   },
+   "PWININ": {
+    "hierarchy": 8100,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "ecoPremium",
+    "aiChangeFee": "INR3000",
+    "aiCancelRefundFee": "INR5000",
+    "aiFareFamilyName": "Value",
+    "aiCabinName": "Premium Economy "
+   },
+   "YWININ": {
+    "hierarchy": 9100,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "eco",
+    "aiChangeFee": "INR300 upto 3days,Thereafter INR1000",
+    "aiCancelRefundFee": "INR2500 upto 3 days,Thereafter INR3500",
+    "aiFareFamilyName": "Classic",
+    "aiCabinName": "Economy"
+   },
+   "YFININ": {
+    "hierarchy": 9000,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "eco",
+    "aiChangeFee": "INR250",
+    "aiCancelRefundFee": "INR999",
+    "aiFareFamilyName": "Flex",
+    "aiCabinName": "Economy"
+   },
+   "CFININ": {
+    "hierarchy": 7000,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "business",
+    "aiChangeFee": "Nil",
+    "aiCancelRefundFee": "INR999",
+    "aiFareFamilyName": "Flex",
+    "aiCabinName": "Business"
+   },
+   "CWININ": {
+    "hierarchy": 7100,
+    "commercialFareFamily": "ECONOMY",
+    "cabin": "business",
+    "aiChangeFee": "INR3000",
+    "aiCancelRefundFee": "INR7500",
+    "aiFareFamilyName": "Value",
+    "aiCabinName": "Business"
+   }
+  }
+ }
+}

@@ -1,0 +1,31 @@
+# Pinned loosely (>= floor). Tested on CPython 3.14.
+# --- web layer ---
+fastapi>=0.115
+uvicorn[standard]>=0.34
+pydantic>=2.10
+pydantic-settings>=2.7
+python-multipart>=0.0.20          # /api/import-csv file upload
+httpx[http2]>=0.28               # Travelpayouts + Air India API client (HTTP/2 needed past Akamai)
+
+# --- data / pipeline ---
+pandas>=2.2
+numpy>=2.1
+holidays>=0.60                    # correct lunar festival dates, offline
+
+# --- scraping ---
+playwright>=1.49                  # run `playwright install chromium` after pip install
+
+# --- persistence ---
+SQLAlchemy>=2.0
+psycopg[binary]>=3.2             # Postgres driver (optional at runtime)
+
+# --- AI models (self-trained, no external API) ---
+scikit-learn>=1.5               # IsolationForest (integrity), GradientBoosting (nowcast)
+joblib>=1.4
+
+# --- scheduling (off-peak pre-scrape) ---
+APScheduler>=3.11
+
+# --- dev / test ---
+pytest>=8.3
+pytest-asyncio>=0.25

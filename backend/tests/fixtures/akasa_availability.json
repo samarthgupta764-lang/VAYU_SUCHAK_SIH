@@ -1,0 +1,1015 @@
+{
+ "data": {
+  "faresAvailable": [
+   {
+    "key": "MH5VMX5_UVB_VTFPN1JXSVh_MTAwMX5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITQ-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 6880.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 5640.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 89.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 288.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5VMH5_UVB_VTBPN1JXSVh_MTAwMX5_MTV_MX5OQk9NREVMMDE1MDAxMH5YITY-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 6959.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 5715.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 89.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 292.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MX5VMn5_UVB_VTJPN1JXSVh_MTAwMX5_MTJ_MX5OQkxSREVMMDEyMDAxMH5eMn5VM35_UVB_VTNPN1JXSVh_MTAwMX5_OX4xfk5CTFJOTUkwMDkwMDEwflghMTAxMg--",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 9568.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 7774.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 319.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 562.0
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 3287.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 3287.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5VMX5_UVB_VTFPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITU-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 7281.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 6021.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 89.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 308.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MX5VMn5_UVB_VTJPN1ZXSVh_MTAwMn5_MTN_MX5OQkxSREVMMDEzMDAxMH5eMn5VM35_UVB_VTNPN1ZXSVh_MTAwMn5_N34xfk5CTFJOTUkwMDcwMDEwflghMTExMw--",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 9937.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 8107.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 319.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 598.0
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 3687.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 3687.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5XOX5YflFQflc5TzdWV0lYfjEwMDJ_fjJ_MX5OREVMTk1JMDAyMDAxMH5YITI-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 7248.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 5772.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 319.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 294.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5UMn5_UVB_VDJPN1ZXSVh_MTAwMn5_MTZ_MX5OQk9NREVMMDE2MDAxMH5YITk-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 7725.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 6445.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 89.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 328.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5VNH5_UVB_VTRPN1JXSVh_MTAwMX5_Mn4xfk5EWE5OTUkwMDIwMDEwflghMA--",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 6620.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 4768.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 578.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 319.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 244.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5VMH5_UVB_VTBPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITc-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 7358.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 6096.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 89.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 310.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5UMn5_UVB_VDJPN1JXSVh_MTAwMX5_MTV_MX5OQk9NREVMMDE1MDAxMH5YITg-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 7327.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 6065.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 89.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 310.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5VNH5_UVB_VTRPN1ZXSVh_MTAwMn5_NH4xfk5EWE5OTUkwMDQwMDEwflghMQ--",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 7040.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 5168.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 578.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 319.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 264.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   {
+    "key": "MH5XOX5YflFQflc5TzdSV0lYfjEwMDl_fjJ_MX5OREVMTk1JMDAyMDAxMH5YITM-",
+    "value": {
+     "fares": [
+      {
+       "passengerFares": [
+        {
+         "fareAmount": 6850.0,
+         "serviceCharges": [
+          {
+           "type": "FarePrice",
+           "code": null,
+           "amount": 5392.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "CUTE",
+           "amount": 75.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "RCS",
+           "amount": 50.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "WFE",
+           "amount": 350.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "ASF",
+           "amount": 236.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "UDF",
+           "amount": 152.0
+          },
+          {
+           "type": "TravelFee",
+           "code": "DUDF",
+           "amount": 319.0
+          },
+          {
+           "type": "Tax",
+           "code": null,
+           "amount": 276.0
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   }
+  ],
+  "results": [
+   {
+    "trips": [
+     {
+      "journeysAvailableByMarket": [
+       {
+        "key": "DXN|NMI",
+        "value": [
+         {
+          "designator": {
+           "origin": "DXN",
+           "destination": "NMI",
+           "departure": "2026-10-02T11:00:00",
+           "arrival": "2026-10-02T13:15:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5VNH5_UVB_VTRPN1JXSVh_MTAwMX5_Mn4xfk5EWE5OTUkwMDIwMDEwflghMA--"
+           },
+           {
+            "fareAvailabilityKey": "MH5VNH5_UVB_VTRPN1ZXSVh_MTAwMn5_NH4xfk5EWE5OTUkwMDQwMDEwflghMQ--"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "2018",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "key": "DEL|NMI",
+        "value": [
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "NMI",
+           "departure": "2026-10-02T08:55:00",
+           "arrival": "2026-10-02T11:15:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5XOX5YflFQflc5TzdWV0lYfjEwMDJ_fjJ_MX5OREVMTk1JMDAyMDAxMH5YITI-"
+           },
+           {
+            "fareAvailabilityKey": "MH5XOX5YflFQflc5TzdSV0lYfjEwMDl_fjJ_MX5OREVMTk1JMDAyMDAxMH5YITM-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "2012",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "NMI",
+           "departure": "2026-10-02T14:10:00",
+           "arrival": "2026-10-02T23:00:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MX5VMn5_UVB_VTJPN1JXSVh_MTAwMX5_MTJ_MX5OQkxSREVMMDEyMDAxMH5eMn5VM35_UVB_VTNPN1JXSVh_MTAwMX5_OX4xfk5CTFJOTUkwMDkwMDEwflghMTAxMg--"
+           },
+           {
+            "fareAvailabilityKey": "MX5VMn5_UVB_VTJPN1ZXSVh_MTAwMn5_MTN_MX5OQkxSREVMMDEzMDAxMH5eMn5VM35_UVB_VTNPN1ZXSVh_MTAwMn5_N34xfk5CTFJOTUkwMDcwMDEwflghMTExMw--"
+           }
+          ],
+          "flightType": "Connect",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1574",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           },
+           {
+            "identifier": {
+             "identifier": "2002",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "NMI",
+           "departure": "2026-10-02T16:40:00",
+           "arrival": "2026-10-02T23:00:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MX5VMn5_UVB_VTJPN1JXSVh_MTAwMX5_MTJ_MX5OQkxSREVMMDEyMDAxMH5eMn5VM35_UVB_VTNPN1JXSVh_MTAwMX5_OX4xfk5CTFJOTUkwMDkwMDEwflghMTAxMg--"
+           },
+           {
+            "fareAvailabilityKey": "MX5VMn5_UVB_VTJPN1ZXSVh_MTAwMn5_MTN_MX5OQkxSREVMMDEzMDAxMH5eMn5VM35_UVB_VTNPN1ZXSVh_MTAwMn5_N34xfk5CTFJOTUkwMDcwMDEwflghMTExMw--"
+           }
+          ],
+          "flightType": "Connect",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1822",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           },
+           {
+            "identifier": {
+             "identifier": "2002",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "key": "DEL|BOM",
+        "value": [
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "BOM",
+           "departure": "2026-10-02T06:50:00",
+           "arrival": "2026-10-02T09:10:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1JXSVh_MTAwMX5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITQ-"
+           },
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITU-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1833",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "BOM",
+           "departure": "2026-10-02T16:00:00",
+           "arrival": "2026-10-02T18:20:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1JXSVh_MTAwMX5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITQ-"
+           },
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITU-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1128",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "BOM",
+           "departure": "2026-10-02T17:30:00",
+           "arrival": "2026-10-02T19:50:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1JXSVh_MTAwMX5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITQ-"
+           },
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITU-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1820",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "BOM",
+           "departure": "2026-10-02T19:55:00",
+           "arrival": "2026-10-02T22:20:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1JXSVh_MTAwMX5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITQ-"
+           },
+           {
+            "fareAvailabilityKey": "MH5VMX5_UVB_VTFPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITU-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1826",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "BOM",
+           "departure": "2026-10-02T08:40:00",
+           "arrival": "2026-10-02T11:05:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5VMH5_UVB_VTBPN1JXSVh_MTAwMX5_MTV_MX5OQk9NREVMMDE1MDAxMH5YITY-"
+           },
+           {
+            "fareAvailabilityKey": "MH5VMH5_UVB_VTBPN1ZXSVh_MTAwMn5_MTN_MX5OQk9NREVMMDEzMDAxMH5YITc-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1119",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         },
+         {
+          "designator": {
+           "origin": "DEL",
+           "destination": "BOM",
+           "departure": "2026-10-02T10:00:00",
+           "arrival": "2026-10-02T12:20:00"
+          },
+          "fares": [
+           {
+            "fareAvailabilityKey": "MH5UMn5_UVB_VDJPN1JXSVh_MTAwMX5_MTV_MX5OQk9NREVMMDE1MDAxMH5YITg-"
+           },
+           {
+            "fareAvailabilityKey": "MH5UMn5_UVB_VDJPN1ZXSVh_MTAwMn5_MTZ_MX5OQk9NREVMMDE2MDAxMH5YITk-"
+           }
+          ],
+          "flightType": "NonStop",
+          "segments": [
+           {
+            "identifier": {
+             "identifier": "1110",
+             "carrierCode": "QP",
+             "opSuffix": null
+            }
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,687 @@
+{
+ "ld": "2026-10-05",
+ "la": "6E",
+ "lf": 6090,
+ "isError": false,
+ "day": {
+  "2026-10-05": {
+   "lf": 6090,
+   "la": "6E",
+   "af": {
+    "SG": {
+     "tf": 6447,
+     "bf": 4900,
+     "ac": "SG",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 162,
+       "ac": "SG",
+       "an": "SpiceJet",
+       "ddt": "2026-10-05 19:55",
+       "adt": "2026-10-05 22:30",
+       "cabin": "Economy",
+       "rbd": "U"
+      }
+     ],
+     "scid": "a5471c2c-bdfe-4abd-b480-6de1983f1366_SGAPI",
+     "fid": "DELBOMSG162SA20261005_SGAPI",
+     "sc": "SGAPI",
+     "co": "2026-09-10 10:49"
+    },
+    "AI": {
+     "tf": 7000,
+     "bf": 5493,
+     "ac": "AI",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 2963,
+       "ac": "AI",
+       "an": "Air India",
+       "ddt": "2026-10-05 09:00",
+       "adt": "2026-10-05 11:15",
+       "cabin": "Economy",
+       "rbd": "S"
+      }
+     ],
+     "scid": "a5471c2c-bdfe-4abd-b480-6de1983f1366_1AWS4",
+     "fid": "DELBOMAI296320261005_1AWS4",
+     "sc": "1AWS4",
+     "co": "2026-09-10 10:49"
+    },
+    "IX": {
+     "tf": 6529,
+     "bf": 4940,
+     "ac": "IX",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "LKO",
+       "fl": 1392,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-05 23:25",
+       "adt": "2026-10-06 00:35",
+       "cabin": "Economy",
+       "rbd": ""
+      },
+      {
+       "dac": "LKO",
+       "aac": "BOM",
+       "fl": 1027,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-06 08:40",
+       "adt": "2026-10-06 11:05",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "a5471c2c-bdfe-4abd-b480-6de1983f1366_AIRASIAAPI",
+     "fid": "DELLKOIX1392EP20261005LKOBOMIX1027EP20261006_AIRASIAAPI",
+     "sc": "AIRASIAAPI",
+     "co": "2026-09-10 10:49"
+    },
+    "6E": {
+     "tf": 6090,
+     "bf": 4521,
+     "ac": "6E",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "AMD",
+       "fl": 6261,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-05 00:15",
+       "adt": "2026-10-05 01:50",
+       "cabin": "Economy",
+       "rbd": "R"
+      },
+      {
+       "dac": "AMD",
+       "aac": "BOM",
+       "fl": 6285,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-05 04:00",
+       "adt": "2026-10-05 05:30",
+       "cabin": "Economy",
+       "rbd": "R"
+      }
+     ],
+     "scid": "a5471c2c-bdfe-4abd-b480-6de1983f1366_6EAPI",
+     "fid": "DELAMD6E6261SA20261005AMDBOM6E6285SA20261005_6EAPI",
+     "sc": "6EAPI",
+     "co": "2026-09-10 10:49"
+    },
+    "QP": {
+     "tf": 6500,
+     "bf": 5392,
+     "ac": "QP",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "NMI",
+       "fl": 2012,
+       "ac": "QP",
+       "an": "Akasa Air",
+       "ddt": "2026-10-05 08:55",
+       "adt": "2026-10-05 11:15",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "a5471c2c-bdfe-4abd-b480-6de1983f1366_QPAPI",
+     "fid": "DELNMIQP2012EC20261005_QPAPI",
+     "sc": "QPAPI",
+     "co": "2026-09-10 10:49"
+    }
+   }
+  },
+  "2026-10-06": {
+   "lf": 6090,
+   "la": "6E",
+   "af": {
+    "SG": {
+     "tf": 6447,
+     "bf": 4900,
+     "ac": "SG",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 802,
+       "ac": "SG",
+       "an": "SpiceJet",
+       "ddt": "2026-10-06 22:30",
+       "adt": "2026-10-07 00:50",
+       "cabin": "Economy",
+       "rbd": "U"
+      }
+     ],
+     "scid": "2795e1bd-1150-4067-a4c4-87cd3c14d322_SGAPI",
+     "fid": "DELBOMSG802SA20261006_SGAPI",
+     "sc": "SGAPI",
+     "co": "2026-09-09 10:01"
+    },
+    "AI": {
+     "tf": 6730,
+     "bf": 5236,
+     "ac": "AI",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 1745,
+       "ac": "AI",
+       "an": "Air India",
+       "ddt": "2026-10-06 05:00",
+       "adt": "2026-10-06 07:25",
+       "cabin": "Economy",
+       "rbd": "S"
+      }
+     ],
+     "scid": "2795e1bd-1150-4067-a4c4-87cd3c14d322_1AWS4",
+     "fid": "DELBOMAI174520261006_1AWS4",
+     "sc": "1AWS4",
+     "co": "2026-09-09 10:01"
+    },
+    "IX": {
+     "tf": 6529,
+     "bf": 4940,
+     "ac": "IX",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "LKO",
+       "fl": 1165,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-06 06:00",
+       "adt": "2026-10-06 07:10",
+       "cabin": "Economy",
+       "rbd": ""
+      },
+      {
+       "dac": "LKO",
+       "aac": "BOM",
+       "fl": 1027,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-06 08:40",
+       "adt": "2026-10-06 11:05",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "2795e1bd-1150-4067-a4c4-87cd3c14d322_AIRASIAAPI",
+     "fid": "DELLKOIX1165EP20261006LKOBOMIX1027EP20261006_AIRASIAAPI",
+     "sc": "AIRASIAAPI",
+     "co": "2026-09-09 10:01"
+    },
+    "6E": {
+     "tf": 6090,
+     "bf": 4521,
+     "ac": "6E",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "AMD",
+       "fl": 6261,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-06 00:15",
+       "adt": "2026-10-06 01:50",
+       "cabin": "Economy",
+       "rbd": "R"
+      },
+      {
+       "dac": "AMD",
+       "aac": "BOM",
+       "fl": 6285,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-06 04:00",
+       "adt": "2026-10-06 05:30",
+       "cabin": "Economy",
+       "rbd": "R"
+      }
+     ],
+     "scid": "2795e1bd-1150-4067-a4c4-87cd3c14d322_6EAPI",
+     "fid": "DELAMD6E6261SA20261006AMDBOM6E6285SA20261006_6EAPI",
+     "sc": "6EAPI",
+     "co": "2026-09-09 10:01"
+    },
+    "QP": {
+     "tf": 6500,
+     "bf": 5392,
+     "ac": "QP",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "NMI",
+       "fl": 2012,
+       "ac": "QP",
+       "an": "Akasa Air",
+       "ddt": "2026-10-06 08:55",
+       "adt": "2026-10-06 11:15",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "2795e1bd-1150-4067-a4c4-87cd3c14d322_QPAPI",
+     "fid": "DELNMIQP2012EC20261006_QPAPI",
+     "sc": "QPAPI",
+     "co": "2026-09-09 10:01"
+    }
+   }
+  },
+  "2026-10-07": {
+   "lf": 6090,
+   "la": "6E",
+   "af": {
+    "SG": {
+     "tf": 6368,
+     "bf": 4825,
+     "ac": "SG",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 9091,
+       "ac": "SG",
+       "an": "SpiceJet",
+       "ddt": "2026-10-07 04:30",
+       "adt": "2026-10-07 06:50",
+       "cabin": "Economy",
+       "rbd": "I"
+      }
+     ],
+     "scid": "b6393955-b9bd-41a2-a9f4-2cfc8ab2b25e_SGAPI",
+     "fid": "DELBOMSG9091SA20261007_SGAPI",
+     "sc": "SGAPI",
+     "co": "2026-09-09 15:59"
+    },
+    "AI": {
+     "tf": 6730,
+     "bf": 5236,
+     "ac": "AI",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 1745,
+       "ac": "AI",
+       "an": "Air India",
+       "ddt": "2026-10-07 05:00",
+       "adt": "2026-10-07 07:25",
+       "cabin": "Economy",
+       "rbd": "S"
+      }
+     ],
+     "scid": "b6393955-b9bd-41a2-a9f4-2cfc8ab2b25e_1AWS4",
+     "fid": "DELBOMAI174520261007_1AWS4",
+     "sc": "1AWS4",
+     "co": "2026-09-09 15:59"
+    },
+    "6E": {
+     "tf": 6090,
+     "bf": 4521,
+     "ac": "6E",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "AMD",
+       "fl": 6261,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-07 00:15",
+       "adt": "2026-10-07 01:50",
+       "cabin": "Economy",
+       "rbd": "R"
+      },
+      {
+       "dac": "AMD",
+       "aac": "BOM",
+       "fl": 6285,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-07 04:00",
+       "adt": "2026-10-07 05:30",
+       "cabin": "Economy",
+       "rbd": "R"
+      }
+     ],
+     "scid": "b6393955-b9bd-41a2-a9f4-2cfc8ab2b25e_6EAPI",
+     "fid": "DELAMD6E6261SA20261007AMDBOM6E6285SA20261007_6EAPI",
+     "sc": "6EAPI",
+     "co": "2026-09-09 15:59"
+    },
+    "QP": {
+     "tf": 6500,
+     "bf": 5392,
+     "ac": "QP",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "NMI",
+       "fl": 2012,
+       "ac": "QP",
+       "an": "Akasa Air",
+       "ddt": "2026-10-07 08:55",
+       "adt": "2026-10-07 11:15",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "b6393955-b9bd-41a2-a9f4-2cfc8ab2b25e_QPAPI",
+     "fid": "DELNMIQP2012EC20261007_QPAPI",
+     "sc": "QPAPI",
+     "co": "2026-09-09 15:59"
+    },
+    "IX": {
+     "tf": 6529,
+     "bf": 4940,
+     "ac": "IX",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "LKO",
+       "fl": 1392,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-07 23:25",
+       "adt": "2026-10-08 00:35",
+       "cabin": "Economy",
+       "rbd": ""
+      },
+      {
+       "dac": "LKO",
+       "aac": "BOM",
+       "fl": 1027,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-08 08:40",
+       "adt": "2026-10-08 11:05",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "b6393955-b9bd-41a2-a9f4-2cfc8ab2b25e_AIRASIAAPI",
+     "fid": "DELLKOIX1392EP20261007LKOBOMIX1027EP20261008_AIRASIAAPI",
+     "sc": "AIRASIAAPI",
+     "co": "2026-09-09 15:59"
+    }
+   }
+  },
+  "2026-10-08": {
+   "lf": 6090,
+   "la": "6E",
+   "af": {
+    "SG": {
+     "tf": 6368,
+     "bf": 4825,
+     "ac": "SG",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 162,
+       "ac": "SG",
+       "an": "SpiceJet",
+       "ddt": "2026-10-08 19:55",
+       "adt": "2026-10-08 22:30",
+       "cabin": "Economy",
+       "rbd": "I"
+      }
+     ],
+     "scid": "86fc7ec0-ca80-4dbf-a094-d1819f8d1fc2_SGAPI",
+     "fid": "DELBOMSG162SA20261008_SGAPI",
+     "sc": "SGAPI",
+     "co": "2026-09-08 21:43"
+    },
+    "AI": {
+     "tf": 7000,
+     "bf": 5493,
+     "ac": "AI",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 2678,
+       "ac": "AI",
+       "an": "Air India",
+       "ddt": "2026-10-08 08:30",
+       "adt": "2026-10-08 10:45",
+       "cabin": "Economy",
+       "rbd": "S"
+      }
+     ],
+     "scid": "86fc7ec0-ca80-4dbf-a094-d1819f8d1fc2_1AWS4",
+     "fid": "DELBOMAI267820261008_1AWS4",
+     "sc": "1AWS4",
+     "co": "2026-09-08 21:43"
+    },
+    "6E": {
+     "tf": 6090,
+     "bf": 4521,
+     "ac": "6E",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "AMD",
+       "fl": 6261,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-08 00:15",
+       "adt": "2026-10-08 01:50",
+       "cabin": "Economy",
+       "rbd": "R"
+      },
+      {
+       "dac": "AMD",
+       "aac": "BOM",
+       "fl": 6285,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-08 04:00",
+       "adt": "2026-10-08 05:30",
+       "cabin": "Economy",
+       "rbd": "R"
+      }
+     ],
+     "scid": "86fc7ec0-ca80-4dbf-a094-d1819f8d1fc2_6EAPI",
+     "fid": "DELAMD6E6261SA20261008AMDBOM6E6285SA20261008_6EAPI",
+     "sc": "6EAPI",
+     "co": "2026-09-08 21:43"
+    },
+    "QP": {
+     "tf": 6500,
+     "bf": 5392,
+     "ac": "QP",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "NMI",
+       "fl": 2012,
+       "ac": "QP",
+       "an": "Akasa Air",
+       "ddt": "2026-10-08 08:55",
+       "adt": "2026-10-08 11:15",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "86fc7ec0-ca80-4dbf-a094-d1819f8d1fc2_QPAPI",
+     "fid": "DELNMIQP2012EC20261008_QPAPI",
+     "sc": "QPAPI",
+     "co": "2026-09-08 21:43"
+    },
+    "IX": {
+     "tf": 6529,
+     "bf": 4940,
+     "ac": "IX",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "LKO",
+       "fl": 1165,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-08 06:00",
+       "adt": "2026-10-08 07:10",
+       "cabin": "Economy",
+       "rbd": ""
+      },
+      {
+       "dac": "LKO",
+       "aac": "BOM",
+       "fl": 1027,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-08 08:40",
+       "adt": "2026-10-08 11:05",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "86fc7ec0-ca80-4dbf-a094-d1819f8d1fc2_AIRASIAAPI",
+     "fid": "DELLKOIX1165EP20261008LKOBOMIX1027EP20261008_AIRASIAAPI",
+     "sc": "AIRASIAAPI",
+     "co": "2026-09-08 21:43"
+    }
+   }
+  },
+  "2026-10-09": {
+   "lf": 6500,
+   "la": "QP",
+   "af": {
+    "SG": {
+     "tf": 6528,
+     "bf": 4979,
+     "ac": "SG",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 162,
+       "ac": "SG",
+       "an": "SpiceJet",
+       "ddt": "2026-10-09 19:55",
+       "adt": "2026-10-09 22:30",
+       "cabin": "Economy",
+       "rbd": "U"
+      }
+     ],
+     "scid": "633303c2-8b56-4cac-b81d-dd0bcb94f129_SGAPI",
+     "fid": "DELBOMSG162SA20261009_SGAPI",
+     "sc": "SGAPI",
+     "co": "2026-09-09 22:50"
+    },
+    "AI": {
+     "tf": 6730,
+     "bf": 5236,
+     "ac": "AI",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "BOM",
+       "fl": 1745,
+       "ac": "AI",
+       "an": "Air India",
+       "ddt": "2026-10-09 05:00",
+       "adt": "2026-10-09 07:25",
+       "cabin": "Economy",
+       "rbd": "S"
+      }
+     ],
+     "scid": "633303c2-8b56-4cac-b81d-dd0bcb94f129_1AWS4",
+     "fid": "DELBOMAI174520261009_1AWS4",
+     "sc": "1AWS4",
+     "co": "2026-09-09 22:50"
+    },
+    "6E": {
+     "tf": 6529,
+     "bf": 4845,
+     "ac": "6E",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "NMI",
+       "fl": 6470,
+       "ac": "6E",
+       "an": "IndiGo",
+       "ddt": "2026-10-09 06:55",
+       "adt": "2026-10-09 09:05",
+       "cabin": "Economy",
+       "rbd": "R"
+      }
+     ],
+     "scid": "633303c2-8b56-4cac-b81d-dd0bcb94f129_6EAPI",
+     "fid": "DELNMI6E6470SA20261009_6EAPI",
+     "sc": "6EAPI",
+     "co": "2026-09-09 22:50"
+    },
+    "QP": {
+     "tf": 6500,
+     "bf": 5392,
+     "ac": "QP",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "NMI",
+       "fl": 2012,
+       "ac": "QP",
+       "an": "Akasa Air",
+       "ddt": "2026-10-09 08:55",
+       "adt": "2026-10-09 11:15",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "633303c2-8b56-4cac-b81d-dd0bcb94f129_QPAPI",
+     "fid": "DELNMIQP2012EC20261009_QPAPI",
+     "sc": "QPAPI",
+     "co": "2026-09-09 22:50"
+    },
+    "IX": {
+     "tf": 6529,
+     "bf": 4940,
+     "ac": "IX",
+     "ow": [
+      {
+       "dac": "DEL",
+       "aac": "LKO",
+       "fl": 1392,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-09 23:25",
+       "adt": "2026-10-10 00:35",
+       "cabin": "Economy",
+       "rbd": ""
+      },
+      {
+       "dac": "LKO",
+       "aac": "BOM",
+       "fl": 1027,
+       "ac": "IX",
+       "an": "Air India Express",
+       "ddt": "2026-10-10 08:40",
+       "adt": "2026-10-10 11:05",
+       "cabin": "Economy",
+       "rbd": ""
+      }
+     ],
+     "scid": "633303c2-8b56-4cac-b81d-dd0bcb94f129_AIRASIAAPI",
+     "fid": "DELLKOIX1392EP20261009LKOBOMIX1027EP20261010_AIRASIAAPI",
+     "sc": "AIRASIAAPI",
+     "co": "2026-09-09 22:50"
+    }
+   }
+  }
+ }
+}

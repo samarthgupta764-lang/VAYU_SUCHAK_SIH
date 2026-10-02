@@ -1,0 +1,480 @@
+{
+ "data": {
+  "trips": [
+   {
+    "origin": "DEL",
+    "destination": "BOM",
+    "journeysAvailable": [
+     {
+      "segKey": "DXN5198BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DXN",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Noida International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Noida",
+       "arrival": "2026-10-02T17:10:00",
+       "departure": "2026-10-02T15:00:00",
+       "utcArrival": "2026-10-02T11:40:00Z",
+       "utcDeparture": "2026-10-02T09:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6146,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6618,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6933,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9243,
+        "productClass": "O"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "5198",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "320"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "HDO5096NMI",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "NMI",
+       "origin": "HDO",
+       "destinationName": "Navi Mumbai Airport",
+       "originName": "Hindon Airport",
+       "destinationCityName": "Navi Mumbai",
+       "originCityName": "Ghaziabad",
+       "arrival": "2026-10-02T19:05:00",
+       "departure": "2026-10-02T17:00:00",
+       "utcArrival": "2026-10-02T13:35:00Z",
+       "utcDeparture": "2026-10-02T11:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6285,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6442,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6757,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9067,
+        "productClass": "O"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "5096",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "320"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "DEL353BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DEL",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Indira Gandhi International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Delhi",
+       "arrival": "2026-10-02T05:20:00",
+       "departure": "2026-10-02T03:00:00",
+       "utcArrival": "2026-10-01T23:50:00Z",
+       "utcDeparture": "2026-10-01T21:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6305,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6530,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6688,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9365,
+        "productClass": "O"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 21900,
+        "productClass": "BR"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 23960,
+        "productClass": "BC"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "353",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "321"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "DEL449BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DEL",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Indira Gandhi International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Delhi",
+       "arrival": "2026-10-02T07:15:00",
+       "departure": "2026-10-02T05:00:00",
+       "utcArrival": "2026-10-02T01:45:00Z",
+       "utcDeparture": "2026-10-01T23:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6305,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6530,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6688,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9365,
+        "productClass": "O"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 21900,
+        "productClass": "BR"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 23960,
+        "productClass": "BC"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "449",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "321"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "DEL6107BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DEL",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Indira Gandhi International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Delhi",
+       "arrival": "2026-10-02T11:55:00",
+       "departure": "2026-10-02T09:30:00",
+       "utcArrival": "2026-10-02T06:25:00Z",
+       "utcDeparture": "2026-10-02T04:00:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6305,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6530,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6688,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9365,
+        "productClass": "O"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 21900,
+        "productClass": "BR"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 23960,
+        "productClass": "BC"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "6107",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "321"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "DEL6676BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DEL",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Indira Gandhi International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Delhi",
+       "arrival": "2026-10-02T14:15:00",
+       "departure": "2026-10-02T12:00:00",
+       "utcArrival": "2026-10-02T08:45:00Z",
+       "utcDeparture": "2026-10-02T06:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6305,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6530,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6688,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9365,
+        "productClass": "O"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 21900,
+        "productClass": "BR"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 23960,
+        "productClass": "BC"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "6676",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "321"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "DEL324BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DEL",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Indira Gandhi International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Delhi",
+       "arrival": "2026-10-02T15:10:00",
+       "departure": "2026-10-02T13:00:00",
+       "utcArrival": "2026-10-02T09:40:00Z",
+       "utcDeparture": "2026-10-02T07:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6305,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6530,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6688,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9365,
+        "productClass": "O"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 21900,
+        "productClass": "BR"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 23960,
+        "productClass": "BC"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "324",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "321"
+        }
+       }
+      ]
+     },
+     {
+      "segKey": "DEL6022BOM",
+      "stops": 0,
+      "flightType": "NonStop",
+      "designator": {
+       "destination": "BOM",
+       "origin": "DEL",
+       "destinationName": "Chhatrapati Shivaji Maharaj International Airport",
+       "originName": "Indira Gandhi International Airport",
+       "destinationCityName": "Mumbai",
+       "originCityName": "Delhi",
+       "arrival": "2026-10-02T16:25:00",
+       "departure": "2026-10-02T14:00:00",
+       "utcArrival": "2026-10-02T10:55:00Z",
+       "utcDeparture": "2026-10-02T08:30:00Z",
+       "estimationArrival": null,
+       "estimationDeparture": null
+      },
+      "passengerFares": [
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6305,
+        "productClass": "B"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6530,
+        "productClass": "R"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 6688,
+        "productClass": "J"
+       },
+       {
+        "FareClass": "Economy",
+        "totalFareAmount": 9365,
+        "productClass": "O"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 21900,
+        "productClass": "BR"
+       },
+       {
+        "FareClass": "Business",
+        "totalFareAmount": 23960,
+        "productClass": "BC"
+       }
+      ],
+      "segments": [
+       {
+        "identifier": {
+         "identifier": "6022",
+         "carrierCode": "6E",
+         "opSuffix": null,
+         "equipmentType": "321"
+        }
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ }
+}

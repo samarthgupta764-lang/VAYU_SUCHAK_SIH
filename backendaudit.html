@@ -1,0 +1,614 @@
+<title>VAYU-SUCHAK Backend Feature List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ink:#161b22;
+    --ink-dim:#48515c;
+    --ink-mute:#6b7683;
+    --line:#d7dce2;
+    --line-soft:#e8ebef;
+    --paper:#ffffff;
+    --panel:#f6f8fa;
+    --accent:#0d9488;
+    --accent-2:#3b5bdb;
+    --amber:#b7791f;
+    --red:#c53030;
+    --green:#2f855a;
+    --done-bg:rgba(47,133,90,.09);
+    --partial-bg:rgba(183,121,31,.10);
+    --todo-bg:rgba(107,118,131,.09);
+    --defect-bg:rgba(197,48,48,.09);
+    --mono:'IBM Plex Mono','SF Mono',ui-monospace,'JetBrains Mono',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --ink:#e6e9ed;
+      --ink-dim:#a9b2bd;
+      --ink-mute:#7c8794;
+      --line:#2b323c;
+      --line-soft:#232932;
+      --paper:#161a1f;
+      --panel:#1d222a;
+      --accent:#2dd4bf;
+      --accent-2:#8098f0;
+      --amber:#d99b45;
+      --red:#e56a5a;
+      --green:#5cbb6d;
+      --done-bg:rgba(92,187,109,.13);
+      --partial-bg:rgba(217,155,69,.13);
+      --todo-bg:rgba(124,135,148,.13);
+      --defect-bg:rgba(229,106,90,.13);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#e6e9ed;
+    --ink-dim:#a9b2bd;
+    --ink-mute:#7c8794;
+    --line:#2b323c;
+    --line-soft:#232932;
+    --paper:#161a1f;
+    --panel:#1d222a;
+    --accent:#2dd4bf;
+    --accent-2:#8098f0;
+    --amber:#d99b45;
+    --red:#e56a5a;
+    --green:#5cbb6d;
+    --done-bg:rgba(92,187,109,.13);
+    --partial-bg:rgba(217,155,69,.13);
+    --todo-bg:rgba(124,135,148,.13);
+    --defect-bg:rgba(229,106,90,.13);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:14px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:940px;margin:0 auto;padding:34px 40px 90px;}
+
+  /* HERO — verbatim from docs/backend-feature-list.html */
+  .hero{
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--panel);
+    padding:24px 26px;
+    margin-bottom:14px;
+  }
+  .hero .tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--accent);
+    border:1px solid var(--line);border-radius:20px;padding:3px 11px;display:inline-block;margin-bottom:12px;
+  }
+  .hero h1{font-size:26px;line-height:1.2;margin-bottom:8px;font-weight:750;letter-spacing:-.01em;}
+  .hero p{color:var(--ink-dim);max-width:66ch;font-size:13px;}
+  .hero .meta{
+    display:flex;gap:20px;flex-wrap:wrap;margin-top:16px;
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+  }
+  .hero .meta b{color:var(--ink);font-weight:650;}
+
+  /* AUDIT STRIP — the only added block above the list */
+  .audit{
+    border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:8px;background:var(--panel);
+    padding:16px 18px;margin-bottom:34px;
+  }
+  .audit .lbl{
+    font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;display:block;margin-bottom:10px;
+  }
+  .meter{display:flex;height:9px;border-radius:2px;overflow:hidden;background:var(--line);margin-bottom:9px;}
+  .meter i{display:block;height:100%;transition:width .35s ease;}
+  .meter .mv{background:var(--green);}
+  .meter .mu{background:var(--accent);}
+  .readout{
+    display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline;
+    font-family:var(--mono);font-size:12px;color:var(--ink-dim);
+  }
+  .readout .big{font-size:14px;color:var(--ink);font-weight:600;}
+  .readout .k{color:var(--ink-mute);}
+  .legend{
+    display:flex;flex-wrap:wrap;gap:14px;margin-top:11px;
+    font-family:var(--mono);font-size:11px;color:var(--ink-dim);
+  }
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .sw{width:10px;height:10px;border-radius:2px;flex:none;border:1px solid transparent;}
+  .sw.d{background:var(--green);}
+  .sw.p{background:var(--amber);}
+  .sw.t{background:var(--todo-bg);border-color:var(--ink-mute);}
+  .sw.x{background:var(--red);}
+  .audit .note{margin-top:11px;font-size:12.5px;color:var(--ink-dim);}
+  .audit .note b{color:var(--ink);}
+
+  /* SECTIONS */
+  section{margin-bottom:26px;}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin:26px 0 6px;border-bottom:2px solid var(--ink);padding-bottom:6px;}
+  .sec-head .num{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;}
+  .sec-head h2{font-size:19px;font-weight:700;letter-spacing:-.01em;flex:1;}
+  .sec-head .cnt{
+    font-family:var(--mono);font-size:11px;color:var(--ink-dim);
+    border:1px solid var(--line);border-radius:20px;padding:2px 9px;white-space:nowrap;
+  }
+  .sec-head .cnt.full{color:var(--green);border-color:var(--green);}
+  .sec-intro{color:var(--ink-dim);font-size:12.5px;margin:8px 0 10px;max-width:70ch;}
+  h3{font-size:14px;margin:16px 0 6px;font-weight:650;font-family:var(--mono);color:var(--ink-dim);}
+
+  .tbl-scroll{overflow-x:auto;}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:8px 0 6px;min-width:620px;}
+  th{
+    background:var(--panel);text-align:left;padding:7px 10px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:var(--ink-dim);
+    text-transform:uppercase;border-bottom:1.5px solid var(--line);border-top:1px solid var(--line);
+  }
+  th.c-chk{width:34px;text-align:center;}
+  th.c-num{width:42px;}
+  th.c-feat{width:26%;}
+  td{padding:8px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-dim);}
+  td.c-num{color:var(--ink);font-family:var(--mono);font-size:11px;white-space:nowrap;font-weight:600;}
+  td.c-feat{color:var(--ink);}
+  td strong,td b{color:var(--ink);font-weight:650;}
+  td.c-chk{text-align:center;}
+  tr.feat[data-status="done"] td{background:var(--done-bg);}
+  tr.feat[data-status="partial"] td{background:var(--partial-bg);}
+  tr.feat[data-status="todo"] td{background:var(--todo-bg);}
+  tr.feat[data-status="defect"] td{background:var(--defect-bg);}
+  tr.feat.interactive{cursor:pointer;}
+  tr.noterow td{
+    border-bottom:1px solid var(--line-soft);
+    font-size:11.5px;padding-top:0;
+  }
+  tr.feat[data-status="done"] + tr.noterow td,
+  tr.feat[data-status="partial"] + tr.noterow td,
+  tr.feat[data-status="todo"] + tr.noterow td,
+  tr.feat[data-status="defect"] + tr.noterow td{background:inherit;}
+  .gapbox{
+    border-radius:5px;padding:6px 9px;color:var(--ink-dim);
+    background:var(--panel);border:1px solid var(--line-soft);
+  }
+  .gapbox b{color:var(--ink);}
+  .evidence{font-family:var(--mono);font-size:10.5px;color:var(--ink-mute);}
+  .evidence::before{content:"code · ";color:var(--accent);}
+  .pill{
+    font-family:var(--mono);font-size:9.5px;letter-spacing:.02em;text-transform:uppercase;
+    padding:1px 5px;border-radius:3px;white-space:nowrap;display:inline-block;
+  }
+  .pill.done{color:var(--green);background:var(--done-bg);}
+  .pill.partial{color:var(--amber);background:var(--partial-bg);}
+  .pill.todo{color:var(--ink-mute);background:var(--todo-bg);}
+  .pill.defect{color:var(--red);background:var(--defect-bg);font-weight:600;}
+
+  input[type=checkbox]{
+    appearance:none;-webkit-appearance:none;
+    width:16px;height:16px;border-radius:4px;
+    border:1.5px solid var(--ink-mute);
+    background:var(--paper);
+    display:inline-grid;place-content:center;cursor:pointer;
+    vertical-align:middle;transition:background .12s,border-color .12s;
+  }
+  input[type=checkbox]::after{
+    content:"";width:8px;height:8px;border-radius:1px;transform:scale(0);
+    background:var(--accent);transition:transform .12s ease;
+  }
+  input[type=checkbox]:checked{border-color:var(--accent);}
+  input[type=checkbox]:checked::after{transform:scale(1);}
+  input[type=checkbox]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+  input[type=checkbox]:disabled{
+    border-color:var(--green);background:var(--green);cursor:not-allowed;
+  }
+  input[type=checkbox]:disabled::after{
+    background:transparent;transform:rotate(45deg) scale(1);
+    width:4px;height:8px;border-radius:0;
+    border:solid var(--paper);border-width:0 2px 2px 0;
+    margin-top:-2px;
+  }
+
+  code{
+    font-family:var(--mono);
+    background:var(--panel);
+    border:1px solid var(--line-soft);
+    border-radius:3px;
+    padding:.5px 4px;
+    font-size:11px;
+    color:var(--accent-2);
+  }
+
+  .box{
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:7px;
+    background:var(--panel);
+    padding:12px 15px;
+    margin:14px 0;
+    font-size:12.5px;
+  }
+  .box .label{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent);display:block;margin-bottom:5px;font-weight:600;
+  }
+  .box.why{border-left-color:var(--accent-2);}
+  .box.why .label{color:var(--accent-2);}
+  .box.warn{border-left-color:var(--amber);}
+  .box.warn .label{color:var(--amber);}
+  .box p{margin:5px 0;color:var(--ink-dim);}
+  .box p:first-of-type{margin-top:0;}
+  .box strong{color:var(--ink);}
+  .del{text-decoration:line-through;color:var(--ink-mute);}
+
+  section.extra ul{margin:8px 0 8px 20px;}
+  section.extra li{margin:3px 0;color:var(--ink-dim);font-size:12.5px;}
+
+  footer{
+    border-top:1px solid var(--line);padding-top:14px;margin-top:32px;
+    font-family:var(--mono);font-size:11px;color:var(--ink-mute);
+    display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;
+  }
+  .reset{
+    font-family:var(--mono);font-size:11px;color:var(--ink-dim);
+    background:var(--panel);border:1px solid var(--line);border-radius:5px;
+    padding:5px 10px;cursor:pointer;
+  }
+  .reset:hover{border-color:var(--accent);color:var(--accent);}
+  .reset:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  @media (max-width:620px){
+    .wrap{padding:22px 16px 72px;}
+    .hero h1{font-size:22px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+  @media print{.reset{display:none;}body{background:#fff;}}
+</style>
+
+<div class="wrap">
+
+  <div class="hero">
+    <span class="tag">SIH26056 · TEAM CHAKRAVYUH</span>
+    <h1>Backend Feature List — Complete</h1>
+    <p>Every backend feature to build for VAYU-SUCHAK 2.0, including the self-trained AI models.
+       Architecture is <strong>live-first</strong>: real headless-browser scraping of airline and OTA
+       portals is the primary path and the core differentiator. Travelpayouts (Aviasales) data API
+       is a formal fallback tier; an on-disk cache snapshot is the last resort. No external AI APIs —
+       all models are trained in-house on free datasets.</p>
+    <div class="meta">
+      <span>BACKEND <b>FastAPI · one process · port 8000</b></span>
+      <span>MODULES <b>12</b></span>
+      <span>AI MODELS <b>2 trained + 1 rule-based</b></span>
+      <span>EXTERNAL AI APIs <b>none</b></span>
+      <span>COST <b>₹0</b></span>
+    </div>
+  </div>
+
+  <div class="audit">
+    <span class="lbl">◆ Audit overlay · checked against the code in backend/ · 09 Sep 2026</span>
+    <div class="meter" role="img" aria-label="build progress">
+      <i class="mv" id="mv"></i><i class="mu" id="mu"></i>
+    </div>
+    <div class="readout">
+      <span><span class="big" id="rv">76</span> <span class="k">/ 92 verified &amp; locked</span></span>
+      <span id="ru" hidden><span class="big"></span> <span class="k">marked done by you</span></span>
+      <span><span class="k">open:</span> <span id="ro">16</span></span>
+    </div>
+    <div class="legend">
+      <span><span class="sw d"></span> verified &amp; locked</span>
+      <span><span class="sw p"></span> partial — gap noted</span>
+      <span><span class="sw t"></span> needs you</span>
+      <span><span class="sw x"></span> known defect</span>
+    </div>
+    <p class="note">The feature text below is <b>verbatim</b> from <code>docs/backend-feature-list.html</code>. Checkboxes and the note rows are the only additions. Verified items are locked; the 16 open ones you can tick as you close them (saved in this browser).</p>
+  </div>
+
+  <div id="sections"></div>
+
+  <section class="extra">
+    <div class="sec-head"><span class="num">★</span><h2>Fallback story — for the judges</h2></div>
+    <div class="box why">
+      <span class="label">say this</span>
+      <p><strong>Primary: live scraping</strong> of 5 airline / OTA portals — real headless browsers that
+         intercept each site's own fare XHR. <strong>Everything is live — that is what makes us different.</strong></p>
+      <p><strong>Tier 1 fallback:</strong> a source is blocked → the <strong>Travelpayouts (Aviasales) data API</strong>
+         supplies that route's fares.</p>
+      <p><strong>Tier 2 fallback:</strong> fully offline → the last cached scrape snapshot.</p>
+      <p>Every run reports which tier was used (<code>ingestion_source</code>). DGCA volume weights are never
+         scraped — that is an official statistic.</p>
+    </div>
+    <div class="box warn">
+      <span class="label">what changed from earlier drafts</span>
+      <p>Self-healing vision-LLM extractor (1.5c) — <span class="del">removed</span>, replaced by a CSS-selector fallback.</p>
+      <p>Free LLM API key — <span class="del">removed</span>. No external AI APIs anywhere.</p>
+      <p>Explainability LLM — <span class="del">removed</span>, replaced by a rule-based template annotator.</p>
+      <p><code>pywebview</code> desktop shell — skipped; the browser console is the shell (note: PS says
+         "desktop app", so keep <code>pywebview</code> as a ~15-line stretch goal if time allows).</p>
+    </div>
+  </section>
+
+  <section class="extra">
+    <div class="sec-head"><span class="num">›</span><h2>Build order (do not skip ahead)</h2></div>
+    <p class="sec-intro">Engineering deep-dive §10. Tell the tool: <em>"only build stage N, don't implement later stages."</em></p>
+    <ul>
+      <li><strong>1 Scaffold</strong> — folders, stub functions with correct signatures, <code>requirements.txt</code>, <code>.env.example</code>, <code>config.py</code></li>
+      <li><strong>2 Cache-seeded fallback</strong> — seed <code>data/cache/</code> from Kaggle, <code>fetch_fares</code> returns it</li>
+      <li><strong>3 SSE bridge</strong> — real <code>run_audit</code> generator, hardcoded lines, wired to <code>EventSource</code></li>
+      <li><strong>4 Festival engine</strong> → <strong>5 IQR filter</strong> → <strong>6 Laspeyres</strong> (each with its golden-number test)</li>
+      <li><strong>7 Live scraper pool</strong> — one adapter, then cache layer, then Travelpayouts fallback, then fan-out to all 5</li>
+      <li><strong>8 Persistence</strong> — Postgres (Docker) + SQLite fallback + <code>schema.sql</code></li>
+      <li><strong>9 AI models</strong> — train integrity + nowcast offline, wire inference as pure functions</li>
+      <li><strong>10 Explainability annotator + polish</strong> — <code>/api/runs</code>, CSV import, PDF report data</li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>VAYU-SUCHAK 2.0 · Backend Feature List · SIH26056 · Team Chakravyuh — Anant · Om · Yakshit &nbsp;|&nbsp; live-first · ₹0 · no external AI APIs</span>
+    <button class="reset" id="resetBtn" type="button">reset my ticks</button>
+  </footer>
+</div>
+
+<script>
+/* Feature + Detail text is copied verbatim from docs/backend-feature-list.html.
+   status / gap / evidence are the audit overlay. */
+const DATA = [
+  { num:"00", title:"Infra &amp; App Shell", groups:[{ rows:[
+    {id:"0.1", feat:"FastAPI single-process app", detail:"port 8000, serves static frontend + API, one process, no Flask", status:"done", evidence:"app/main.py · run.py"},
+    {id:"0.2", feat:"<code>uvicorn</code> ASGI server", detail:"async — SSE stream and scrape run concurrently in one request", status:"done", evidence:"run.py · app/main.py:execute_audit"},
+    {id:"0.3", feat:"Config layer", detail:"<code>.env</code> + <code>pydantic-settings</code> → <code>k_factor</code>, dates, <code>PG_DSN</code>, <code>TRAVELPAYOUTS_TOKEN</code>, rate limits — all parameters, nothing hardcoded", status:"done", evidence:"config.py · .env.example (24 keys)"},
+    {id:"0.4", feat:"<code>AuditParams</code> Pydantic model", detail:"corridor regex <code>^[A-Z]{3}-[A-Z]{3}$</code>, date range ≤ 90d, <code>k_factor</code> 0–10, end ≥ start → bad input = 422 before pipeline runs", status:"done", evidence:"app/models.py:AuditParams"},
+    {id:"0.5", feat:"Async orchestrator (<code>app/orchestrator.py</code>)", detail:"async generator, yields 1 SSE line per stage, <code>sleep(0.2)</code> for visible streaming, <code>run_id</code> = uuid4", status:"done", evidence:"app/orchestrator.py:run_audit"},
+    {id:"0.6", feat:"<code>pipeline/</code> = pure functions", detail:"no FastAPI/DB/logging inside — <code>(data) → (result, summary)</code>, testable from a shell", status:"done", evidence:"pipeline/festival|iqr|laspeyres|explain|contract|ml"},
+    {id:"0.7", feat:"Structured error handling", detail:"every stage try/except, partial failure → pipeline continues in degraded mode, no silent crash", status:"done", evidence:"orchestrator.py per-stage try/except · ingest.py never raises"},
+  ]}]},
+
+  { num:"01", title:"Live Acquisition — the differentiator",
+    intro:"Real headless browsers scrape 5 airline / OTA portals live. Everything is live — that is what sets the project apart. When a source is blocked, the Travelpayouts data API fills that route; only when fully offline does the on-disk cache serve.",
+    groups:[
+    { h3:"1A &nbsp;Live Scraper Pool — <code>pipeline/scrape/</code>", rows:[
+      {id:"1.1", feat:"Per-source Playwright adapter", detail:"MakeMyTrip, Ixigo, Cleartrip, IndiGo, Air India — one lightweight adapter class each", status:"partial", evidence:"pipeline/scrape/{cleartrip,ixigo,googleflights,makemytrip,indigo,airindia}.py",
+        gap:"<b>6 adapter classes exist.</b> Fully live: Cleartrip + Google Flights. Ixigo's parser is complete but robots-disabled. MakeMyTrip (Akamai), IndiGo + Air India (Navitaire form-flow) are recon-pending stubs — they return [] until you paste DevTools XHR captures."},
+      {id:"1.2", feat:"Headless Chromium pool", detail:"browser instance reuse, new context/page per adapter, concurrency cap (e.g. 3 parallel)", status:"partial",
+        gap:"Concurrency cap (<code>asyncio.Semaphore</code> 3) and a fresh context + page per adapter are done. <b>Browser-instance reuse is not</b> — base.py launches its own Chromium per adapter per run."},
+      {id:"1.3", feat:"Concurrent fan-out", detail:"<code>asyncio.gather</code> across adapters × dates, merge results", status:"done", evidence:"pipeline/scrape/pool.py:scrape_pool"},
+      {id:"1.4", feat:"XHR intercept (primary extraction)", detail:"<code>page.on(\"response\")</code> → capture the site's own fare JSON, no HTML parsing. Each adapter has <code>is_fare_xhr()</code> + <code>parse_xhr()</code>", status:"done", evidence:"pipeline/scrape/base.py:_on_response · cleartrip.py"},
+      {id:"1.5", feat:"CSS-selector fallback extraction", detail:"XHR shape missing → parse rendered fare cards from the DOM (Playwright locators). Vision-LLM path removed.", status:"done", evidence:"base.py:parse_dom · ixigo.py + googleflights.py implement it"},
+      {id:"1.6", feat:"Normalise contract", detail:"<code>{flight_id, route, price, currency, departure_ts, airline, source}</code> — every later module depends on this", status:"done", evidence:"pipeline/contract.py:FareRecord + normalise()"},
+      {id:"1.7", feat:"Merge + dedupe", detail:"key = <code>airline + flight_no + departure_ts</code>, duplicate count logged", status:"done", evidence:"pipeline/contract.py:dedupe()"},
+      {id:"1.8", feat:"Per-domain rate limiter", detail:"1 req / few sec per domain, token-bucket, configurable", status:"done", evidence:"pipeline/scrape/ratelimit.py:acquire() — per-domain lock + configurable min gap"},
+      {id:"1.9", feat:"<code>robots.txt</code> parser + honour", detail:"fetch, cache, respect disallow, honour <code>Retry-After</code>", status:"partial", evidence:"pipeline/scrape/ratelimit.py — hardened, fail-closed",
+        gap:"Fetch + cache + disallow are done and <b>hardened</b> (fail-closed on a malformed or unreachable file — Ixigo's blank-line bug is handled). <b><code>Retry-After</code> / Crawl-delay are not read.</b>"},
+      {id:"1.10", feat:"Rotating User-Agent", detail:"pool of realistic UAs, per-session rotation, realistic headers / viewport", status:"partial",
+        gap:"3-UA pool with per-attempt rotation is done. <b>Custom headers and viewport are not set</b> on the browser context."},
+      {id:"1.11", feat:"Anti-bot / captcha detection", detail:"403 / captcha page / block signature detected → mark source failed, trigger fallback", status:"done", evidence:"base.py:BLOCK_MARKERS + short-page heuristic → Blocked → status 'blocked' → fallback"},
+      {id:"1.12", feat:"Off-peak scheduler", detail:"APScheduler / cron — bulk pre-scrape overnight, keeps cache warm", status:"done", evidence:"scripts/warm_cache.py --daemon --every 6h (APScheduler)"},
+      {id:"1.13", feat:"Per-source status report", detail:"<code>{source: {status, fares, latency_ms, extraction_path}}</code> → feeds console + status strip", status:"done", evidence:"base.py:SourceStatus → SSE 'sources' → frontend F9"},
+      {id:"1.14", feat:"Timeout + retry with backoff", detail:"per-page timeout, N retries with exponential backoff, then fallback", status:"done", evidence:"base.py:_scrape_one_day — attempts loop, 2**attempt sleep"},
+    ]},
+    { h3:"1B &nbsp;Fallback Chain — 3-tier resilience", rows:[
+      {id:"1.15", feat:"Tier 1 — Travelpayouts API fallback", detail:"live scrape fails / blocked → <code>api.travelpayouts.com</code> (Aviasales data: <code>prices_for_dates</code> / cheapest fares) for that route, mapped into the same normalise contract. Token in <code>.env</code>.", status:"done", evidence:"pipeline/ingest.py (fires when live &lt; 20 fares) · travelpayouts.py — code complete, inert until 10.5"},
+      {id:"1.16", feat:"Travelpayouts client", detail:"<code>httpx.AsyncClient</code>, auth header, response → <code>list[dict]</code> in record shape, currency normalised to INR", status:"done", evidence:"pipeline/scrape/travelpayouts.py — httpx.AsyncClient, currency=inr, normalise_many()"},
+      {id:"1.17", feat:"Tier 2 — on-disk cache snapshot", detail:"Travelpayouts also unreachable (offline) → newest cached JSON for <code>source_corridor_date</code>", status:"done", evidence:"pipeline/scrape/cache.py:newest() / newest_any()"},
+      {id:"1.18", feat:"Cache writer", detail:"every successful scrape / API response written to disk, timestamped, <code>data/cache/</code>", status:"partial", evidence:"pipeline/scrape/pool.py → cache.write()",
+        gap:"Live-scrape snapshots are written. <b>Travelpayouts responses are not written to the cache.</b>"},
+      {id:"1.19", feat:"Cache seed script", detail:"Kaggle dataset → 30–50 rows/corridor as initial cache (record shape) so the pipeline runs on day one", status:"done", evidence:"scripts/seed_cache.py — real data/kaggle/economy.csv"},
+      {id:"1.20", feat:"Fallback tagging", detail:"each record + run tagged <code>ingestion_source</code> = <code>live_scrape</code> / <code>travelpayouts</code> / <code>cache</code>, console emits <code>[SCRAPE][FALLBACK]</code>", status:"partial", evidence:"ingestion_source on every record + run, persisted",
+        gap:"Tagging is done everywhere. <b>No literal <code>[SCRAPE][FALLBACK]</code> console token</b> — the frontend infers a fallback line from the INGEST message text."},
+      {id:"1.21", feat:"Graceful degradation", detail:"1 source blocked → other 4 + Travelpayouts still contribute; run completes, <code>sources_degraded</code> count reported", status:"done", evidence:"pool.py + ingest.py · sources_degraded in orchestrator._assemble_row"},
+    ]},
+  ]},
+
+  { num:"02", title:"Festival Flag Engine — <code>pipeline/festival.py</code>", groups:[{ rows:[
+    {id:"2.1", feat:"<code>holidays.India</code> date builder", detail:"<code>holidays.India(years=[2026, 2027])</code>, filter to major festivals (Diwali, Holi, Dussehra, Christmas, Guru Nanak Jayanti, Eid al-Fitr, Eid al-Adha)", status:"done", evidence:"pipeline/festival.py:build_festival_dates (MAJOR_FESTIVALS — superset: adds Makar Sankranti, Raksha Bandhan)"},
+    {id:"2.2", feat:"±7 day window flagging", detail:"each record: <code>is_festival_season</code> (0/1) + <code>festival_matched</code> (name), <code>window_days</code> config param", status:"done", evidence:"pipeline/festival.py:flag_festivals"},
+    {id:"2.3", feat:"Flagged count + breakdown", detail:"<code>{Diwali: 31, Christmas: 7}</code> per festival; festivals outside the window do not appear", status:"done", evidence:"festival.py — breakdown dict, matched festivals only"},
+    {id:"2.4", feat:"Date-verification test", detail:"<code>test_festival.py</code> — assert 2026 dates against a real calendar", status:"done", evidence:"tests/test_festival.py — Diwali 2026 early Nov, ±7d boundary (5 tests)"},
+  ]}]},
+
+  { num:"03", title:"Dynamic IQR Purifier — <code>pipeline/iqr.py</code>", groups:[{ rows:[
+    {id:"3.1", feat:"Two-tailed Tukey fence", detail:"<code>Q1 − k·IQR</code> and <code>Q3 + k·IQR</code> — catches both glitch-low (₹1, null-as-0) and absurd-high", status:"done", evidence:"pipeline/iqr.py:apply_iqr_filter"},
+    {id:"3.2", feat:"<code>clean[]</code> / <code>anomalies[]</code> split", detail:"driven by <code>k_factor</code>; price within fence → clean, else anomaly", status:"done", evidence:"iqr.py:IQRResult"},
+    {id:"3.3", feat:"Exclusion metadata", detail:"each anomaly gets <code>exclusion_reason</code> (<code>below_lower_fence</code> / <code>above_upper_fence</code>) + the fence value", status:"done", evidence:"iqr.py — r.exclusion_reason + r.extra['fence_crossed']"},
+    {id:"3.4", feat:"Fences object returned", detail:"<code>{Q1, Q3, IQR, lower_fence, upper_fence}</code> → feeds histogram + console", status:"done", evidence:"iqr.py:Fences.to_dict()"},
+    {id:"3.5", feat:"Nothing deleted", detail:"anomalies logged + stored + returned — any <code>k</code> choice is reversible", status:"done", evidence:"tests/test_iqr.py:test_nothing_deleted"},
+    {id:"3.6", feat:"Golden-number test", detail:"<code>test_iqr.py</code> — worked example: k=1.5 → 2 excluded, k=3.0 → 1", status:"done", evidence:"tests/test_iqr.py:test_k_1_5_excludes_two / test_k_3_0_excludes_one"},
+  ]}]},
+
+  { num:"04", title:"AI · Data-Integrity Model — <code>pipeline/ml/integrity.py</code>",
+    intro:"Trained in-house. No external API. Runs on top of the IQR filter as a second, learned pass.",
+    groups:[{ rows:[
+    {id:"4.1", feat:"Isolation Forest anomaly detector", detail:"<code>sklearn.ensemble.IsolationForest</code> — flags decoy / placeholder / bot-trap fares that IQR passes through", status:"done", evidence:"models/integrity_v1.joblib — IsolationForest(n_estimators=200, contamination=0.05)"},
+    {id:"4.2", feat:"Feature engineering", detail:"price, price-per-km, deviation from route median, time-to-departure, hour-of-day, airline one-hot, source", status:"done", evidence:"pipeline/ml/features.py:build_matrix (11 features)",
+      gap:"<b>Verified.</b> All listed signals present; airline &amp; source are hash-bucketed (12 / 8) rather than one-hot — deterministic across train/inference."},
+    {id:"4.3", feat:"Self-training pipeline (<code>train_integrity.py</code>)", detail:"trained on Kaggle historical + scraped fare corpus, no external API, runs in minutes", status:"done", evidence:"scripts/train_integrity.py — corpus = cache snapshots + data/kaggle/*.csv"},
+    {id:"4.4", feat:"Model artifact + versioning", detail:"<code>models/integrity_v1.joblib</code> + metadata (train date, rows, contamination param)", status:"done", evidence:"bundle: version v1, trained_at, rows 7680, contamination 0.05, eval"},
+    {id:"4.5", feat:"Inference as pure function", detail:"<code>score_integrity(records) → (records + integrity_score + ml_flag, flagged_count)</code>", status:"done", evidence:"pipeline/ml/integrity.py:score_integrity — pass-through if artifact missing"},
+    {id:"4.6", feat:"IQR + ML dual layer", detail:"IQR = transparent hand-checkable baseline, ML = second pass; both logged, nothing silently deleted", status:"done", evidence:"orchestrator: IQR stage then INTEGRITY stage; ml_flag retained on records"},
+    {id:"4.7", feat:"Eval metrics", detail:"precision / recall on a labelled synthetic-injection set, printed by the train script", status:"done", evidence:"train_integrity.py — injects decoy-low / absurd-high / ppk-break",
+      gap:"<b>Verified.</b> precision 0.77 / recall 0.29 — recall is low; keep the “conservative second pass on top of IQR” line ready for judges."},
+  ]}]},
+
+  { num:"05", title:"AI · Nowcasting / Imputation Model — <code>pipeline/ml/nowcast.py</code>",
+    intro:"Fills route-days a live scrape missed — imputation, not forecasting. This is how central banks nowcast GDP.",
+    groups:[{ rows:[
+    {id:"5.1", feat:"Gradient-boosted regressor", detail:"<code>lightgbm</code> / <code>sklearn.GradientBoostingRegressor</code> — fills sparse route-days (a route-day whose scrape failed)", status:"done", evidence:"models/nowcast_v1.joblib — GradientBoostingRegressor(n_estimators=300, max_depth=3)"},
+    {id:"5.2", feat:"Features", detail:"correlated routes' current prices, route history, day-of-week, days-to-departure, festival flag, fuel-price proxy", status:"partial", evidence:"pipeline/ml/nowcast.py:PeerFeatureBuilder",
+      gap:"Uses peer-route price stats (mean / median / count / std) + a route hash. <b>Missing: day-of-week, days-to-departure, festival flag, fuel-price proxy.</b>"},
+    {id:"5.3", feat:"Confidence bands", detail:"quantile regression (10th / 90th) or bootstrap → an interval on every imputed value", status:"partial",
+      gap:"A per-value interval <b>is</b> produced — from residual-std × 1.2816 (~80% Gaussian band). Not quantile regression or bootstrap."},
+    {id:"5.4", feat:"NOT forecasting", detail:"only imputes missing <em>observed</em> route-days — never predicts future prices. Explicit in console + docs.", status:"done", evidence:"nowcast.py docstring + note strings; imputation-only by construction"},
+    {id:"5.5", feat:"Self-training pipeline (<code>train_nowcast.py</code>)", detail:"Kaggle + accumulated scrape data, no API", status:"done", evidence:"scripts/train_nowcast.py — route × day median matrix, leave-one-route-out"},
+    {id:"5.6", feat:"Model artifact + versioning", detail:"<code>models/nowcast_v1.joblib</code> + metrics (MAE, CI coverage)", status:"done", evidence:"bundle: version v1, trained_at, eval {mae, band_coverage}"},
+    {id:"5.7", feat:"Inference as pure function", detail:"<code>impute_gaps(route_day_matrix) → (complete_matrix, imputed_mask, confidence_bands)</code>", status:"done", evidence:"pipeline/ml/nowcast.py:impute_gaps — pure, pass-through if artifact missing"},
+    {id:"5.8", feat:"Imputation flag on output", detail:"run reports <code>imputed_route_days</code> count; index carries a confidence band to the frontend", status:"defect",
+      gap:"<b>DEFECT.</b> The count is reported and persisted, but orchestrator.py recomputes the index from observed routes only — imputed prices never enter the Laspeyres sum — and no <code>confidence_band</code> is emitted on the final SSE line. Fix: feed <code>nowcast.per_route_price</code> into <code>compute_index</code> and add the band to the done payload."},
+  ]}]},
+
+  { num:"06", title:"Weighted Laspeyres Engine — <code>pipeline/laspeyres.py</code>", groups:[{ rows:[
+    {id:"6.1", feat:"Per-route aggregation", detail:"pandas <code>groupby(\"route\")[\"price\"].median()</code> (median = outlier-robust) → <code>Pt</code>", status:"done", evidence:"pipeline/laspeyres.py:_per_route_price"},
+    {id:"6.2", feat:"Base-year join", detail:"<code>base_year_reference.json</code> → <code>P0</code>, <code>Q0</code> per route, inner join (routes present in both)", status:"done", evidence:"laspeyres.py:_index_from — base.join(pt, how='inner')"},
+    {id:"6.3", feat:"Laspeyres formula", detail:"<code>Index = Σ(Pt·Q0) / Σ(P0·Q0) × 100</code>", status:"done", evidence:"laspeyres.py:_index_from"},
+    {id:"6.4", feat:"Festival decomposition", detail:"<code>index_all</code> vs <code>index_ex_festival</code> (re-run on non-flagged fares only) → festival component in index points", status:"done", evidence:"laspeyres.py:compute_index — festival_component in index points"},
+    {id:"6.5", feat:"Per-route table returned", detail:"<code>Pt, P0, Q0, pt_q0, p0_q0</code> inspectable table → PDF report + readout", status:"done", evidence:"laspeyres.py:IndexResult.table (DataFrame)"},
+    {id:"6.6", feat:"Vectorised, deterministic", detail:"no loops, no random seeds — same input = same output", status:"done", evidence:"tests/test_laspeyres.py:test_reproducible_index"},
+    {id:"6.7", feat:"Golden-number test", detail:"<code>test_laspeyres.py</code> — 2-route example = exactly 118.75", status:"done", evidence:"tests/test_laspeyres.py:test_two_route_index_is_exactly_118_75"},
+  ]}]},
+
+  { num:"07", title:"AI · Explainability Annotator — <code>pipeline/explain.py</code>", groups:[{ rows:[
+    {id:"7.1", feat:"Rule-based movement annotator", detail:"LLM removed — tags each index change with a cause: festival-window proximity, k_factor change, source degradation, imputation share", status:"done", evidence:"pipeline/explain.py:annotate — 5 driver types"},
+    {id:"7.2", feat:"Template output", detail:"<code>\"Index +3.2% vs last run — Diwali window (±7d, 31 fares) + 1 source degraded (Cleartrip→cache)\"</code>", status:"done", evidence:"explain.py — head + '; '.join(drivers)"},
+    {id:"7.3", feat:"Delta vs previous run", detail:"pull last run for same corridor from DB, compute diff, rank drivers", status:"done", evidence:"orchestrator fetches prev run → annotate(); delta_pct computed",
+      gap:"<b>Verified.</b> Drivers are listed in a fixed order, not ranked by magnitude."},
+    {id:"7.4", feat:"Pure function", detail:"<code>annotate(run, prev_run) → str</code> — no model, no API", status:"done", evidence:"pipeline/explain.py:annotate"},
+  ]}]},
+
+  { num:"08", title:"Persistence — <code>pipeline/persistence.py</code>", groups:[{ rows:[
+    {id:"8.1", feat:"Postgres primary write", detail:"<code>create_engine(PG_DSN, connect_timeout=3)</code>, <code>INSERT</code> into <code>audit_runs</code>, commit", status:"done", evidence:"pipeline/persistence.py:_try_postgres"},
+    {id:"8.2", feat:"SQLite WAL fallback", detail:"<code>OperationalError</code> / timeout → <code>db/fallback.sqlite</code>, <code>PRAGMA journal_mode=WAL</code>, mirrored schema", status:"done", evidence:"persistence.py:_write_sqlite"},
+    {id:"8.3", feat:"<code>db_target</code> tagging", detail:"each row tagged <code>postgres</code> / <code>sqlite_fallback</code> so it can be reconciled later", status:"done", evidence:"persistence.py:_row(run_data, db_target)"},
+    {id:"8.4", feat:"<code>audit_runs</code> schema (both DBs)", detail:"run_id, corridor, date_range_start/end, index_value, index_ex_festival, k_factor_used, base_period, records_ingested, festival_flagged_count, anomalies_excluded_count, ml_flagged_count, imputed_route_days, scrape_sources (json), ingestion_source, db_target, created_at", status:"done", evidence:"db/schema.sql",
+      gap:"<b>Verified.</b> Schema is a superset of the spec — adds festival_component, festival_breakdown, routes_matched, tiers_used, sources_degraded, annotation."},
+    {id:"8.5", feat:"<code>schema.sql</code>", detail:"one DDL file for both databases", status:"done", evidence:"db/schema.sql — applied verbatim to both"},
+    {id:"8.6", feat:"Dual-failure honesty", detail:"both fail = disk is gone; an in-memory retry queue is stated future work, not claimed as solved", status:"done", evidence:"persistence.py:PersistenceError + docstring"},
+  ]}]},
+
+  { num:"09", title:"API Contract", groups:[{ rows:[
+    {id:"9.1", feat:"GET <code>/</code>", detail:"serve dashboard (<code>static/index.html</code>)", status:"done", evidence:"app/main.py:dashboard — FileResponse, + HEAD, + /healthz"},
+    {id:"9.2", feat:"GET <code>/api/corridors</code>", detail:"dropdown options (keys of base ref)", status:"done", evidence:"app/main.py:corridors — frontend F10 fetches it"},
+    {id:"9.3", feat:"GET <code>/api/execute-audit</code>", detail:"run pipeline, stream logs — <code>text/event-stream</code> (SSE, <code>EventSource</code>-compatible, GET-only)", status:"done", evidence:"app/main.py:execute_audit → StreamingResponse(run_audit)"},
+    {id:"9.4", feat:"GET <code>/api/runs</code>", detail:"last N runs for the history chart", status:"done", evidence:"app/main.py:runs — frontend F10 fetches it"},
+    {id:"9.5", feat:"POST <code>/api/import-csv</code>", detail:"upload a pre-scraped fare extract → run pipeline on it (badge <code>imported csv</code>)", status:"partial", evidence:"app/main.py:import_csv · pipeline/clean.py",
+      gap:"Endpoint works and sanitises the upload. <b>Missing:</b> the frontend still uses its client-side legacy path; and this endpoint's pipeline skips the integrity + nowcast stages the SSE path runs."},
+    {id:"9.6", feat:"GET <code>/api/report/{run_id}</code>", detail:"run data for PDF report composition", status:"partial", evidence:"app/main.py:report — returns the run row",
+      gap:"Endpoint returns the row. <b>Missing:</b> nothing consumes it, and no PDF is composed anywhere in the codebase yet."},
+    {id:"9.7", feat:"SSE line format", detail:"<code>data: {\"stage\",\"message\",\"run_id\",...}\\n\\n</code>; final line <code>done:true, index, index_ex_festival, anomalies, sub_index, confidence_band</code>", status:"partial", evidence:"orchestrator.py:sse() + final SYSTEM line",
+      gap:"Line format and the final <code>done:true</code> line (index, index_ex_festival, anomalies, …) are done. <b>Missing fields: <code>sub_index</code> and <code>confidence_band</code></b> (the latter tied to defect 5.8)."},
+  ]}]},
+
+  { num:"10", title:"Data Sources &amp; Reference", groups:[{ rows:[
+    {id:"10.1", feat:"Kaggle flight-price dataset script", detail:"(a) mean 2022 price/route → <code>P0</code>&nbsp; (b) 30–50 rows/corridor → cache seed&nbsp; (c) training corpus for the ML models", status:"done", evidence:"scripts/build_base_reference.py + seed_cache.py + train_integrity/train_nowcast · data/kaggle/*.csv (1.1M rows)",
+      gap:"<b>Verified.</b> Spec says mean 2022 price; code uses median, to match the Pt aggregator in laspeyres.py."},
+    {id:"10.2", feat:"DGCA airport-pair passenger data (data.gov.in)", detail:"→ <code>Q0</code> weights — <strong>not scraped</strong>, official statistic", status:"done", evidence:"data/dgca/domestic_city_pair.csv (real, 3.9 MB) · build_base_reference.py:build_q0"},
+    {id:"10.3", feat:"<code>base_year_reference.json</code>", detail:"<code>{route: {P0, Q0}}</code>, <code>base_period: \"2022\"</code>, frozen in-repo", status:"done", evidence:"data/base_year_reference.json — 32 routes, committed, provenance block"},
+    {id:"10.4", feat:"<code>holidays</code> package", detail:"correct lunar dates, offline", status:"done", evidence:"requirements.txt: holidays&gt;=0.60"},
+    {id:"10.5", feat:"Travelpayouts affiliate token", detail:"free signup, <code>.env</code>, grants fallback API access", status:"todo",
+      gap:"<b>Needs you:</b> free signup at travelpayouts.com → paste <code>TRAVELPAYOUTS_TOKEN</code> into backend/.env. Until then tier-1 fallback (1.15 / 1.16) is inert and ingest drops straight to cache."},
+    {id:"10.6", feat:"Scrape-target recon doc", detail:"per source: search-URL pattern + fare XHR endpoint (DevTools → Network)", status:"partial", evidence:"per-adapter module docstrings",
+      gap:"Recon is captured as per-adapter docstrings — Cleartrip has the full endpoint + response shape; MakeMyTrip / IndiGo / Air India have partial notes. <b>No single standalone recon doc.</b>"},
+    {id:"10.7", feat:"CPI reference series", detail:"real MoSPI CPI \"Transport\" monthly 2022→2026 as a static array (chart overlay) — never a synthetic ramp", status:"todo",
+      gap:"<b>Needs you:</b> paste the real MoSPI CPI-Transport monthly series into data/cpi_transport_series.json — it currently holds an empty <code>\"points\": []</code> placeholder, so any CPI overlay on the dashboard is blank."},
+  ]}]},
+
+  { num:"11", title:"Tests &amp; Ship", groups:[{ rows:[
+    {id:"11.1", feat:"<code>test_iqr.py</code>", detail:"golden numbers, hand-calculated", status:"done", evidence:"tests/test_iqr.py (5 tests)"},
+    {id:"11.2", feat:"<code>test_laspeyres.py</code>", detail:"golden numbers = 118.75", status:"done", evidence:"tests/test_laspeyres.py (4 tests)"},
+    {id:"11.3", feat:"<code>test_festival.py</code>", detail:"2026 dates, ±7d boundary", status:"done", evidence:"tests/test_festival.py (5 tests)"},
+    {id:"11.4", feat:"<code>test_e2e.py</code>", detail:"full pipeline on cache / backup data", status:"done", evidence:"tests/test_e2e.py — seed → orchestrator → assert SSE transcript + persisted row"},
+    {id:"11.5", feat:"<code>test_scrape_fallback.py</code>", detail:"network kill → Travelpayouts → cache chain, each tier logged", status:"partial", evidence:"tests/test_scrape_fallback.py (2 tests)",
+      gap:"pool-empty → cache and cache-only mode are covered. <b>The Travelpayouts tier is not exercised</b> — no API test double."},
+    {id:"11.6", feat:"ML model eval scripts", detail:"integrity precision / recall, nowcast MAE + CI coverage", status:"done", evidence:"train_integrity.py + train_nowcast.py — both print and store eval metrics"},
+    {id:"11.7", feat:"<code>run.py</code>", detail:"starts uvicorn (pywebview optional / skipped — browser console is the shell)", status:"done", evidence:"run.py — honours PORT / HOST env"},
+    {id:"11.8", feat:"<code>requirements.txt</code> + <code>.env.example</code>", detail:"fastapi, uvicorn, httpx, playwright, pandas, numpy, scikit-learn, lightgbm, holidays, sqlalchemy, pydantic-settings, apscheduler", status:"done", evidence:"both present and complete",
+      gap:"<b>Verified.</b> Uses sklearn GradientBoosting in place of lightgbm (spec 5.1 allowed either)."},
+  ]}]},
+];
+
+const STORE_KEY = "vayu-suchak-backend-audit-v1";
+const LABEL = { done:"done", partial:"partial", todo:"needs you", defect:"defect" };
+
+let saved = {};
+try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || "{}") || {}; } catch (e) { saved = {}; }
+function persist(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(saved)); } catch (e) {} }
+
+const allRows = DATA.flatMap(s => s.groups.flatMap(g => g.rows));
+const TOTAL = allRows.length;
+const verifiedCount = allRows.filter(r => r.status === "done").length;
+const openIds = allRows.filter(r => r.status !== "done").map(r => r.id);
+
+function render(){
+  const root = document.getElementById("sections");
+  root.innerHTML = "";
+  for (const sec of DATA){
+    const rows = sec.groups.flatMap(g => g.rows);
+    const done = rows.filter(r => r.status === "done").length;
+    const full = done === rows.length;
+    const el = document.createElement("section");
+    el.innerHTML = `
+      <div class="sec-head">
+        <span class="num">${sec.num}</span>
+        <h2>${sec.title}</h2>
+        <span class="cnt${full ? " full" : ""}">${done} / ${rows.length} built</span>
+      </div>
+      ${sec.intro ? `<p class="sec-intro">${sec.intro}</p>` : ""}`;
+    for (const g of sec.groups){
+      if (g.h3) el.insertAdjacentHTML("beforeend", `<h3>${g.h3}</h3>`);
+      const wrap = document.createElement("div");
+      wrap.className = "tbl-scroll";
+      const tb = document.createElement("table");
+      tb.innerHTML = `<thead><tr>
+        <th class="c-chk">✓</th><th class="c-num">#</th><th class="c-feat">Feature</th><th>Detail</th>
+      </tr></thead><tbody></tbody>`;
+      const body = tb.querySelector("tbody");
+      for (const r of g.rows){
+        const locked = r.status === "done";
+        const userChecked = !locked && !!saved[r.id];
+        const cb = locked
+          ? `<input type="checkbox" checked disabled aria-label="${r.id} verified complete, locked">`
+          : `<input type="checkbox" ${userChecked ? "checked" : ""} aria-label="${r.id} mark done">`;
+        const tr = document.createElement("tr");
+        tr.className = "feat" + (locked ? "" : " interactive");
+        tr.dataset.status = r.status;
+        tr.dataset.id = r.id;
+        tr.innerHTML = `
+          <td class="c-chk">${cb}</td>
+          <td class="c-num">${r.id}</td>
+          <td class="c-feat">${r.feat} <span class="pill ${r.status}">${LABEL[r.status]}</span></td>
+          <td>${r.detail}</td>`;
+        body.appendChild(tr);
+        if (r.gap || r.evidence){
+          const nr = document.createElement("tr");
+          nr.className = "noterow";
+          nr.dataset.status = r.status;
+          nr.innerHTML = `<td></td><td colspan="3">${
+            r.gap ? `<div class="gapbox">${r.gap}</div>`
+                  : `<div class="evidence">${r.evidence}</div>`
+          }</td>`;
+          body.appendChild(nr);
+        }
+      }
+      wrap.appendChild(tb);
+      el.appendChild(wrap);
+    }
+    root.appendChild(el);
+  }
+  updateMeter();
+}
+
+function updateMeter(){
+  const userDone = openIds.filter(id => saved[id]).length;
+  const pv = (verifiedCount / TOTAL) * 100;
+  const pu = (userDone / TOTAL) * 100;
+  document.getElementById("mv").style.width = pv + "%";
+  document.getElementById("mu").style.width = pu + "%";
+  document.getElementById("rv").textContent = verifiedCount;
+  document.getElementById("ro").textContent = openIds.length - userDone;
+  const ru = document.getElementById("ru");
+  if (userDone > 0){ ru.hidden = false; ru.querySelector(".big").textContent = "+" + userDone; }
+  else ru.hidden = true;
+}
+
+document.getElementById("sections").addEventListener("click", (e) => {
+  const tr = e.target.closest("tr.feat.interactive");
+  if (!tr) return;
+  const cb = tr.querySelector("input");
+  if (e.target !== cb) cb.checked = !cb.checked;
+  if (cb.checked) saved[tr.dataset.id] = true; else delete saved[tr.dataset.id];
+  persist();
+  updateMeter();
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  saved = {}; persist(); render();
+});
+
+render();
+</script>

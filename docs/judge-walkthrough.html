@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAYU-SUCHAK — Judge Walkthrough</title>
+<style>
+  :root{
+    --bg:#0d1117; --surface:#161b22; --surface-2:#1c232d;
+    --border:#3a414c; --border-lo:#2a303a;
+    --text:#e6edf3; --dim:#9da8b3;
+    --green:#3fb950; --blue:#58a6ff; --amber:#d29922; --red:#f85149;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+    --ui:'Inter',system-ui,-apple-system,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--ui);line-height:1.55;
+    -webkit-font-smoothing:antialiased;padding-bottom:80px}
+  a{color:var(--blue)}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+  header{border-bottom:1px solid var(--border);background:linear-gradient(180deg,#11161d,#0d1117);
+    padding:26px 0 22px;position:sticky;top:0;z-index:50;backdrop-filter:blur(6px)}
+  header .wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .mark{font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:2px;color:var(--green)}
+  .mark span{color:var(--dim);font-weight:400}
+  .sub{color:var(--dim);font-size:13px}
+  .prog{margin-left:auto;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--dim)}
+  .prog-bar{width:140px;height:6px;background:var(--surface-2);border:1px solid var(--border-lo);border-radius:4px;overflow:hidden}
+  .prog-fill{height:100%;width:0;background:var(--green);transition:width .3s}
+
+  section{padding:34px 0;border-bottom:1px solid var(--border-lo)}
+  h2{font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:2px;color:var(--dim);
+    margin-bottom:18px;display:flex;align-items:center;gap:10px}
+  h2::before{content:"";width:22px;height:1px;background:var(--green)}
+
+  .pitch{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--green);
+    border-radius:8px;padding:18px 20px;font-size:15px}
+  .pitch b{color:var(--green)}
+
+  /* flow diagram */
+  .flow{display:flex;flex-direction:column;gap:0}
+  .node{position:relative;display:flex;gap:16px;padding-left:4px}
+  .node:not(:last-child)::after{content:"";position:absolute;left:19px;top:38px;bottom:-6px;width:2px;
+    background:var(--border)}
+  .dot{flex:0 0 38px;height:38px;border-radius:50%;background:var(--surface-2);border:2px solid var(--border);
+    display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;font-weight:700;
+    color:var(--dim);z-index:2}
+  .node.key .dot{border-color:var(--green);color:var(--green)}
+  .node.proof .dot{border-color:var(--amber);color:var(--amber)}
+  .node-body{padding:6px 0 22px}
+  .node-title{font-weight:600;font-size:15px}
+  .node-desc{color:var(--dim);font-size:13.5px;margin-top:2px}
+
+  /* step cards */
+  .step{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:14px;overflow:hidden}
+  .step-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
+  .step-head:hover{background:var(--surface-2)}
+  .step-num{font-family:var(--mono);font-size:12px;color:var(--dim);flex:0 0 34px}
+  .step-name{font-weight:600;font-size:14.5px;flex:1}
+  .step-time{font-family:var(--mono);font-size:11px;color:var(--dim)}
+  .chev{transition:transform .2s;color:var(--dim)}
+  .step.open .chev{transform:rotate(90deg)}
+  .step-content{display:none;padding:4px 16px 18px;border-top:1px solid var(--border-lo)}
+  .step.open .step-content{display:block}
+  .row{display:grid;grid-template-columns:1fr 1.3fr;gap:14px;margin-top:14px}
+  @media(max-width:720px){.row{grid-template-columns:1fr}}
+  .cell h4{font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-bottom:6px}
+  .cell.do{background:var(--surface-2);border:1px solid var(--border-lo);border-radius:7px;padding:10px 12px;font-size:13.5px}
+  .cell.say{background:#10161f;border:1px solid var(--border-lo);border-left:2px solid var(--blue);border-radius:7px;
+    padding:10px 12px;font-size:13.5px;color:#dbe6f2}
+  .cell.say em{color:var(--dim);font-style:normal}
+
+  .tag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px;
+    padding:2px 6px;border-radius:4px;vertical-align:middle;margin-left:6px}
+  .tag.real{background:rgba(63,185,80,.15);color:var(--green);border:1px solid rgba(63,185,80,.4)}
+  .tag.illus{background:rgba(210,153,34,.15);color:var(--amber);border:1px solid rgba(210,153,34,.4)}
+  .star{color:var(--amber)}
+
+  /* checklist */
+  .check-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 22px}
+  @media(max-width:720px){.check-grid{grid-template-columns:1fr}}
+  label.ck{display:flex;gap:9px;align-items:flex-start;padding:6px 8px;border-radius:6px;cursor:pointer;font-size:13px}
+  label.ck:hover{background:var(--surface)}
+  label.ck input{margin-top:3px;accent-color:var(--green);flex:0 0 auto}
+  label.ck.done span{color:var(--dim);text-decoration:line-through}
+
+  /* qa + roles */
+  .qa{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:8px}
+  .qa .q{font-weight:600;font-size:13.5px;color:var(--text)}
+  .qa .a{font-size:13px;color:var(--dim);margin-top:4px}
+  .qa .q::before{content:"Q ";font-family:var(--mono);color:var(--red);font-weight:700}
+  .qa .a::before{content:"A ";font-family:var(--mono);color:var(--green);font-weight:700}
+
+  table.roles{width:100%;border-collapse:collapse;font-size:13px}
+  table.roles td,table.roles th{border:1px solid var(--border-lo);padding:8px 10px;text-align:left;vertical-align:top}
+  table.roles th{background:var(--surface-2);font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--dim)}
+
+  .warn{background:rgba(248,81,73,.08);border:1px solid rgba(248,81,73,.35);border-radius:8px;padding:12px 14px;
+    font-size:13px;color:#f0c8c5;margin-top:14px}
+  .warn b{color:var(--red)}
+
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .btn{font-family:var(--mono);font-size:11px;background:var(--surface-2);color:var(--dim);border:1px solid var(--border);
+    border-radius:6px;padding:6px 11px;cursor:pointer}
+  .btn:hover{color:var(--text);border-color:var(--green)}
+
+  footer{padding:26px 0;color:var(--dim);font-size:12px;font-family:var(--mono);text-align:center}
+
+  @media print{
+    header{position:static}
+    .step-content{display:block!important}
+    .toolbar,.prog{display:none}
+    body{background:#fff;color:#000}
+    .step,.qa,.pitch,.cell.do,.cell.say{border-color:#ccc;background:#fff}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <div class="mark">VAYU-SUCHAK <span>// judge walkthrough</span></div>
+      <div class="sub">Step-by-step demo script &middot; kuch na chute &middot; ~4 min core + Q&amp;A</div>
+    </div>
+    <div class="prog">
+      <span id="progTxt">0 / 27</span>
+      <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="pitch">
+    <h2>0 &middot; One-line pitch (memorise)</h2>
+    <div class="pitch">
+      Ek desktop console jo <b>MoSPI ka airfare-index kaam automate</b> karta hai:
+      airline + OTA portals se fares <b>scrape</b> &rarr; <b>festival distortion</b> flag &rarr;
+      tunable <b>IQR filter</b> se purify &rarr; weighted <b>Laspeyres price index</b> (base 2022 = 100) &rarr;
+      <b>Postgres</b> me persist (SQLite pe failover). Har stage screen pe live.
+      <br><br>
+      <em style="color:var(--dim)">Golden rule: prototype <b style="color:var(--text)">real UI + real statistics</b> chalata hai
+      — sirf fare <b style="color:var(--text)">sample</b> prototype ka hai. Backend sample ko live scraped fares se swap karta hai.
+      Screen nahi badalta, data source badalta hai.</em>
+    </div>
+  </section>
+
+  <section id="flow">
+    <h2>Demo flow &middot; upar se neeche</h2>
+    <div class="flow" id="flowNodes"></div>
+  </section>
+
+  <section id="steps">
+    <h2>Bolne wala script &middot; <span style="color:var(--amber)">&#9733;</span> = must-say agar time kam</h2>
+    <div class="toolbar">
+      <button class="btn" onclick="allSteps(true)">expand all</button>
+      <button class="btn" onclick="allSteps(false)">collapse all</button>
+      <button class="btn" onclick="window.print()">print / PDF</button>
+    </div>
+    <div id="stepList"></div>
+  </section>
+
+  <section id="proof">
+    <h2>Prove it's real &middot; ye zaroor dikhao</h2>
+    <div id="proofList"></div>
+  </section>
+
+  <section id="limits">
+    <h2>Known limitations &middot; judge ke poochne se pehle bol do</h2>
+    <div id="limitList"></div>
+  </section>
+
+  <section id="qa">
+    <h2>Q&amp;A anchors &middot; ratta maar lo</h2>
+    <div id="qaList"></div>
+  </section>
+
+  <section id="roles">
+    <h2>Team role split</h2>
+    <table class="roles">
+      <tr><th>Kaun</th><th>Kya cover kare</th></tr>
+      <tr><td>Person A — driver</td><td>Pitch, control bar, EXECUTE, pipeline, console, scrape monitor, readout</td></tr>
+      <tr><td>Person B</td><td>IQR + anomalies, national map, ticker, index history, status strip</td></tr>
+      <tr><td>Person C</td><td>k_factor proof, Import CSV, PDF report, known limitations</td></tr>
+      <tr><td>Person D — anchor</td><td>Q&amp;A anchors, SIH number / architecture depth questions</td></tr>
+    </table>
+    <p class="sub" style="margin-top:10px">Har transition pe: "Ab isko [naam] aage le jaayega" — smooth lage, koi panel na chhute.</p>
+    <div class="warn">
+      <b>SIH number fix karo:</b> blueprint title bolta hai <b>SIH26057</b>, dashboard + deep-dive bolte hain <b>SIH26056</b>.
+      Deck se pehle ek karo.
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2>Coverage checklist &middot; bolne ke baad tick</h2>
+    <div class="toolbar"><button class="btn" onclick="resetCheck()">reset</button></div>
+    <div class="check-grid" id="checkGrid"></div>
+  </section>
+
+</div>
+
+<footer>VAYU-SUCHAK &middot; prep sheet &middot; source: dashboard-defense.md + judge-walkthrough-script.md</footer>
+
+<script>
+const FLOW = [
+  ["1","Presentation mode ON","Press P (ya ?present=1). Gridlines/shimmer band, projector clean."],
+  ["2","One-line pitch","Memorised line bolo — real UI + real stats disclaimer ke saath.","key"],
+  ["3","Control bar","Route + date range + k_factor samjhao. k sirf EXECUTE pe apply.","key"],
+  ["4","EXECUTE dabao","Pipeline chalu.","key"],
+  ["5","Pipeline 5 stages","INGEST → FESTIVAL → IQR → LASPEYRES → DB. Amber → green.","key"],
+  ["6","Console","Har stage ek SSE line. Ye audit trail hai, progress bar nahi."],
+  ["7","Scrape Sources monitor","6 adapters. 1 hard-blocked + 1 slow + degraded banner = resilience story."],
+  ["8","Readout — headline","Bada split-flap index. (Pt/P0)×100 + festival.","key"],
+  ["9","Index tod ke","ex-festival value + festival delta chip + badges + REPRODUCIBLE seal."],
+  ["10","IQR Distribution","Histogram + 2 fences + red/blue bars. Recompute on Execute only."],
+  ["11","Anomalies table","Har exclusion + kaunsa fence. Kuch delete nahi — flagged + stored."],
+  ["12","National Map","Selected arc green + plane. Baaki dashed red = out of scope."],
+  ["13","Ticker","Actual scraped fares. green / yellow / red ✕ by fence position."],
+  ["14","Index History","Green VAYU line. Blue dashed CPI = illustrative, live nahi."],
+  ["15","Status strip","Stages / Integrity / Clock / throughput computed. RTT / queue representative."],
+  ["16","k_factor 0.5 + re-EXECUTE","Index genuinely hilta hai — stored constant nahi.","proof"],
+  ["17","Import CSV","sample-fares-DEL-BOM.csv → numbers 100% real.","proof"],
+  ["18","Report PDF","Dedicated insight sheet, screenshot nahi."],
+  ["19","Known limitations","Saat points khud bolo — honesty.","key"],
+  ["20","Q&A","Interview anchors."],
+];
+
+const STEPS = [
+  {n:"2",name:"Opening / pitch",t:"30s",star:true,do:"Wordmark point karo, phir poora screen haath se dikhao.",
+   say:"Ye VAYU-SUCHAK hai — ek desktop console jo <b>MoSPI ka airfare-index kaam automate</b> karta hai. Ek line me: fares scrape → festival distortion flag → tunable IQR filter se purify → weighted Laspeyres price index (base 2022 = 100) → Postgres me store, SQLite pe failover. Har stage live. <em>Important: prototype real UI + real statistics chalata hai — sirf fare sample prototype ka hai. Backend sample ko live scraped fares se swap karta hai.</em>"},
+
+  {n:"3",name:"Control bar — audit inputs",t:"30s",star:true,do:"Route dropdown, date range + presets, phir k_factor slider pe ruko.",
+   say:"Route = corridor jo audit karna hai — 5 modelled (DEL-BOM, DEL-BLR, DEL-CCU, DEL-GAU, BOM-BLR). Date range = departure dates jinke fares pull karne hain. <b>k_factor</b> = IQR outlier sensitivity, 0.5–5.0. Lower k = tighter fence = zyada excluded. <b>Ye sirf EXECUTE pe apply hota hai</b> — slider hilane se abhi kuch nahi. Backend jaisa: k change = memory ka batch re-filter, dobara scrape nahi. <em>Analyst k galat set kare? Wo isliye exposed hai — audit + tune ho sake. Excluded fares logged + shown, kabhi delete nahi.</em>"},
+
+  {n:"4-5",name:"EXECUTE + pipeline",t:"45s",star:true,do:"EXECUTE dabao. 5 stages ko amber→green hote dikhao.",
+   say:"<b>INGEST</b> — har source pe Playwright headless Chromium, site ka XHR/JSON intercept. DOM/schema badle → screenshot + DOM → vision-LLM → structured JSON (self-healing). Normalise: flight_id, route, price, currency, departure, airline, source. <b>FESTIVAL</b> — holidays.India(2026) gazetted dates; ±7 din ke fares ko is_festival_season=1. <b>IQR</b> — Q1, Q3, IQR; two-tailed fence [Q1−k·IQR, Q3+k·IQR]; clean / anomalies split. <b>LASPEYRES</b> — pandas groupby route, Pt=median; base table merge P0,Q0; Index = Σ(Pt·Q0)/Σ(P0·Q0)×100 + festival. <b>DB</b> — INSERT Postgres audit_runs; OperationalError → SQLite WAL fallback. <em>5 pure functions: plain data in/out, no server/DB/logging inside — independently testable, parallel build.</em>"},
+
+  {n:"6",name:"Console",t:"15s",do:"Console lines pe ungli chalao.",
+   say:"Har stage ek line stream karta hai. Backend async orchestrator ek generator hai — har stage ke baad ek Server-Sent-Event line yield, ~0.2s pause. Browser ka EventSource append karta hai. <b>Ye progress bar nahi — audit trail hai.</b> Aakhri message: done:true + final index."},
+
+  {n:"7",name:"Scrape Sources monitor",t:"20s",star:true,do:"6 adapters point karo. Blocked + slow source + degraded banner dikhao.",
+   say:"6 adapters — MakeMyTrip, Ixigo, Cleartrip, IndiGo, Air India, Google Flights — har ek ki latency + status. Dekho: <b>ek hard-blocked (cache se serve), ek slow/degraded</b>. Ye galti nahi — resilience story, aur realistic (anti-bot walls aksar trip hote hain). Blocked source apne newest cached scrape pe girta hai, baaki 5 phir bhi contribute karte hain."},
+
+  {n:"8",name:"Readout — headline number",t:"30s",star:true,do:"Bada split-flap number, phir ex-festival, delta chip, badges, seal.",
+   say:"Headline index = (Pt/P0)×100 + festival component. Pt = un fares ka median jo IQR fence pass kar gaye. Jaise (5325/4500)×100 = 118.33, + 4.20 festival → 122.53. <b>ex-festival</b> = festival component hata ke pure price relative. <b>festival delta chip</b> = index − ex-festival. <b>badges</b> = data source (playwright scrape / imported csv) + DB target (postgres). <b>REPRODUCIBLE seal</b> = run_id UUID + content hash of (inputs + fare set). Same inputs + same data = identical index. Vectorised pandas, no random seeds."},
+
+  {n:"10-11",name:"IQR Distribution + Anomalies",t:"25s",do:"Histogram + 2 fence lines, phir anomalies table.",
+   say:"Scraped fare prices ka histogram, 2 vertical fences, blue = andar, red = excluded. <b>Sirf EXECUTE pe recompute</b> — k slider run parameter hai, live control nahi. Isse number honest rehta hai. <b>Two-tailed</b> matter karta hai — lower fence ₹1 placeholder fares / null-as-0 pakadta hai jo one-sided filter index neeche kheech deta. Anomalies table: har exclusion + kaunsa fence cross kiya. <b>Kuch delete nahi — flagged + stored.</b>"},
+
+  {n:"12",name:"National Map",t:"20s",do:"Selected green arc + plane, phir dashed red arcs.",
+   say:"India outline, 5 corridor arcs. Selected = solid green, glowing, plane fly kar raha. Baaki = dashed red, out of scope. Audited this session = index tier se colour. <em>Sirf ek route audit kiya to baaki kyun? Deliverable ek <b>national</b> index hai — network context. Har corridor independent sub-index; national index = Q0-weighted sum across audited corridors. Prototype ek baar me ek — baaki greyed/red, invented numbers nahi. Plane = geographic context, flight tracking nahi.</em>"},
+
+  {n:"13",name:"Ticker (top bar)",t:"15s",do:"Top ticker point karo.",
+   say:"Run se pehle neutral prompt. Run ke baad — <b>wo actual fares jo pipeline ne use kiye</b> selected corridor + window ke liye. green = inter-quartile band (typical fare). yellow = tails me par fence ke andar (count hote hain). red ✕ = fence ke bahar, IQR ne exclude kiya. Ye index ka raw input visible — per-route index board nahi."},
+
+  {n:"14",name:"Index History",t:"15s",do:"Green line, phir blue dashed line.",
+   say:"Green line = har completed audit ka VAYU index. Blue dashed = CPI reference — <b>is prototype me illustrative, live MoSPI data nahi</b> (ye clearly bolo). Backend audit_runs ko corridor ke liye date se order karke query karta hai — date-bucketing se ek mahine ke audits real monthly curve बनाते hain."},
+
+  {n:"15",name:"Status strip",t:"15s",do:"Tiles pe chalao.",
+   say:"<b>Stages 5/5</b> — real. <b>Integrity ~97%</b> — real, filter ke saath move karta hai. <b>Clock</b> — real, IST. <b>Throughput ~64 rec/s</b> — computed: fare count ÷ scrape RTT, console ke '154 fares' se contradict nahi karega. <b>Scrape RTT ~2.4s / Queue 6→0</b> — backend telemetry fields, representative. Main claim nahi kar raha ki 2.4s scrape measured hai."},
+
+  {n:"18",name:"Report PDF",t:"10s",do:'"⎙ report (PDF)" button.',
+   say:"Ek dedicated multi-section insight sheet compose karta hai — screenshot nahi — aur print dialog kholta hai. Sections: cover + run metadata, headline, Laspeyres working with per-corridor Pt/P0/Q0 table, IQR section + histogram + anomaly table, festival decomposition, index history, aur footer jo prototype limitations state karta hai."},
+];
+
+const PROOF = [
+  {n:"16",name:"k_factor demo",t:"30s",do:"k_factor slider 0.5 pe le jao. EXECUTE dobara dabao. Index number + histogram badalte dikhao.",
+   say:"Ab prove karta hoon ki ye zinda hai. k ko 0.5 — sabse tight fence. Re-execute. Dekho — fence real distribution me kaat raha hai, zyada fares excluded, Pt median shift, index genuinely hila. Ye stored constant nahi — fare set se compute. <em>Normal k pe index zyada nahi hilta kyunki median outliers ke against robust hai — isliye median pe aggregate karte hain. k tab matter karta hai jab feed polluted ho.</em>"},
+  {n:"17",name:"Import CSV",t:"25s",do:"Import CSV button → sample-fares-DEL-BOM.csv. Index / histogram / fences / anomalies refresh dikhao.",
+   say:"Agar judge ko fare sample pe shak hai — ye lijiye. Ek pre-scraped fare extract import karta hoon. Ab index, IQR histogram, fences, anomalies — sab <b>is real CSV data se</b> compute hue. Badge <b>imported csv</b> pe switch. Is run me koi scraping nahi. CSV format: header row, koi order. price required. route optional (rows corridor pe filter). airline / flight_id / departure_ts / source optional."},
+];
+
+const LIMITS = [
+  "Prototype fare sample — backend ke bina fares fixed synthetic distribution se (150 lognormal + 4 placeholder/glitch). IQR math, median, price-relative real; numbers stand-in. Import CSV se real.",
+  "Ek corridor per run — national index Q0-weighted aggregate; prototype ek sub-index at a time.",
+  "Festival component modelled — static sample ke saath index-point uplift as window↔festival proximity. Production me ex-festival median un fares pe re-run jo festival-season flagged nahi.",
+  "CPI reference line illustrative — live MoSPI CPI nahi.",
+  "Scrape RTT / queue tiles representative, measured nahi. Throughput derived (fare count ÷ RTT).",
+  "P0 / Q0 placeholder values, sahi shape me — production: Kaggle historical Indian-fares (P0), DGCA airport-pair volumes data.gov.in (Q0).",
+  "Map pe plane geographic context, flight tracking nahi.",
+];
+
+const QA = [
+  ["Aapka fallback to bas chhupa hua scraping hai?","Nahi — fallback ek pre-approved cached extract hai, live page scrape nahi. Problem statement scraping mandate karta hai; wo primary path hai."],
+  ["ML / forecasting kyun nahi?","Hum history measure karte hain, predict nahi. Optional nowcasting model missing route-days ko confidence bands ke saath impute karta hai — future prices kabhi forecast nahi."],
+  ["Volume-weighted kyun?","Simple average DEL-BOM ko 3-flight/week route jaisa treat karega. Laspeyres with Q0 weighting bilkul waise jaise CPI khud compute hota hai."],
+  ["Dono DB fail ho jaayein to?","Honest: SQLite local resilient net hai; sacchi dual failure ke liye queued retry buffer chahiye — stated future work, solved nahi."],
+  ["P0/Q0 kahan se?","Kaggle historical Indian fares (P0), DGCA airport-pair volumes data.gov.in (Q0). Har number ek source tak trace hota hai."],
+  ["Sirf ek route audit kiya, baaki kyun dikhaye?","National index deliverable hai — network context. Baaki corridors greyed/red, fake numbers ke bina."],
+];
+
+const CHECK = [
+  "One-line pitch","Route dropdown + 5 corridors","Date range + presets","k_factor — 'sirf EXECUTE pe apply'",
+  "5 pipeline stages amber→green","'5 pure functions' rationale","Console = audit trail (SSE generator)",
+  "Scrape monitor — 1 blocked + 1 slow + banner","Big split-flap index + formula","ex-festival value",
+  "festival delta chip","badges (data source + DB)","REPRODUCIBLE seal (run_id + hash)",
+  "IQR histogram + 2 fences + red/blue","'recomputes on Execute only'","two-tailed rationale (₹1 fares)",
+  "anomalies table — nothing deleted","Map — green arc, dashed red, plane = context","national index = Q0-weighted sum",
+  "Ticker — actual fares green/yellow/red","Index History — green VAYU line","CPI line — 'illustrative, not live'",
+  "Status strip — real vs representative","k_factor 0.5 + re-EXECUTE proof","Import CSV — numbers become real",
+  "Report PDF — insight sheet","All 7 known limitations disclosed",
+];
+
+// ---- render ----
+const flowNodes = document.getElementById('flowNodes');
+FLOW.forEach(([n,title,desc,cls])=>{
+  const d=document.createElement('div');
+  d.className='node'+(cls?' '+cls:'');
+  d.innerHTML=`<div class="dot">${n}</div><div class="node-body"><div class="node-title">${title}</div><div class="node-desc">${desc}</div></div>`;
+  flowNodes.appendChild(d);
+});
+
+function stepCard(s){
+  const star = s.star ? ' <span class="star">&#9733;</span>' : '';
+  return `<div class="step">
+    <div class="step-head">
+      <span class="step-num">${s.n}</span>
+      <span class="step-name">${s.name}${star}</span>
+      <span class="step-time">${s.t}</span>
+      <span class="chev">&#9656;</span>
+    </div>
+    <div class="step-content">
+      <div class="row">
+        <div class="cell do"><h4>Kya kare</h4>${s.do}</div>
+        <div class="cell say"><h4>Kya bole</h4>${s.say}</div>
+      </div>
+    </div>
+  </div>`;
+}
+document.getElementById('stepList').innerHTML = STEPS.map(stepCard).join('');
+document.getElementById('proofList').innerHTML = PROOF.map(stepCard).join('');
+
+document.querySelectorAll('.step-head').forEach(h=>{
+  h.addEventListener('click',()=>h.parentElement.classList.toggle('open'));
+});
+function allSteps(open){document.querySelectorAll('.step').forEach(s=>s.classList.toggle('open',open));}
+
+document.getElementById('limitList').innerHTML = LIMITS.map((l,i)=>
+  `<div class="qa"><div class="q" style="color:var(--amber)">${i+1}</div><div class="a">${l}</div></div>`
+).join('').replace(/Q /g,'');
+
+document.getElementById('qaList').innerHTML = QA.map(([q,a])=>
+  `<div class="qa"><div class="q">${q}</div><div class="a">${a}</div></div>`
+).join('');
+
+// checklist w/ localStorage
+const grid = document.getElementById('checkGrid');
+let saved = {};
+try{ saved = JSON.parse(localStorage.getItem('vs_check')||'{}'); }catch(e){}
+CHECK.forEach((c,i)=>{
+  const id='ck'+i;
+  const l=document.createElement('label');
+  l.className='ck'+(saved[id]?' done':'');
+  l.innerHTML=`<input type="checkbox" ${saved[id]?'checked':''}><span>${c}</span>`;
+  const box=l.querySelector('input');
+  box.addEventListener('change',()=>{
+    saved[id]=box.checked;
+    l.classList.toggle('done',box.checked);
+    try{localStorage.setItem('vs_check',JSON.stringify(saved));}catch(e){}
+    updateProg();
+  });
+  grid.appendChild(l);
+});
+function updateProg(){
+  const done = Object.values(saved).filter(Boolean).length;
+  document.getElementById('progTxt').textContent = done+' / '+CHECK.length;
+  document.getElementById('progFill').style.width = (done/CHECK.length*100)+'%';
+}
+function resetCheck(){
+  saved={}; try{localStorage.removeItem('vs_check');}catch(e){}
+  document.querySelectorAll('#checkGrid input').forEach(b=>b.checked=false);
+  document.querySelectorAll('#checkGrid label').forEach(l=>l.classList.remove('done'));
+  updateProg();
+}
+updateProg();
+</script>
+</body>
+</html>

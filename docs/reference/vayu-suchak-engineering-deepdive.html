@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAYU-SUCHAK 2.0 — Engineering Deep-Dive</title>
+<style>
+  :root{
+    --bg:#0f1216;
+    --surface:#161b22;
+    --surface-2:#1c232c;
+    --line:#2a333f;
+    --text:#e6edf3;
+    --text-dim:#9aa7b4;
+    --text-mute:#6b7784;
+    --accent:#4dd4c0;
+    --accent-2:#7c9cff;
+    --amber:#e8b24d;
+    --red:#f2705f;
+    --green:#5ec98b;
+    --mono:'SF Mono',ui-monospace,'JetBrains Mono','Cascadia Code',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    --sidebar-w:250px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+
+  /* ---------- LAYOUT ---------- */
+  .layout{display:flex;min-height:100vh;}
+  .sidebar{
+    width:var(--sidebar-w);
+    flex-shrink:0;
+    background:var(--surface);
+    border-right:1px solid var(--line);
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:24px 0;
+  }
+  .sidebar .brand{
+    padding:0 22px 18px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:12px;
+  }
+  .sidebar .brand h1{
+    font-size:14px;letter-spacing:.02em;font-weight:700;
+  }
+  .sidebar .brand span{
+    font-family:var(--mono);font-size:11px;color:var(--text-mute);
+  }
+  .sidebar nav a{
+    display:block;
+    padding:6px 22px;
+    font-size:13px;
+    color:var(--text-dim);
+    border-left:2px solid transparent;
+  }
+  .sidebar nav a:hover{color:var(--text);background:var(--surface-2);text-decoration:none;}
+  .sidebar nav a.group{
+    margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    color:var(--text-mute);text-transform:uppercase;pointer-events:none;
+  }
+  .content{
+    flex:1;
+    max-width:940px;
+    margin:0 auto;
+    padding:46px 52px 120px;
+    min-width:0;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:
+      radial-gradient(600px 200px at 0% 0%, rgba(77,212,192,.10), transparent 60%),
+      radial-gradient(500px 200px at 100% 0%, rgba(124,156,255,.10), transparent 60%),
+      var(--surface);
+    padding:32px 30px;
+    margin-bottom:40px;
+  }
+  .hero .tag{
+    font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--accent);
+    border:1px solid var(--line);border-radius:20px;padding:4px 12px;display:inline-block;margin-bottom:16px;
+  }
+  .hero h2{font-size:26px;line-height:1.2;margin-bottom:10px;font-weight:700;}
+  .hero p{color:var(--text-dim);max-width:64ch;font-size:14.5px;}
+  .hero .meta{
+    display:flex;gap:26px;flex-wrap:wrap;margin-top:22px;
+    font-family:var(--mono);font-size:12px;color:var(--text-mute);
+  }
+  .hero .meta b{color:var(--text);font-weight:600;}
+
+  /* ---------- SECTIONS ---------- */
+  section{margin-bottom:52px;scroll-margin-top:24px;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:8px;border-bottom:1px solid var(--line);padding-bottom:10px;}
+  .sec-head .num{font-family:var(--mono);font-size:13px;color:var(--accent);}
+  .sec-head h3{font-size:20px;font-weight:700;}
+  .sec-intro{color:var(--text-dim);font-size:14px;margin:14px 0 20px;max-width:66ch;}
+  h4{font-size:15.5px;margin:26px 0 10px;font-weight:650;color:var(--text);}
+  h5{font-size:13.5px;margin:18px 0 6px;font-family:var(--mono);color:var(--accent-2);letter-spacing:.02em;}
+  p{margin:10px 0;color:var(--text);max-width:70ch;}
+  p.dim{color:var(--text-dim);font-size:13.5px;}
+  ul,ol{margin:10px 0 10px 22px;color:var(--text);}
+  li{margin:5px 0;}
+  strong{color:#fff;font-weight:650;}
+
+  /* ---------- TABLES ---------- */
+  .twrap{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:10px;}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:520px;}
+  th{
+    background:var(--surface-2);text-align:left;padding:10px 13px;
+    font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--text-dim);
+    text-transform:uppercase;border-bottom:1px solid var(--line);
+  }
+  td{padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--text-dim);}
+  tr:last-child td{border-bottom:none;}
+  td strong{color:var(--text);}
+  td code{font-size:12px;}
+
+  /* ---------- CODE ---------- */
+  pre{
+    background:#0b0e12;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px 18px;
+    overflow-x:auto;
+    font-family:var(--mono);
+    font-size:12.5px;
+    line-height:1.6;
+    color:#c9d4de;
+    margin:14px 0;
+  }
+  code{
+    font-family:var(--mono);
+    background:var(--surface-2);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:1px 5px;
+    font-size:12.5px;
+    color:var(--accent);
+  }
+  pre code{background:none;border:none;padding:0;color:inherit;font-size:inherit;}
+  .cmt{color:var(--text-mute);}
+
+  /* ---------- CALLOUTS ---------- */
+  .box{
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    background:var(--surface);
+    padding:14px 16px;
+    margin:16px 0;
+    font-size:13.5px;
+  }
+  .box .label{
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--accent);display:block;margin-bottom:6px;
+  }
+  .box.why{border-left-color:var(--accent-2);}
+  .box.why .label{color:var(--accent-2);}
+  .box.warn{border-left-color:var(--amber);}
+  .box.warn .label{color:var(--amber);}
+  .box.danger{border-left-color:var(--red);}
+  .box.danger .label{color:var(--red);}
+  .box.qa{border-left-color:var(--green);background:var(--surface-2);}
+  .box.qa .label{color:var(--green);}
+  .box p{margin:6px 0;color:var(--text-dim);font-size:13.5px;}
+  .box p:first-of-type{margin-top:0;}
+
+  /* ---------- DIAGRAM ---------- */
+  .diagram{
+    background:#0b0e12;border:1px solid var(--line);border-radius:10px;
+    padding:24px;margin:18px 0;overflow-x:auto;
+  }
+  .layer{
+    border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:12px;
+  }
+  .layer.fe{border-color:rgba(94,201,139,.35);background:rgba(94,201,139,.04);}
+  .layer.be{border-color:rgba(124,156,255,.35);background:rgba(124,156,255,.05);}
+  .layer.db{border-color:rgba(232,178,77,.35);background:rgba(232,178,77,.05);}
+  .layer .lt{font-family:var(--mono);font-size:10.5px;color:var(--text-mute);letter-spacing:.05em;margin-bottom:10px;text-transform:uppercase;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;}
+  .node{
+    flex:1;min-width:120px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;
+    padding:9px 11px;font-size:12px;text-align:center;color:var(--text);
+  }
+  .node.a{border-color:var(--accent);}
+  .node.b{border-color:var(--accent-2);}
+  .conn{text-align:center;font-family:var(--mono);font-size:11px;color:var(--text-mute);margin:8px 0;}
+  .conn .fb{color:var(--red);}
+  .chain{display:flex;flex-direction:column;gap:0;align-items:stretch;}
+  .chain .node{margin:0 auto;max-width:340px;width:100%;}
+  .chain .ar{text-align:center;color:var(--text-mute);font-size:13px;line-height:1;margin:4px 0;}
+
+  /* ---------- PILLS / MISC ---------- */
+  .pill{font-family:var(--mono);font-size:10.5px;padding:2px 8px;border-radius:20px;border:1px solid var(--line);color:var(--text-dim);}
+  .pill.ok{color:var(--green);border-color:rgba(94,201,139,.4);}
+  .pill.opt{color:var(--amber);border-color:rgba(232,178,77,.4);}
+  .checklist{list-style:none;margin-left:0;}
+  .checklist li{padding-left:26px;position:relative;margin:7px 0;font-size:13.5px;color:var(--text-dim);}
+  .checklist li::before{content:"☐";position:absolute;left:0;color:var(--accent);font-size:14px;}
+  hr{border:none;border-top:1px solid var(--line);margin:22px 0;}
+
+  footer{
+    border-top:1px solid var(--line);padding-top:20px;margin-top:40px;
+    font-family:var(--mono);font-size:11.5px;color:var(--text-mute);
+  }
+
+  @media (max-width:900px){
+    .sidebar{display:none;}
+    .content{padding:32px 20px 80px;}
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>VAYU-SUCHAK 2.0</h1>
+      <span>Engineering Deep-Dive</span>
+    </div>
+    <nav>
+      <a class="group">Plan</a>
+      <a href="#review">00 · Plan Review</a>
+      <a href="#scope">01 · Scope &amp; Non-Goals</a>
+      <a href="#decisions">02 · Locked Decisions</a>
+      <a href="#ai">2A · AI-Augmented Scraping</a>
+      <a class="group">System</a>
+      <a href="#arch">03 · Architecture</a>
+      <a href="#lifecycle">04 · Request Lifecycle</a>
+      <a href="#dataflow">05 · Data Flow</a>
+      <a href="#repo">06 · Repo Structure</a>
+      <a class="group">Build</a>
+      <a href="#modules">07 · Module Specs</a>
+      <a href="#db">08 · Database Layer</a>
+      <a href="#api">09 · API Contract</a>
+      <a href="#sequence">10 · Build Sequence</a>
+      <a class="group">Ship</a>
+      <a href="#data">11 · Data Sources</a>
+      <a href="#validation">12 · Validation &amp; Demo</a>
+      <a href="#cheatsheet">13 · Interview Cheat-Sheet</a>
+      <a href="#glossary">14 · Glossary</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+    <div class="hero">
+      <span class="tag">SIH26056 · TEAM CHAKRAVYUH</span>
+      <h2>A Hybrid, Compliance-First Airfare Indexing Pipeline</h2>
+      <p>Single source of truth for building the prototype and for defending every line of it in the interview round. Tech only — no PPT. Beginner-readable, staged, and fully free/ethical.</p>
+      <div class="meta">
+        <span>BACKEND <b>FastAPI</b></span>
+        <span>MODULES <b>5 core + 2 infra</b></span>
+        <span>BUILD STAGES <b>10</b></span>
+        <span>COST <b>₹0</b></span>
+        <span>SCRAPING <b>none</b></span>
+      </div>
+    </div>
+
+    <!-- ============ 00 PLAN REVIEW ============ -->
+    <section id="review">
+      <div class="sec-head"><span class="num">00</span><h3>Plan Review — what we change from the playbook</h3></div>
+      <p class="sec-intro">The original playbook is directionally right but has parts that break on real data or eat a beginner team's time. These are the corrections, all free and ethical.</p>
+
+      <div class="twrap"><table>
+        <thead><tr><th>Problem</th><th>Why it fails</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>"We don't scrape, we use an API" framing</strong></td>
+            <td>The PS literally says <em>"through Automated Web Scraping of Airline and OTA Portals."</em> Not scraping = not solving the stated problem. (APIs also keep dying — Amadeus discontinued its free tier.)</td>
+            <td>Primary = <strong>AI-augmented Playwright scraper pool</strong> (§2A). It IS scraping; the AI extraction layer makes it self-healing. Scrape distributions of 40–100 fares/route → IQR works.</td>
+          </tr>
+          <tr>
+            <td><strong>logger.py as a "single funnel" every module calls</strong></td>
+            <td>pandas code is sync, the SSE stream is async. Bridging sync→async needs a thread-safe queue — a day lost, and it can deadlock.</td>
+            <td>Modules don't log. They're <strong>pure functions</strong> returning <code>(result, summary)</code>. The <strong>orchestrator</strong> emits one log line between stages. No bridge, can't deadlock.</td>
+          </tr>
+          <tr>
+            <td><strong>PostgreSQL installed on the demo laptop</strong></td>
+            <td>Fresh/borrowed machine on demo day = setup disaster. <code>pg_ctl stop</code> is an awkward on-stage move.</td>
+            <td><strong>Docker Postgres</strong> (one line) or <strong>Neon free tier</strong>. "Kill the container / pull wifi" is a cleaner failover demo. Last resort: two SQLite files.</td>
+          </tr>
+          <tr>
+            <td><strong>Hardcoded festival dates</strong></td>
+            <td>Diwali / Eid / Dussehra are lunar. Hardcoding from memory → wrong dates → judge catches it live.</td>
+            <td><code>pip install holidays</code> → <code>holidays.India(years=2026)</code>. Correct named dates, offline, zero maintenance.</td>
+          </tr>
+          <tr>
+            <td><strong>IQR screens only the upper fence</strong></td>
+            <td>The brief itself mentions placeholder/glitch prices. Absurdly <em>low</em> fares (₹1, null-as-0) pass through and drag the index down.</td>
+            <td>Two-tailed: <code>lower_fence = Q1 − k·IQR</code> as well. 3 extra lines.</td>
+          </tr>
+          <tr>
+            <td><strong>Invented P0 / Q0 for Laspeyres</strong></td>
+            <td>"Where do these numbers come from?" → "we made them up" is the weakest answer in the room.</td>
+            <td><code>Q0</code> from <strong>DGCA airport-pair passenger data</strong> (data.gov.in). <code>P0</code> from a <strong>Kaggle Indian-flights historical dataset</strong>. Every number traces to a source.</td>
+          </tr>
+          <tr>
+            <td><strong>Output is one number</strong></td>
+            <td>A single value isn't an index — an index is a time series.</td>
+            <td>Run the pipeline over N historical months → plot <strong>index vs month</strong>, overlay real CPI. "We reconstructed a publishable series that tracks CPI."</td>
+          </tr>
+          <tr>
+            <td><strong>"Standalone desktop app" = a browser tab</strong></td>
+            <td>The brief literally says desktop app.</td>
+            <td><code>pip install pywebview</code> → ~15 lines wraps FastAPI in a native OS window. <span class="pill opt">do last</span></td>
+          </tr>
+          <tr>
+            <td><strong>Free API rate limits</strong></td>
+            <td>Practice the demo 5×, quota's gone.</td>
+            <td>On-disk JSON cache keyed by <code>corridor+dates</code>. Demo hits cache = instant + safe. Show one real "cache miss → live call".</td>
+          </tr>
+          <tr>
+            <td><strong>Playbook says FastAPI, then "Flask app.py"</strong></td>
+            <td>Confusion during build.</td>
+            <td><strong>Locked: FastAPI, one process, one port (8000), serves static frontend + API. No Flask.</strong></td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <div class="box"><span class="label">Acquisition position — memorize</span>
+        <p>"We scrape airline and OTA portals as the problem statement specifies — using headless browsers that intercept each site's own fare API, with a vision-LLM extractor that self-heals when a site changes its layout. We scrape responsibly: robots.txt, rate limits, off-peak, aggressive caching, no resale. Volume weights come from official DGCA statistics — those we don't scrape."</p>
+      </div>
+    </section>
+
+    <!-- ============ 01 SCOPE ============ -->
+    <section id="scope">
+      <div class="sec-head"><span class="num">01</span><h3>Scope &amp; Non-Goals</h3></div>
+      <h4>We build</h4>
+      <ul>
+        <li>A desktop-style dashboard: corridor selector, date range, <code>k_factor</code> slider, green <strong>Execute National Fare Audit</strong> button, live terminal console.</li>
+        <li>A 5-stage backend pipeline: <strong>AI-augmented web scraping</strong> → festival flagging → IQR purification → weighted Laspeyres → resilient persistence.</li>
+        <li>A reproducible airfare price index (base = 100), with a festival-adjusted variant and a history chart.</li>
+      </ul>
+      <div class="box warn"><span class="label">the problem statement mandates scraping</span>
+        <p>SIH26056, verbatim: <em>"Development of a Real-time Airfare Price Index for India <strong>through Automated Web Scraping of Airline and Online Travel Aggregator Portals</strong>."</em> MoSPI is explicitly asking for a scraper of MakeMyTrip / Ixigo / Cleartrip / IndiGo / Air India. An earlier draft of this doc pitched "we never scrape, we use APIs" — that was solving a problem the judges did not set. <strong>Web scraping is the primary acquisition method. §2A is how we do it well.</strong></p>
+      </div>
+      <h4>We deliberately do NOT build</h4>
+      <ul>
+        <li><strong>No price forecasting.</strong> This is measurement of history, not prediction. The nowcasting model (§2A) <em>imputes</em> missing observations — it never forecasts future prices.</li>
+        <li><strong>No reckless scraping.</strong> robots.txt honoured, rate-limited (1 req / few seconds per domain), realistic UA, off-peak, results cached hard. Scraping for a public-statistics purpose the PS itself specifies — not for resale.</li>
+        <li><strong>No multi-user / auth / cloud deploy.</strong> Single-operator local app is the whole brief.</li>
+        <li><strong>No microservices.</strong> One FastAPI process. One port.</li>
+      </ul>
+    </section>
+
+    <!-- ============ 02 DECISIONS ============ -->
+    <section id="decisions">
+      <div class="sec-head"><span class="num">02</span><h3>Locked Technical Decisions</h3></div>
+      <div class="twrap"><table>
+        <thead><tr><th>Layer</th><th>Choice</th><th>One-line reason</th></tr></thead>
+        <tbody>
+          <tr><td>Language</td><td>Python 3.11+</td><td>Team knows it; pandas ecosystem.</td></tr>
+          <tr><td>Backend</td><td>FastAPI + uvicorn</td><td>Async — log stream and API fetch run concurrently in one request.</td></tr>
+          <tr><td>Frontend</td><td>One <code>index.html</code> + vanilla JS + Tailwind (CDN) + Chart.js (CDN)</td><td>No build step. A beginner reads every line.</td></tr>
+          <tr><td>Live console</td><td>Server-Sent Events (<code>StreamingResponse</code>), GET endpoint</td><td>One-way push. Browser has <code>EventSource</code> built in. No extra library.</td></tr>
+          <tr><td>HTTP client</td><td><code>httpx.AsyncClient</code></td><td>Async — doesn't block the event loop during the fetch.</td></tr>
+          <tr><td>Data processing</td><td><code>pandas</code></td><td>Vectorised groupby/merge = auditable, not hand-rolled loops.</td></tr>
+          <tr><td>Primary DB</td><td>PostgreSQL (Docker or Neon free) + SQLAlchemy Core</td><td>Production-grade concurrent writes.</td></tr>
+          <tr><td>Fallback DB</td><td>SQLite, WAL mode</td><td>Local file, always works, keeps the demo alive.</td></tr>
+          <tr><td>Fare source</td><td>AI-augmented Playwright scraper pool (§2A)</td><td>5 sources · XHR intercept · vision-LLM self-heal · cache fallback</td></tr>
+          <tr><td>Volume weights <code>Q0</code></td><td>DGCA airport-pair traffic (data.gov.in)</td><td>Official government statistic.</td></tr>
+          <tr><td>Base prices <code>P0</code></td><td>Kaggle Indian domestic flights dataset</td><td>Real historical fares as base year.</td></tr>
+          <tr><td>Festival calendar</td><td><code>holidays</code> package</td><td>Correct lunar dates, maintained upstream.</td></tr>
+          <tr><td>Fallback fare data</td><td>Curated JSON extracts from the Kaggle dataset, in-repo</td><td>"Pre-approved static extract, not a live scrape."</td></tr>
+          <tr><td>Desktop shell</td><td><code>pywebview</code> <span class="pill opt">optional</span></td><td>Makes it a real desktop app per the brief.</td></tr>
+          <tr><td>Config</td><td><code>.env</code> + <code>pydantic-settings</code></td><td><code>k_factor</code> and dates are parameters, never hardcoded.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 2A AI-AUGMENTED APPROACH ============ -->
+    <section id="ai">
+      <div class="sec-head"><span class="num">2A</span><h3>AI-Augmented Web Scraping</h3></div>
+      <p class="sec-intro">The PS mandates web scraping (§01). Our mentor wants an AI angle. Both are satisfied by the same thing: <strong>a Playwright scraper whose extraction layer is a vision-language model</strong> — it IS web scraping, and it self-heals when a site changes its HTML, which a selector-based scraper cannot. This section supersedes the acquisition choices above where they conflict.</p>
+
+      <div class="box why"><span class="label">the synthesis</span>
+        <p><strong>PS:</strong> "through Automated Web Scraping of Airline and OTA Portals." <strong>Mentor:</strong> "make it advanced, make it AI." <strong>Answer:</strong> AI-augmented scraping — Playwright drives a real browser (scraping ✓), and an LLM/vision model reads the rendered page to extract fares regardless of layout (AI ✓, and genuinely more robust than CSS selectors).</p>
+      </div>
+
+      <h4>The architecture</h4>
+      <pre>┌─ SCRAPE LAYER · one adapter per source ─────────────────────────────────────┐
+│  Sources:  MakeMyTrip · Ixigo · Cleartrip · IndiGo · Air India              │
+│                                                                            │
+│  Per source, per (corridor, date):                                         │
+│   1. Playwright headless Chromium → open the fare-search URL               │
+│   2. Wait for the results list to render (SPA — fares load via XHR)        │
+│   3. Extract, two paths:                                                   │
+│      a. FAST  — page.on("response") intercepts the site's OWN XHR/JSON     │
+│                → clean structured data, zero HTML parsing                   │
+│      b. SELF-HEALING — XHR shape or DOM changed → screenshot + DOM text    │
+│                → vision-LLM → structured JSON. The scraper fixes itself.   │
+│   4. Normalise → { flight_id, route, price, currency, departure_ts,        │
+│                    airline, source }                                       │
+│                                                                            │
+│  RESPONSIBLE:  robots.txt · 1 req / few s per domain · realistic rotating  │
+│               UA · off-peak · honour Retry-After · cache every response    │
+│  RESILIENCE:   403 / captcha / block → newest cached scrape for that route │
+│               one source down → the other four still contribute            │
+└──────────────────────────────────┬─────────────────────────────────────────┘
+                                   ▼
+     + DGCA / data.gov.in airport-pair volumes   → Q0 weights (not scraped)
+     + Kaggle historical Indian fares            → P0 base year
+                                   ▼
+┌─ AI CORE ──────────────────────────────────────────────────────────────────┐
+│  1. SELF-HEALING EXTRACTOR (above) — vision-LLM turns any rendered fare     │
+│     page into structured records; no per-site selector maintenance.        │
+│                                                                            │
+│  2. DATA-INTEGRITY MODEL  (wraps the IQR filter)                           │
+│     Isolation Forest + optional LLM verifier → flags placeholder / decoy / │
+│     bot-trap fares a static rule passes through → answers "data-trap risk" │
+│                                                                            │
+│  3. NOWCASTING / IMPUTATION MODEL                                          │
+│     Gradient-boosted regressor fills sparse route-days from correlated     │
+│     routes + history → COMPLETE real-time index with confidence bands.     │
+│     NOT price forecasting — this is how central banks nowcast GDP.         │
+│                                                                            │
+│  4. EXPLAINABILITY LAYER                                                    │
+│     LLM annotates each index movement with likely drivers from airline     │
+│     press releases / news RSS. "Index +3.2% — Diwali window + IndiGo      │
+│     fuel surcharge revision announced Oct 14."                             │
+└──────────────────────────────────┬─────────────────────────────────────────┘
+                                   ▼
+     Festival flagging → Weighted Laspeyres → Postgres / SQLite  (unchanged)</pre>
+
+      <h4>Why each piece is defensible — and free</h4>
+      <div class="twrap"><table>
+        <thead><tr><th>Component</th><th>Free tool</th><th>The one-liner</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Playwright scraper pool</strong></td>
+            <td><code>playwright</code> (headless Chromium, free) — one lightweight adapter per source</td>
+            <td>"A real browser per source. We intercept each site's own JSON response, so we get structured fare data, not scraped HTML strings."</td>
+          </tr>
+          <tr>
+            <td><strong>Self-healing extractor</strong></td>
+            <td><code>ScrapeGraphAI</code> / <code>browser-use</code> / Playwright + a free or local LLM (Llama via Ollama, Groq / Gemini free tier)</td>
+            <td>"Traditional scrapers hardcode CSS selectors and break on every UI change — the exact fragility the problem statement is trying to move past. Our extractor reads the page like an analyst and re-derives the fields when a site changes."</td>
+          </tr>
+          <tr>
+            <td><strong>Data-integrity model</strong></td>
+            <td><code>scikit-learn</code> Isolation Forest / LOF</td>
+            <td>"We don't just filter statistically — a learned model flags decoy and placeholder pricing that scrapers get fed and that IQR alone would pass through."</td>
+          </tr>
+          <tr>
+            <td><strong>Nowcasting model</strong></td>
+            <td><code>scikit-learn</code> / <code>lightgbm</code></td>
+            <td>"Scraping is patchy — a route-day can fail. We impute the gaps with confidence intervals so the published index is complete and real-time."</td>
+          </tr>
+          <tr>
+            <td><strong>Explainability LLM</strong></td>
+            <td>Groq / Gemini free API, or local Ollama</td>
+            <td>"Every index movement is annotated with its probable cause — the index is explainable, not a black box."</td>
+          </tr>
+        </tbody>
+      </table></div>
+
+      <div class="box"><span class="label">what to say in the interview</span>
+        <p>"We scrape airline and OTA portals as the problem statement specifies — MakeMyTrip, Ixigo, Cleartrip, IndiGo, Air India — using headless browsers that intercept each site's own fare API. What makes it robust is the extraction layer: instead of brittle CSS selectors we use a vision-language model that re-derives the fields when a site changes its layout, so the scraper self-heals. On top sit three models: an anomaly detector for decoy/placeholder fares, a nowcasting model that fills scraping gaps with confidence bands, and an LLM that attributes every index movement to a cause. We scrape responsibly — robots.txt, rate limits, off-peak, aggressive caching."</p>
+      </div>
+
+      <div class="box danger"><span class="label">what will fail — do not do this</span>
+        <p><strong>Don't scrape all five sources live during the demo.</strong> Slow (~5–15 s/search each), flaky, and one captcha kills it on stage. <strong>Pre-scrape four into the cache the night before; live-scrape ONE</strong> — pick the lightest anti-bot (Ixigo, or an airline site directly). Rehearse the fallback: if the live scrape is blocked, it drops to cache — demo that as a <em>feature</em>.</p>
+        <p><strong>Don't reverse-engineer XHR params and replay with bare <code>httpx</code></strong> as the primary path. Sites rotate tokens/cookies and it breaks silently. Drive a real browser; intercept the response.</p>
+        <p><strong>Don't call the nowcasting model "prediction."</strong> It is imputation. "We forecast prices" loses the "we measure, not predict" high ground instantly.</p>
+      </div>
+
+      <h4>Impact on the module specs (§07)</h4>
+      <ul>
+        <li><strong>7.1 Ingestion → Scraper pool.</strong> <code>fetch_fares()</code> fans out to per-source Playwright adapters (concurrent), merges + dedupes, returns the same <code>list[dict]</code> contract. Each adapter: browser → intercept XHR → (on schema break) vision-LLM extract → normalise. Per-source failure → newest cached scrape for that route.</li>
+        <li><strong>7.3 IQR Purifier → "IQR + Isolation Forest."</strong> IQR stays as the transparent, hand-checkable baseline; the ML model runs on top and can flag decoy/placeholder fares IQR misses. Both logged, nothing silently deleted.</li>
+        <li><strong>New 7.8 — Nowcasting &amp; Explainability.</strong> After Laspeyres. Imputes missing route-days (confidence bands), then an LLM writes a one-line cause. Optional / "if time permits" — the index is valid without them.</li>
+      </ul>
+      <p class="dim">Festival flagging, weighted Laspeyres, Postgres/SQLite failover, and the SSE console are unchanged.</p>
+
+      <h4>Suggested build order for the scraper (fits §10 as stages 4–4c)</h4>
+      <div class="twrap"><table>
+        <thead><tr><th>Step</th><th>Build</th><th>Done when</th></tr></thead>
+        <tbody>
+          <tr><td>4a</td><td>One adapter (Ixigo or an airline), Playwright, intercept its fare XHR, normalise 1 route</td><td>Live run returns ≥ 20 real fares for DEL–BOM</td></tr>
+          <tr><td>4b</td><td>Cache layer (JSON keyed by <code>source_corridor_date</code>) + the block→cache fallback</td><td>Disable network mid-run → returns cached fares, logged as <code>[SCRAPE][CACHE]</code></td></tr>
+          <tr><td>4c</td><td>Self-healing extract: on parse failure, screenshot+DOM → LLM → JSON</td><td>Rename a key in a saved XHR fixture → extractor still returns valid records</td></tr>
+          <tr><td>4d</td><td>Add 3–4 more source adapters, run the pool concurrently, merge + dedupe</td><td>One run returns 300+ fares across ≥ 3 sources; one source forced to fail, others still deliver</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 03 ARCHITECTURE ============ -->
+    <section id="arch">
+      <div class="sec-head"><span class="num">03</span><h3>System Architecture</h3></div>
+      <p class="sec-intro">Three layers, one process. The frontend talks to the backend over one streaming HTTP request; the backend talks to two databases with automatic failover.</p>
+
+      <div class="diagram">
+        <div class="layer fe">
+          <div class="lt">Frontend — static/index.html (HTML + Tailwind + vanilla JS + Chart.js)</div>
+          <div class="row">
+            <div class="node">Corridor selector</div>
+            <div class="node">Date range</div>
+            <div class="node">k_factor slider</div>
+            <div class="node a">Execute button</div>
+            <div class="node a">Live console (EventSource)</div>
+            <div class="node">Index + history chart</div>
+          </div>
+        </div>
+        <div class="conn">↓ GET /api/execute-audit?corridor&amp;start&amp;end&amp;k_factor &nbsp;·&nbsp; ↑ text/event-stream (log lines)</div>
+        <div class="layer be">
+          <div class="lt">Backend — FastAPI (app/) · async orchestrator emits one log line per stage</div>
+          <div class="chain">
+            <div class="node">1 · Scraper pool &nbsp;<span class="cmt">Playwright ×5 sources → intercept XHR → cache fallback</span></div>
+            <div class="ar">↓</div>
+            <div class="node">2 · Festival Flag Engine &nbsp;<span class="cmt">±7 days, holidays lib</span></div>
+            <div class="ar">↓</div>
+            <div class="node">3 · Dynamic IQR Purifier &nbsp;<span class="cmt">two-tailed, k_factor</span></div>
+            <div class="ar">↓</div>
+            <div class="node">4 · Weighted Laspeyres Engine &nbsp;<span class="cmt">pandas groupby + merge</span></div>
+            <div class="ar">↓</div>
+            <div class="node b">5 · Persistence</div>
+          </div>
+        </div>
+        <div class="conn">try ↓ &nbsp;&nbsp; <span class="fb">except → fallback</span></div>
+        <div class="layer db">
+          <div class="lt">Persistence</div>
+          <div class="row">
+            <div class="node">PostgreSQL — primary, authoritative</div>
+            <div class="node">SQLite WAL — local resilience fallback</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box why"><span class="label">Why pipeline/ is separate from app/</span>
+        <p>Every function in <code>pipeline/</code> takes plain data in and returns plain data out — no server, no DB, no logging. You can <code>import pipeline.iqr</code> in a shell and test it with a list of numbers. That's what lets 3 people build 5 modules in parallel on day 1, and why each module is easy to explain alone.</p>
+      </div>
+    </section>
+
+    <!-- ============ 04 LIFECYCLE ============ -->
+    <section id="lifecycle">
+      <div class="sec-head"><span class="num">04</span><h3>Request Lifecycle</h3></div>
+      <p class="sec-intro">Exactly what happens between clicking Execute and seeing the index.</p>
+      <ol>
+        <li><strong>Click.</strong> <code>app.js</code> builds a query string and opens <code>new EventSource("/api/execute-audit?...")</code>. Button disables, console clears.</li>
+        <li><strong>Validate.</strong> FastAPI parses query params into the <code>AuditParams</code> Pydantic model. Bad input → <code>422</code> before any pipeline code runs.</li>
+        <li><strong>Stream opens.</strong> Route returns <code>StreamingResponse(run_audit(params), media_type="text/event-stream")</code>.</li>
+        <li><strong>Orchestrator runs.</strong> The async generator <code>run_audit</code> executes each stage and <code>yield</code>s one SSE line after it, with a <code>0.2s</code> pause so the console visibly streams:
+          <pre>[SYSTEM]    Audit started · DEL-BOM · run a1b2c3d4
+[SCRAPE]    pool · 5 sources · 412 fares merged
+[FESTIVAL]  38 fares flagged (Diwali: 31, Christmas: 7)
+[IQR]       k=1.5 · fences [3200, 7600] · 2 anomalies excluded
+[LASPEYRES] Index = 118.75 · ex-festival = 116.40
+[DB]        Postgres commit OK
+[SYSTEM]    Audit complete — Index = 118.75</pre>
+        </li>
+        <li><strong>Frontend reacts.</strong> Each <code>es.onmessage</code> appends a line. The final message carries <code>done:true, index, index_ex_festival</code> → show the big number, refresh the chart, close the stream, re-enable the button.</li>
+      </ol>
+    </section>
+
+    <!-- ============ 05 DATAFLOW ============ -->
+    <section id="dataflow">
+      <div class="sec-head"><span class="num">05</span><h3>Data Flow — how one record transforms</h3></div>
+      <pre><span class="cmt"># USER INPUT</span>
+corridor: "DEL-BOM"   date_range: {start, end}   k_factor: 1.5
+        │  scraper pool (5 sources · xhr intercept · cache fallback)
+        ▼
+<span class="cmt"># RAW FARE RECORD</span>
+{ flight_id, route:"DEL-BOM", price:5480.0, currency:"INR",
+  departure_ts:"2026-11-08T06:15:00+05:30", airline:"6E", source:"ixigo" }
+        │  festival flag engine
+        ▼
+{ ...raw, is_festival_season: 1, festival_matched: "Diwali" }
+        │  IQR purifier (two-tailed)
+        ▼
+clean[]      →  price within [lower_fence, upper_fence]
+anomalies[]  →  { ...record, exclusion_reason: "above_upper_fence", upper_fence: 7600 }
+        │  pandas groupby route → mean price = Pt ; join base_year_reference → P0, Q0
+        ▼
+<span class="cmt"># INDEX INPUT (per route)</span>   Pt, P0, Q0
+        │  Laspeyres:  Index = [ Σ(Pt·Q0) / Σ(P0·Q0) ] × 100
+        ▼
+<span class="cmt"># PERSISTED ROW</span>
+{ run_id, corridor, index_value, index_ex_festival, k_factor_used, base_period,
+  records_ingested, festival_flagged_count, anomalies_excluded_count,
+  ingestion_source, db_target, created_at }</pre>
+    </section>
+
+    <!-- ============ 06 REPO ============ -->
+    <section id="repo">
+      <div class="sec-head"><span class="num">06</span><h3>Repository Structure</h3></div>
+      <pre>vayu-suchak/
+├── run.py                      <span class="cmt"># starts uvicorn (+ pywebview window if enabled)</span>
+├── requirements.txt
+├── .env.example                <span class="cmt"># AMADEUS_KEY, AMADEUS_SECRET, PG_DSN, K_FACTOR_DEFAULT</span>
+├── config.py                   <span class="cmt"># loads .env into a typed Settings object</span>
+│
+├── app/
+│   ├── main.py                 <span class="cmt"># FastAPI app, mounts static, defines routes</span>
+│   ├── models.py               <span class="cmt"># Pydantic request/response models</span>
+│   └── orchestrator.py         <span class="cmt"># THE pipeline: async generator, emits log lines</span>
+│
+├── pipeline/                   <span class="cmt"># PURE functions — no FastAPI, no logging, no DB</span>
+│   ├── scrape/                 <span class="cmt"># per-source Playwright adapters + pool</span>
+│   ├── festival.py             <span class="cmt"># flag_festivals() -> (records, count)</span>
+│   ├── iqr.py                  <span class="cmt"># apply_iqr_filter() -> (clean, anomalies, fences)</span>
+│   ├── laspeyres.py            <span class="cmt"># compute_index() -> (index, per_route_table)</span>
+│   └── persistence.py          <span class="cmt"># persist_run() -> "postgres" | "sqlite_fallback"</span>
+│
+├── data/
+│   ├── base_year_reference.json    <span class="cmt"># {route: {P0, Q0}} — from Kaggle + DGCA</span>
+│   ├── cache/                     <span class="cmt"># timestamped scraped snapshots (seeded from Kaggle)</span>
+│   └── cache/                      <span class="cmt"># auto-written API responses (gitignored)</span>
+│
+├── db/
+│   ├── schema.sql              <span class="cmt"># audit_runs table (same DDL for both DBs)</span>
+│   └── fallback.sqlite         <span class="cmt"># created at runtime</span>
+│
+├── static/
+│   ├── index.html
+│   ├── app.js                  <span class="cmt"># button handler + EventSource + Chart.js</span>
+│   └── styles.css
+│
+└── tests/
+    ├── test_iqr.py             <span class="cmt"># golden numbers, hand-calculated</span>
+    ├── test_laspeyres.py       <span class="cmt"># golden numbers, hand-calculated</span>
+    ├── test_festival.py
+    └── test_e2e.py             <span class="cmt"># full pipeline on backup data</span></pre>
+    </section>
+
+    <!-- ============ 07 MODULES ============ -->
+    <section id="modules">
+      <div class="sec-head"><span class="num">07</span><h3>Module Specs</h3></div>
+      <p class="sec-intro">Each: the job in plain words, the code shape, a worked example where numbers matter, the log line, and the interview questions it invites.</p>
+
+      <!-- 7.1 -->
+      <h4>7.1 &nbsp;Scraper Pool — <code>pipeline/scrape/</code></h4>
+      <p><strong>Job:</strong> given a corridor and a date range, scrape airline + OTA portals and return a list of fare records. Fan out to one adapter per source, merge, dedupe. Per-source failure → newest cached scrape. (§2A has the full architecture.)</p>
+      <h5>record shape — the contract every later module depends on</h5>
+      <pre>{
+  "flight_id":    "6E-2341-20261108",
+  "route":        "DEL-BOM",
+  "price":        5480.0,
+  "currency":     "INR",
+  "departure_ts": "2026-11-08T06:15:00+05:30",
+  "airline":      "6E",
+  "source":       "ixigo"          <span class="cmt"># or makemytrip / cleartrip / indigo / airindia / cache</span>
+}</pre>
+      <h5>logic</h5>
+      <pre>fetch_fares(corridor, date_range) -> (records: list[dict], sources: dict)
+
+  adapters = [MakeMyTrip, Ixigo, Cleartrip, IndiGo, AirIndia]
+  results  = await gather(*[a.scrape(corridor, date_range) for a in adapters])
+  records, sources = merge_dedupe(results)          <span class="cmt"># key: airline+flight_no+departure_ts</span>
+  return records, sources
+
+# --- one adapter ---------------------------------------------------
+class SourceAdapter:
+  async def scrape(corridor, date_range) -> list[dict]:
+    key = f"{self.name}_{corridor}_{date_range}"
+    for date in date_range:
+      try:
+        page = await browser.new_page()
+        captured = []
+        page.on("response", lambda r: captured.append(r) if self.is_fare_xhr(r) else None)
+        await page.goto(self.search_url(corridor, date))
+        await page.wait_for_selector(self.results_ready)     <span class="cmt"># fares rendered</span>
+
+        try:                                                  <span class="cmt"># FAST path</span>
+          data = await captured[-1].json()
+          records += self.parse_xhr(data)
+        except (IndexError, KeyError, JSONDecodeError):        <span class="cmt"># SELF-HEALING path</span>
+          shot = await page.screenshot(); dom = await page.inner_text("body")
+          records += await llm_extract(shot, dom, schema=FARE_SCHEMA)
+
+      except (TimeoutError, PlaywrightError, Blocked):         <span class="cmt"># FALLBACK</span>
+        return load_cache(key) or []
+    write_cache(key, records)
+    return records</pre>
+      <div class="box"><span class="label">why intercept the XHR instead of parsing HTML</span>
+        <p>MakeMyTrip/Ixigo/etc. are single-page apps — the fare list is drawn by JavaScript from the site's own JSON API. We let a real Chromium load the page (which passes most bot checks and executes that JS), then read the JSON response directly. Clean structured data, no CSS-selector soup. The vision-LLM path only fires when that JSON shape changes.</p>
+      </div>
+      <div class="box"><span class="label">responsible scraping — build it in, say it out loud</span>
+        <p>One request every few seconds per domain · realistic rotating User-Agent · read and honour <code>robots.txt</code> and <code>Retry-After</code> · schedule bulk scrapes off-peak · cache every response so the demo and re-runs don't re-hit the sites. This is scraping for a public-statistics purpose the problem statement itself specifies — not for resale or competitive harm.</p>
+      </div>
+      <h5>log lines</h5>
+      <pre>[SCRAPE] ixigo · DEL-BOM · 44 fares (browser+xhr) · 2.1s
+[SCRAPE] makemytrip · DEL-BOM · 38 fares (self-healing: xhr schema drift, llm re-extract)
+[SCRAPE][CACHE] cleartrip blocked (403) → cached snapshot 2026-11-07 · 41 fares
+[SCRAPE] pool · 5 sources · 412 fares merged (37 dupes dropped)</pre>
+      <div class="box qa"><span class="label">Q — "Scraping OTA sites — isn't that against their terms?"</span>
+        <p>The problem statement explicitly directs us to scrape airline and OTA portals for a national CPI input — a public-interest, government-statistics use. We scrape responsibly: robots.txt, rate limits, off-peak, no resale. In production MoSPI would formalise this with data-sharing MoUs; the prototype demonstrates the acquisition method the PS specifies.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "What happens when a site changes its layout?"</span>
+        <p>A selector-based scraper would silently break. Ours has two extraction paths: normally we read the site's own JSON response; when that shape changes, a vision-language model reads the rendered page and re-derives the fields. The scraper self-heals — no overnight selector maintenance.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "How is this real-time if the demo runs on cache?"</span>
+        <p>The scrapers run on a schedule and write the cache continuously; the index reads the freshest available. On stage we scrape one source live to prove the path, and serve the rest from cache that's minutes-to-hours old — well inside tolerance for a monthly CPI input.</p>
+      </div>
+
+      <hr>
+
+      <!-- 7.2 -->
+      <h4>7.2 &nbsp;Festival Flag Engine — <code>pipeline/festival.py</code></h4>
+      <p><strong>Job:</strong> mark each fare that departs within ±7 days of a major Indian festival, so an analyst can compute the index with and without festival demand.</p>
+      <pre>build_festival_dates(year) -> list[(name, date)]
+  import holidays
+  ind = holidays.India(years=[year, year+1])
+  keep = {"Diwali", "Holi", "Dussehra", "Christmas Day",
+          "Guru Nanak Jayanti", "Eid al-Fitr", "Eid al-Adha"}
+  return [(name, d) for d, name in ind.items() if name in keep]
+
+flag_festivals(records, festival_dates, window_days=7) -> (records, flagged_count)
+  for r in records:
+      dep = date(r["departure_ts"])
+      r["is_festival_season"] = 0 ; r["festival_matched"] = None
+      for name, fdate in festival_dates:
+          if abs((dep - fdate).days) <= window_days:
+              r["is_festival_season"] = 1 ; r["festival_matched"] = name ; break
+  flagged_count = sum(r["is_festival_season"] for r in records)
+  return records, flagged_count</pre>
+      <h5>log line</h5>
+      <pre>[FESTIVAL] window=±7d · 38 fares flagged (Diwali: 31, Christmas: 7)</pre>
+      <div class="box warn"><span class="label">verify before demo</span>
+        <p>Write a test that asserts the 2026 dates <code>holidays</code> returns against a real calendar. Note in the deck that Eid is lunar and the library must be kept current.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "Why ±7 days, not the exact date?"</span>
+        <p>Airfare demand ramps before and stays elevated after a festival — people travel home in the days around it. ±7 days captures the demand window; it's a config parameter, not a magic constant.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "Why is this analytically useful, not cosmetic?"</span>
+        <p>It lets you decompose the index: <code>index_all</code> vs <code>index_ex_festival</code>. The gap is the transient holiday-demand component — exactly what a statistical office wants separated from structural price change.</p>
+      </div>
+
+      <hr>
+
+      <!-- 7.3 -->
+      <h4>7.3 &nbsp;Dynamic IQR Purifier — <code>pipeline/iqr.py</code></h4>
+      <p><strong>Job:</strong> remove data-error prices (glitch-low and absurd-high) before they poison the average, using a standard statistical rule with a tunable knob.</p>
+      <pre>apply_iqr_filter(records, k_factor) -> (clean, anomalies, fences)
+  prices = [r["price"] for r in records]
+  Q1 = numpy.percentile(prices, 25)
+  Q3 = numpy.percentile(prices, 75)
+  IQR = Q3 - Q1
+  lower_fence = Q1 - k_factor * IQR
+  upper_fence = Q3 + k_factor * IQR
+
+  for r in records:
+      if lower_fence <= r["price"] <= upper_fence:  clean.append(r)
+      else:
+          r["exclusion_reason"] = "below_lower_fence" if r["price"] < lower_fence else "above_upper_fence"
+          anomalies.append(r)
+  return clean, anomalies, {Q1, Q3, IQR, lower_fence, upper_fence}</pre>
+      <div class="box"><span class="label">worked example — put this exact case in test_iqr.py</span>
+        <pre>prices = [4200, 4500, 4800, 5000, 5200, 5500, 5800, 6000, 9000, 15000]
+Q1 = 4850   Q3 = 5950   IQR = 1100
+
+k = 1.5 :  upper = 5950 + 1650 = 7600  → excludes 9000, 15000   (2 anomalies)
+k = 3.0 :  upper = 5950 + 3300 = 9250  → excludes only 15000    (1 anomaly)</pre>
+        <p>That is your live proof that <code>k_factor</code> changes behaviour — toggle the slider 1.5 → 3.0 on stage, show the count change.</p>
+      </div>
+      <h5>log line</h5>
+      <pre>[IQR] k=1.5 | Q1=4850 Q3=5950 IQR=1100 | fences [3200, 7600] | 2 excluded (0 low, 2 high)</pre>
+      <div class="box qa"><span class="label">Q — "Why IQR and not standard deviation / z-score?"</span>
+        <p>Airfares are right-skewed (a long tail of expensive last-minute/business fares). Mean and std-dev are dragged by that tail, so a z-score rule throws away legitimate high fares. Quartiles are robust to skew — that's why Tukey's IQR rule is standard for skewed data.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "What if an analyst sets k_factor wrong?"</span>
+        <p>It's exposed precisely so they can audit it. Anomalies are logged and stored, never deleted — the count and the rows are kept, so any <code>k</code> choice is reversible and reviewable.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "Why a lower fence?"</span>
+        <p>Fare-error data (₹1, nulls read as 0, placeholder responses) shows up as impossibly low prices. Screening only the top tail would let those through and bias the index downward.</p>
+      </div>
+
+      <hr>
+
+      <!-- 7.4 -->
+      <h4>7.4 &nbsp;Weighted Laspeyres Engine — <code>pipeline/laspeyres.py</code></h4>
+      <p><strong>Job:</strong> combine per-route average current prices into one national index, weighting each route by how much traffic it actually carries.</p>
+      <pre>Index = [ Σ(Pt · Q0) / Σ(P0 · Q0) ] × 100
+
+Pt = current avg price on a route (after IQR cleaning)
+P0 = base-year avg price on that route      (base_year_reference.json)
+Q0 = base-year passenger volume on that route (fixed weight, from DGCA)</pre>
+      <pre>compute_index(clean_records, base_ref) -> (index, table)
+  df = DataFrame(clean_records)
+  pt = df.groupby("route")["price"].mean().rename("Pt")
+  base = DataFrame(base_ref).T                     <span class="cmt"># index=route, cols P0, Q0</span>
+  merged = base.join(pt, how="inner")              <span class="cmt"># only routes in both</span>
+  merged["pt_q0"] = merged.Pt * merged.Q0
+  merged["p0_q0"] = merged.P0 * merged.Q0
+  index = 100 * merged.pt_q0.sum() / merged.p0_q0.sum()
+  return round(index, 2), merged</pre>
+      <div class="box"><span class="label">worked example — put in test_laspeyres.py</span>
+        <pre>            Pt      P0      Q0
+DEL-BOM    5750    5000    1000
+DEL-GAU    9000    6000     100     <span class="cmt"># small route, big % jump</span>
+
+numerator   = 5750·1000 + 9000·100 = 6,650,000
+denominator = 5000·1000 + 6000·100 = 5,600,000
+Laspeyres index = 6,650,000 / 5,600,000 × 100 = 118.75
+
+Naive average of price ratios = (5750/5000 + 9000/6000)/2 = 1.325 → 132.5</pre>
+        <p>The naive number is 14 points higher because it lets a tiny route swing the national figure. Laspeyres correctly says the route 1000 people fly matters 10× more than the route 100 people fly.</p>
+      </div>
+      <h5>log line</h5>
+      <pre>[LASPEYRES] 5 routes matched · Index = 118.75 (base 2022 = 100)</pre>
+      <div class="box qa"><span class="label">Q — "Why Laspeyres, not Paasche or a chained index?"</span>
+        <p>Laspeyres fixes the weights at the base year (<code>Q0</code>), so period-to-period moves reflect price change only, not shifting travel patterns. That's how CPI itself is built, which makes our number directly comparable to CPI.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "Why groupby/merge instead of a loop?"</span>
+        <p>Vectorised pandas is reproducible and auditable — same input always gives the same output, and the intermediate <code>Pt/P0/Q0</code> table is inspectable. A nested loop is harder to verify.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "Where do P0 and Q0 come from?"</span>
+        <p><code>P0</code>: average 2022 fares per route from a public historical dataset (our base period). <code>Q0</code>: DGCA's published airport-pair domestic passenger volumes. Both external, cited, frozen in <code>base_year_reference.json</code>.</p>
+      </div>
+
+      <hr>
+
+      <!-- 7.5 -->
+      <h4>7.5 &nbsp;Persistence — <code>pipeline/persistence.py</code></h4>
+      <p><strong>Job:</strong> save the run. Try Postgres; if it's down, transparently write SQLite so a DB outage never freezes the app.</p>
+      <pre>persist_run(run_data) -> str
+  try:
+      engine = create_engine(PG_DSN, connect_args={"connect_timeout": 3})
+      with engine.begin() as conn:
+          conn.execute(insert(audit_runs), run_data)
+      return "postgres"
+  except (OperationalError, DBAPIError, TimeoutError) as e:
+      conn = sqlite3.connect("db/fallback.sqlite")
+      conn.execute("PRAGMA journal_mode=WAL")
+      conn.execute("INSERT INTO audit_runs ...")
+      conn.commit()
+      return "sqlite_fallback"</pre>
+      <h5>log lines</h5>
+      <pre>[DB] Postgres commit OK · run_id=a1b2c3d4
+[DB][FALLBACK] Postgres unreachable (connection refused) → SQLite WAL commit OK</pre>
+      <div class="box why"><span class="label">what is WAL?</span>
+        <p>Write-Ahead Logging — SQLite writes changes to a side <code>-wal</code> file first, then folds them into the main DB. A reader and a writer don't block each other, and a crash mid-write can't corrupt the database. For the demo: the row is durable the instant we commit.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "What if BOTH databases fail?"</span>
+        <p><em>(Answer honestly.)</em> SQLite is a local file, so a true dual failure means the disk is gone. We'd need an in-memory retry queue that flushes when a DB returns — that's stated future work, not something we claim is solved.</p>
+      </div>
+      <div class="box qa"><span class="label">Q — "Isn't SQLite a downgrade?"</span>
+        <p>It's a resilience net, not a replacement. Postgres stays authoritative; the row is tagged <code>db_target='sqlite_fallback'</code> so you always know which store holds it and can reconcile later.</p>
+      </div>
+
+      <hr>
+
+      <!-- 7.6 -->
+      <h4>7.6 &nbsp;Orchestrator — <code>app/orchestrator.py</code></h4>
+      <p><strong>The heart.</strong> An async generator that runs the whole pipeline and yields one SSE line per stage. The only file that knows about streaming.</p>
+      <pre>def sse(stage, message, **extra):
+    return f"data: {json.dumps({'stage': stage, 'message': message, **extra})}\n\n"
+
+async def run_audit(params):
+    run_id = str(uuid.uuid4())
+    yield sse("SYSTEM", f"Audit started · {params.corridor} · run {run_id[:8]}", run_id=run_id)
+    await asyncio.sleep(0.2)
+
+    records, source = await fetch_fares(params.corridor, params.date_range)
+    yield sse("INGEST", f"{source} · {len(records)} fare records");            await asyncio.sleep(0.2)
+
+    records, fcount = flag_festivals(records, FESTIVALS)
+    yield sse("FESTIVAL", f"{fcount} fares flagged (±7d)");                     await asyncio.sleep(0.2)
+
+    clean, anomalies, f = apply_iqr_filter(records, params.k_factor)
+    yield sse("IQR", f"k={params.k_factor} · fences [{f['lower']:.0f},{f['upper']:.0f}] · {len(anomalies)} excluded")
+    await asyncio.sleep(0.2)
+
+    index, table  = compute_index(clean, BASE_REF)
+    index_exf, _  = compute_index([r for r in clean if not r["is_festival_season"]], BASE_REF)
+    yield sse("LASPEYRES", f"Index = {index} · ex-festival = {index_exf}");     await asyncio.sleep(0.2)
+
+    target = persist_run({...})
+    yield sse("DB", f"commit OK → {target}")
+    yield sse("SYSTEM", f"Audit complete — Index = {index}", done=True, index=index, index_ex_festival=index_exf)</pre>
+      <div class="box why"><span class="label">why this design</span>
+        <p>Pipeline functions never import FastAPI or a logger. The only place that knows about streaming is this one file. A beginner reads it top to bottom and understands the entire system in 30 lines. The <code>sleep(0.2)</code> calls make the console visibly stream instead of dumping everything at once.</p>
+      </div>
+
+      <hr>
+
+      <!-- 7.7 -->
+      <h4>7.7 &nbsp;Frontend — <code>static/index.html</code> + <code>app.js</code></h4>
+      <p><strong>Controls:</strong> corridor <code>&lt;select&gt;</code>, start/end <code>&lt;input type="date"&gt;</code>, <code>k_factor</code> <code>&lt;input type="range"&gt;</code> with a live label, green Execute button.</p>
+      <pre>executeBtn.onclick = () => {
+  const q = new URLSearchParams({corridor, start, end, k_factor});
+  consolePanel.innerHTML = ""; executeBtn.disabled = true;
+
+  const es = new EventSource(`/api/execute-audit?${q}`);
+  es.onmessage = (e) => {
+    const d = JSON.parse(e.data);
+    appendLine(`[${d.stage}] ${d.message}`);
+    if (d.done) {
+      showIndexBig(d.index, d.index_ex_festival);
+      refreshHistoryChart();
+      es.close(); executeBtn.disabled = false;
+    }
+  };
+  es.onerror = () => { appendLine("[SYSTEM] stream error"); es.close(); executeBtn.disabled = false; };
+};</pre>
+      <p class="dim"><strong>Panels:</strong> live console (monospace, auto-scroll, green-on-dark) · big final index with the ex-festival value beside it · anomalies table (transparency) · Chart.js line chart of past runs — this is what makes it read as an <em>index</em>, not a calculator.</p>
+    </section>
+
+    <!-- ============ 08 DB ============ -->
+    <section id="db">
+      <div class="sec-head"><span class="num">08</span><h3>Database Layer</h3></div>
+      <h5>schema — identical in both databases (db/schema.sql)</h5>
+      <pre>CREATE TABLE audit_runs (
+    run_id                    TEXT PRIMARY KEY,      <span class="cmt">-- uuid4</span>
+    corridor                  TEXT NOT NULL,
+    date_range_start          TEXT,
+    date_range_end            TEXT,
+    index_value               REAL,
+    index_ex_festival         REAL,
+    k_factor_used             REAL,
+    base_period               TEXT,
+    records_ingested          INTEGER,
+    festival_flagged_count    INTEGER,
+    anomalies_excluded_count  INTEGER,
+    scrape_sources            TEXT,                  <span class="cmt">-- json: {ixigo:44, makemytrip:38, ...}</span>
+    db_target                 TEXT,                  <span class="cmt">-- 'postgres' | 'sqlite_fallback'</span>
+    created_at                TEXT DEFAULT (datetime('now'))
+);</pre>
+      <div class="twrap"><table>
+        <thead><tr><th>Stage</th><th>Normal path</th><th>Failure path</th></tr></thead>
+        <tbody>
+          <tr><td>Connect</td><td>PostgreSQL, port 5432, 3s timeout</td><td>Connection refused / timeout</td></tr>
+          <tr><td>Write</td><td>INSERT + commit</td><td>Catch <code>OperationalError</code></td></tr>
+          <tr><td>Recover</td><td>continue</td><td>switch target → <code>db/fallback.sqlite</code>, <code>PRAGMA journal_mode=WAL</code></td></tr>
+          <tr><td>Persist</td><td>Postgres authoritative</td><td>SQLite WAL row, tagged <code>db_target</code></td></tr>
+          <tr><td>Resume</td><td>app responsive</td><td>app responsive — demo continues</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 09 API ============ -->
+    <section id="api">
+      <div class="sec-head"><span class="num">09</span><h3>API Contract</h3></div>
+      <div class="twrap"><table>
+        <thead><tr><th>Method</th><th>Path</th><th>Purpose</th><th>Returns</th></tr></thead>
+        <tbody>
+          <tr><td>GET</td><td><code>/</code></td><td>serve the dashboard</td><td><code>static/index.html</code></td></tr>
+          <tr><td>GET</td><td><code>/api/corridors</code></td><td>dropdown options (keys of base ref)</td><td><code>{"corridors":["DEL-BOM", ...]}</code></td></tr>
+          <tr><td>GET</td><td><code>/api/execute-audit</code></td><td>run the pipeline, stream logs</td><td><code>text/event-stream</code></td></tr>
+          <tr><td>GET</td><td><code>/api/runs</code></td><td>last N runs for the history chart</td><td><code>[{run_id, corridor, index_value, created_at}]</code></td></tr>
+        </tbody>
+      </table></div>
+      <div class="box why"><span class="label">why GET for execute-audit</span>
+        <p>The browser's <code>EventSource</code> only does GET. Parameters ride as query string. The response <em>is</em> the event stream — no separate "start job" call, no job registry, nothing to leak.</p>
+      </div>
+      <h5>request model — validated at the boundary</h5>
+      <pre>class AuditParams(BaseModel):
+    corridor: str  = Field(pattern=r"^[A-Z]{3}-[A-Z]{3}$")
+    start:    date
+    end:      date
+    k_factor: float = Field(default=1.5, gt=0, le=10)
+
+    @model_validator(mode="after")
+    def check_range(self):
+        if self.end < self.start:            raise ValueError("end before start")
+        if (self.end - self.start).days > 90: raise ValueError("range too wide (max 90 days)")
+        return self</pre>
+      <p class="dim">Bad input → FastAPI returns <code>422</code> with a clear message before the pipeline runs, instead of a <code>KeyError</code> three modules deep.</p>
+      <pre>@app.get("/api/execute-audit")
+async def execute_audit(params: AuditParams = Depends()):
+    return StreamingResponse(run_audit(params), media_type="text/event-stream")</pre>
+    </section>
+
+    <!-- ============ 10 BUILD SEQUENCE ============ -->
+    <section id="sequence">
+      <div class="sec-head"><span class="num">10</span><h3>Build Sequence</h3></div>
+      <p class="sec-intro">Do not skip ahead. Work strictly one stage at a time: <em>"only build stage N, don't implement later stages."</em></p>
+      <div class="twrap"><table>
+        <thead><tr><th>#</th><th>Build</th><th>Done when…</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><strong>Scaffold</strong> — folders, stub functions with correct signatures returning dummy data, <code>requirements.txt</code>, <code>.env.example</code>, <code>config.py</code></td><td><code>python run.py</code> starts, <code>GET /</code> serves a blank page, no import errors</td></tr>
+          <tr><td>2</td><td><strong>Frontend shell</strong> — <code>index.html</code> with all controls + console panel; <code>app.js</code> appends 5 hardcoded fake log lines on click</td><td>click → 5 lines type into the console, styled. No backend.</td></tr>
+          <tr><td>3</td><td><strong>SSE bridge</strong> — real <code>run_audit</code> generator yielding 5 hardcoded <code>sse()</code> lines with <code>sleep</code>, wired to <code>EventSource</code></td><td>click → lines stream one at a time with visible delay; button disables then re-enables. <em>Hardest part, de-risked first.</em></td></tr>
+          <tr><td>4</td><td><strong>Cache-seeded fallback path</strong> — seed <code>data/cache/DEL-BOM_*.json</code> (30–50 real rows from Kaggle, in the record shape); <code>fetch_fares</code> returns it while live scraping is unbuilt</td><td>pipeline runs end-to-end on real-shaped data, console shows real counts</td></tr>
+          <tr><td>5</td><td><strong>Festival engine</strong> — <code>holidays</code> + <code>flag_festivals</code></td><td>unit test: 2026-11-08 record → <code>is_festival_season=1, "Diwali"</code>; June record → 0</td></tr>
+          <tr><td>6</td><td><strong>IQR filter</strong> — two-tailed</td><td>unit test passes the <strong>exact worked example</strong> (k=1.5 → 2, k=3.0 → 1); slider changes count live</td></tr>
+          <tr><td>7</td><td><strong>Laspeyres</strong> — <code>compute_index</code> + <code>base_year_reference.json</code></td><td>unit test: 2-route example returns <strong>exactly 118.75</strong></td></tr>
+          <tr><td>8</td><td><strong>Scraper pool</strong> — see §2A stages 4a–4d: one live adapter, cache layer, self-healing extract, then fan-out</td><td>live scrape returns real fares; kill network → cached snapshot, logged <code>[SCRAPE][CACHE]</code></td></tr>
+          <tr><td>9</td><td><strong>Persistence</strong> — Postgres (Docker) + SQLite fallback + <code>schema.sql</code> in both</td><td>normal → row in Postgres. <code>docker stop pg</code> → next run writes SQLite, <code>db_target='sqlite_fallback'</code>, row present</td></tr>
+          <tr><td>10</td><td><strong>Polish</strong> — Chart.js history, big index display, anomalies table, <code>/api/corridors</code> dropdown, <code>pywebview</code> window</td><td>full validation checklist passes</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 11 DATA ============ -->
+    <section id="data">
+      <div class="sec-head"><span class="num">11</span><h3>Data Sources — free, in setup order</h3></div>
+      <ol>
+        <li><strong>Kaggle "Flight Price Prediction" dataset</strong> (search: <em>flight price prediction India</em> — the ~300k-row one). Script it to: (a) mean 2022 price per route → <code>P0</code>; (b) 30–50 rows per demo corridor → seed <code>data/cache/</code> so stages 5–7 work with zero live scraping. <span class="pill ok">do first</span></li>
+        <li><strong>DGCA / data.gov.in</strong> — search "domestic air passenger traffic airport pair". Passengers-per-route → <code>Q0</code> (not scraped — official statistic). If airport-pair granularity isn't available in time, use passengers-per-airport as a proxy and say so.</li>
+        <li><strong>Playwright</strong> — <code>pip install playwright && playwright install chromium</code>. This is the scraper engine (§2A, module 7.1).</li>
+        <li><strong>A free LLM for the self-healing extractor</strong> — Groq or Google Gemini free API key → <code>.env</code>, or <code>ollama pull llama3.2-vision</code> for fully local. Only invoked when a site's XHR schema breaks.</li>
+        <li><strong>Scrape targets</strong> — pick 5: MakeMyTrip, Ixigo, Cleartrip, IndiGo (goindigo.in), Air India (airindia.com). Note each one's search-URL pattern and its fare XHR endpoint (open DevTools → Network → filter XHR while searching a route).</li>
+        <li><strong><code>holidays</code></strong> — <code>pip install holidays</code>. Verify 2026 dates against a real calendar in <code>test_festival.py</code>.</li>
+        <li><strong>Postgres</strong> — <code>docker run --name vsp -e POSTGRES_PASSWORD=dev -p 5432:5432 -d postgres:16</code>, or a Neon free project → <code>PG_DSN</code>.</li>
+      </ol>
+      <div class="box warn"><span class="label">the cache is a real scrape, not a substitute</span>
+        <p>Everything in <code>data/cache/</code> is a <strong>previously-scraped</strong> snapshot, timestamped. The demo runs mostly on cache for speed and safety; one source scrapes live on stage. This is honest — "we scraped it earlier" is exactly what the PS asks for.</p>
+      </div>
+      <h5>sample data/base_year_reference.json</h5>
+      <pre>{
+  "base_period": "2022",
+  "routes": {
+    "DEL-BOM": { "P0": 5100, "Q0": 1000 },
+    "DEL-BLR": { "P0": 5600, "Q0": 720 },
+    "BOM-BLR": { "P0": 4300, "Q0": 480 },
+    "DEL-CCU": { "P0": 5200, "Q0": 360 },
+    "DEL-GAU": { "P0": 6100, "Q0": 90 }     <span class="cmt">// small route — shows the weighting effect</span>
+  }
+}</pre>
+    </section>
+
+    <!-- ============ 12 VALIDATION ============ -->
+    <section id="validation">
+      <div class="sec-head"><span class="num">12</span><h3>Validation &amp; Demo</h3></div>
+      <h4>Pre-demo checklist</h4>
+      <ul class="checklist">
+        <li>Controls render, accept corridor + dates + k_factor</li>
+        <li>Execute streams logs without freezing the UI</li>
+        <li>Live scrape of one source returns fares, logged with count + timing</li>
+        <li>Wifi-off → fallback fires cleanly, logged as <code>[FALLBACK]</code></li>
+        <li>Diwali-window record → <code>is_festival_season=1</code></li>
+        <li>k_factor 1.5 vs 3.0 → different anomaly counts (live)</li>
+        <li>Same input twice → identical index (reproducible)</li>
+        <li>Postgres write succeeds normally</li>
+        <li><code>docker stop</code> Postgres → SQLite WAL keeps the row</li>
+        <li>Console shows every tag: <code>[SYSTEM][INGEST][FESTIVAL][IQR][LASPEYRES][DB]</code></li>
+        <li>History chart renders past runs</li>
+        <li>Golden-number unit tests green (<code>pytest</code>)</li>
+      </ul>
+      <h4>On-stage failure drills — rehearse these</h4>
+      <div class="twrap"><table>
+        <thead><tr><th>Judge says</th><th>You do</th><th>Console proves it</th></tr></thead>
+        <tbody>
+          <tr><td>"What if the API is down?"</td><td>turn off wifi, click Execute</td><td><code>[INGEST][FALLBACK] … → backup extract</code></td></tr>
+          <tr><td>"What if the database dies?"</td><td><code>docker stop vsp</code>, click Execute</td><td><code>[DB][FALLBACK] Postgres unreachable → SQLite WAL commit OK</code></td></tr>
+          <tr><td>"Show me k_factor is real"</td><td>drag slider 1.5 → 3.0, re-run</td><td><code>[IQR] k=3.0 … 1 excluded</code> (was 2)</td></tr>
+          <tr><td>"Prove it's reproducible"</td><td>run same params twice</td><td>identical <code>Index =</code> line both times</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 13 CHEAT SHEET ============ -->
+    <section id="cheatsheet">
+      <div class="sec-head"><span class="num">13</span><h3>Interview Cheat-Sheet</h3></div>
+      <div class="twrap"><table>
+        <thead><tr><th>Concept</th><th>One line</th></tr></thead>
+        <tbody>
+          <tr><td>CPI augmentation</td><td>CPI under-captures fast-moving airfare prices; we produce a defensible airfare sub-index to feed in.</td></tr>
+          <tr><td>Index (base = 100)</td><td>A number relative to a base period. 118.75 = fares 18.75% above base, volume-weighted.</td></tr>
+          <tr><td>Laspeyres</td><td>Weighted price index with weights frozen at the base year → isolates price change from behaviour change → same method as CPI.</td></tr>
+          <tr><td>Pt / P0 / Q0</td><td>Current price / base price / base volume, per route.</td></tr>
+          <tr><td>Volume weighting</td><td>DEL-BOM (1000 pax) moves the national index 10× more than DEL-GAU (100 pax).</td></tr>
+          <tr><td>IQR / Tukey fences</td><td>Robust outlier rule for skewed data: <code>[Q1−k·IQR, Q3+k·IQR]</code>. Airfares are right-skewed so std-dev rules fail.</td></tr>
+          <tr><td>k_factor</td><td>Sensitivity knob, exposed not hidden, so analysts audit it; anomalies logged not deleted.</td></tr>
+          <tr><td>Festival flag (±7d)</td><td>Separates transient holiday demand from structural inflation; <code>holidays</code> gives correct lunar dates.</td></tr>
+          <tr><td>AI-augmented scraping</td><td>Playwright headless browsers intercept each site's fare XHR; a vision-LLM re-derives fields when a layout changes. Responsible: robots.txt, rate limits, cache. DGCA weights not scraped.</td></tr>
+          <tr><td>SSE</td><td>One-way server→browser push over plain HTTP; browser's built-in <code>EventSource</code>; simpler than WebSockets for a log feed.</td></tr>
+          <tr><td>FastAPI async</td><td>The log stream and the fare-API call run concurrently inside one request without blocking.</td></tr>
+          <tr><td>Postgres → SQLite failover</td><td><code>try</code> Postgres, <code>except</code> → SQLite WAL; resilience net, not a replacement; every row tagged with its store.</td></tr>
+          <tr><td>WAL</td><td>SQLite mode where writes go to a side file first → no reader/writer blocking, crash-safe.</td></tr>
+          <tr><td>Reproducibility</td><td>Pure functions + frozen reference files + stored run record → same inputs always give the same index.</td></tr>
+          <tr><td>Why no ML</td><td>This is measurement of history, not forecasting. ML adds model risk with no measurement benefit for an index mandate.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ============ 14 GLOSSARY ============ -->
+    <section id="glossary">
+      <div class="sec-head"><span class="num">14</span><h3>Glossary</h3></div>
+      <div class="twrap"><table>
+        <tbody>
+          <tr><td><strong>Corridor</strong></td><td>An origin–destination city pair, e.g. <code>DEL-BOM</code>. The user-facing unit of selection.</td></tr>
+          <tr><td><strong>Route</strong></td><td>Same as corridor at this scale; the key we group fares by.</td></tr>
+          <tr><td><strong>Base year / base period</strong></td><td>The reference point the index is measured against (index = 100 there). We use 2022.</td></tr>
+          <tr><td><strong>ASGI / uvicorn</strong></td><td>The async server standard FastAPI runs on; uvicorn is the server process.</td></tr>
+          <tr><td><strong>OAuth2 client credentials</strong></td><td>Machine-to-machine auth: swap a key+secret for a short-lived bearer token.</td></tr>
+          <tr><td><strong>Pydantic model</strong></td><td>A typed schema that validates request data at the API boundary.</td></tr>
+          <tr><td><strong>Async generator</strong></td><td>A function that <code>yield</code>s values over time while awaiting between them — how we stream logs.</td></tr>
+          <tr><td><strong>DGCA</strong></td><td>Directorate General of Civil Aviation — publishes official Indian domestic traffic data.</td></tr>
+          <tr><td><strong>MoSPI</strong></td><td>Ministry of Statistics and Programme Implementation — owns CPI, the end consumer of this index.</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <footer>
+      VAYU-SUCHAK 2.0 · Engineering Deep-Dive · SIH26056 · Team Chakravyuh — Anant · Om · Yakshit &nbsp;|&nbsp; build order: §10 · defend: §07 boxes + §13
+    </footer>
+
+  </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  VAYU-SUCHAK daily fare collector (macOS launchd agent).
+
+  Runs `python -m scripts.collect` once a day. If the Mac is asleep at the
+  scheduled time, launchd runs the job the next time the Mac is awake — so as
+  long as you open the laptop at some point each day, it collects each day.
+
+  Install:   bash scripts/install_collector.sh
+  Status:    launchctl list | grep vayu
+  Run now:   launchctl start com.vayu-suchak.collector
+  Remove:    launchctl unload ~/Library/LaunchAgents/com.vayu-suchak.collector.plist
+
+  scripts/install_collector.sh rewrites the absolute paths below for your machine.
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.vayu-suchak.collector</string>
+
+    <!-- caffeinate holds the Mac awake for the whole run: after a scheduled
+         5:55 wake with the lid closed, macOS would otherwise doze back off
+         (especially on battery) before or during collection. -i = no idle
+         sleep, -m = no disk sleep, -s = no system sleep on AC. When the
+         collector exits, caffeinate exits and the Mac sleeps normally. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/caffeinate</string>
+        <string>-ims</string>
+        <string>__VENV_PYTHON__</string>
+        <string>-u</string>
+        <string>-m</string>
+        <string>scripts.collect</string>
+        <string>--mode</string>
+        <string>auto</string>
+        <string>--trigger</string>
+        <string>scheduled</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>__BACKEND_DIR__</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PYTHONUNBUFFERED</key>
+        <string>1</string>
+    </dict>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>6</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>StandardOutPath</key>
+    <string>__BACKEND_DIR__/data/collector.log</string>
+    <key>StandardErrorPath</key>
+    <string>__BACKEND_DIR__/data/collector.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+    <key>LowPriorityIO</key>
+    <true/>
+</dict>
+</plist>

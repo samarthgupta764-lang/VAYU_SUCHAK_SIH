@@ -1,0 +1,30 @@
+# VAYU-SUCHAK — Postgres for the primary persistence tier.
+#
+#   docker compose -f deploy/docker-compose.yml up -d
+#   then set in backend/.env:
+#     PG_DSN=postgresql+psycopg://vayu:vayu@localhost:5432/vayu
+#   and:  python -m scripts.migrate_to_pg     (copies the SQLite history over)
+#
+# The app creates its own schema on first write; nothing else to do.
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: vayu-postgres
+    environment:
+      POSTGRES_USER: vayu
+      POSTGRES_PASSWORD: vayu
+      POSTGRES_DB: vayu
+    ports:
+      - "5432:5432"
+    volumes:
+      - vayu_pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vayu"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  vayu_pgdata:

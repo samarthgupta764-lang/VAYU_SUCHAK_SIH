@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VAYU-SUCHAK 2.0 — Backend Feature List</title>
+<style>
+  :root{
+    --ink:#161b22;
+    --ink-dim:#48515c;
+    --ink-mute:#6b7683;
+    --line:#d7dce2;
+    --line-soft:#e8ebef;
+    --paper:#ffffff;
+    --panel:#f6f8fa;
+    --accent:#0d9488;
+    --accent-2:#3b5bdb;
+    --amber:#b7791f;
+    --red:#c53030;
+    --green:#2f855a;
+    --mono:'SF Mono',ui-monospace,'JetBrains Mono','Cascadia Code',Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:10.5pt;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:40px 44px 80px;}
+
+  /* HERO */
+  .hero{
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--panel);
+    padding:26px 28px;
+    margin-bottom:30px;
+  }
+  .hero .tag{
+    font-family:var(--mono);font-size:8.5pt;letter-spacing:.06em;color:var(--accent);
+    border:1px solid var(--line);border-radius:20px;padding:3px 11px;display:inline-block;margin-bottom:12px;
+  }
+  .hero h1{font-size:20pt;line-height:1.2;margin-bottom:8px;font-weight:750;letter-spacing:-.01em;}
+  .hero p{color:var(--ink-dim);max-width:66ch;font-size:10pt;}
+  .hero .meta{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:16px;
+    font-family:var(--mono);font-size:8.5pt;color:var(--ink-mute);
+  }
+  .hero .meta b{color:var(--ink);font-weight:650;}
+
+  /* SECTIONS */
+  section{margin-bottom:26px;}
+  .sec-head{display:flex;align-items:baseline;gap:10px;margin:26px 0 6px;border-bottom:2px solid var(--ink);padding-bottom:6px;}
+  .sec-head .num{font-family:var(--mono);font-size:9.5pt;color:var(--accent);font-weight:600;}
+  .sec-head h2{font-size:14pt;font-weight:700;letter-spacing:-.01em;}
+  .sec-intro{color:var(--ink-dim);font-size:9.5pt;margin:8px 0 12px;max-width:70ch;}
+  h3{font-size:11pt;margin:18px 0 8px;font-weight:650;}
+
+  /* TABLES */
+  table{width:100%;border-collapse:collapse;font-size:9pt;margin:10px 0 14px;}
+  th{
+    background:var(--panel);text-align:left;padding:7px 10px;
+    font-family:var(--mono);font-size:7.8pt;letter-spacing:.03em;color:var(--ink-dim);
+    text-transform:uppercase;border-bottom:1.5px solid var(--line);border-top:1px solid var(--line);
+  }
+  td{padding:7px 10px;border-bottom:1px solid var(--line-soft);vertical-align:top;color:var(--ink-dim);}
+  td:first-child{color:var(--ink);font-family:var(--mono);font-size:8.2pt;white-space:nowrap;font-weight:600;}
+  td strong,td b{color:var(--ink);font-weight:650;}
+  tr{break-inside:avoid;}
+
+  code{
+    font-family:var(--mono);
+    background:var(--panel);
+    border:1px solid var(--line-soft);
+    border-radius:3px;
+    padding:0.5px 4px;
+    font-size:8.4pt;
+    color:var(--accent-2);
+  }
+
+  /* CALLOUT */
+  .box{
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:7px;
+    background:var(--panel);
+    padding:12px 15px;
+    margin:14px 0;
+    font-size:9pt;
+    break-inside:avoid;
+  }
+  .box .label{
+    font-family:var(--mono);font-size:8pt;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent);display:block;margin-bottom:5px;font-weight:600;
+  }
+  .box.why{border-left-color:var(--accent-2);}
+  .box.why .label{color:var(--accent-2);}
+  .box.warn{border-left-color:var(--amber);}
+  .box.warn .label{color:var(--amber);}
+  .box p{margin:5px 0;color:var(--ink-dim);}
+  .box p:first-of-type{margin-top:0;}
+  .box strong{color:var(--ink);}
+
+  ul{margin:8px 0 8px 20px;}
+  li{margin:3px 0;color:var(--ink-dim);font-size:9.2pt;}
+
+  .del{text-decoration:line-through;color:var(--ink-mute);}
+
+  footer{
+    border-top:1px solid var(--line);padding-top:14px;margin-top:32px;
+    font-family:var(--mono);font-size:8pt;color:var(--ink-mute);
+  }
+
+  @page{margin:14mm 12mm;}
+  @media print{
+    .wrap{padding:0;max-width:none;}
+    .sec-head{break-after:avoid;}
+    h3{break-after:avoid;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <span class="tag">SIH26056 · TEAM CHAKRAVYUH</span>
+    <h1>Backend Feature List — Complete</h1>
+    <p>Every backend feature to build for VAYU-SUCHAK 2.0, including the self-trained AI models.
+       Architecture is <strong>live-first</strong>: real headless-browser scraping of airline and OTA
+       portals is the primary path and the core differentiator. Travelpayouts (Aviasales) data API
+       is a formal fallback tier; an on-disk cache snapshot is the last resort. No external AI APIs —
+       all models are trained in-house on free datasets.</p>
+    <div class="meta">
+      <span>BACKEND <b>FastAPI · one process · port 8000</b></span>
+      <span>MODULES <b>12</b></span>
+      <span>AI MODELS <b>2 trained + 1 rule-based</b></span>
+      <span>EXTERNAL AI APIs <b>none</b></span>
+      <span>COST <b>&#8377;0</b></span>
+    </div>
+  </div>
+
+  <!-- 0 -->
+  <section>
+    <div class="sec-head"><span class="num">00</span><h2>Infra &amp; App Shell</h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>0.1</td><td>FastAPI single-process app</td><td>port 8000, serves static frontend + API, one process, no Flask</td></tr>
+        <tr><td>0.2</td><td><code>uvicorn</code> ASGI server</td><td>async &mdash; SSE stream and scrape run concurrently in one request</td></tr>
+        <tr><td>0.3</td><td>Config layer</td><td><code>.env</code> + <code>pydantic-settings</code> &rarr; <code>k_factor</code>, dates, <code>PG_DSN</code>, <code>TRAVELPAYOUTS_TOKEN</code>, rate limits &mdash; all parameters, nothing hardcoded</td></tr>
+        <tr><td>0.4</td><td><code>AuditParams</code> Pydantic model</td><td>corridor regex <code>^[A-Z]{3}-[A-Z]{3}$</code>, date range &le; 90d, <code>k_factor</code> 0&ndash;10, end &ge; start &rarr; bad input = 422 before pipeline runs</td></tr>
+        <tr><td>0.5</td><td>Async orchestrator (<code>app/orchestrator.py</code>)</td><td>async generator, yields 1 SSE line per stage, <code>sleep(0.2)</code> for visible streaming, <code>run_id</code> = uuid4</td></tr>
+        <tr><td>0.6</td><td><code>pipeline/</code> = pure functions</td><td>no FastAPI/DB/logging inside &mdash; <code>(data) &rarr; (result, summary)</code>, testable from a shell</td></tr>
+        <tr><td>0.7</td><td>Structured error handling</td><td>every stage try/except, partial failure &rarr; pipeline continues in degraded mode, no silent crash</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 1 -->
+  <section>
+    <div class="sec-head"><span class="num">01</span><h2>Live Acquisition &mdash; the differentiator</h2></div>
+    <p class="sec-intro">Real headless browsers scrape 5 airline / OTA portals live. Everything is live &mdash;
+       that is what sets the project apart. When a source is blocked, the Travelpayouts data API fills that
+       route; only when fully offline does the on-disk cache serve.</p>
+
+    <h3>1A &nbsp;Live Scraper Pool &mdash; <code>pipeline/scrape/</code></h3>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>1.1</td><td>Per-source Playwright adapter</td><td>MakeMyTrip, Ixigo, Cleartrip, IndiGo, Air India &mdash; one lightweight adapter class each</td></tr>
+        <tr><td>1.2</td><td>Headless Chromium pool</td><td>browser instance reuse, new context/page per adapter, concurrency cap (e.g. 3 parallel)</td></tr>
+        <tr><td>1.3</td><td>Concurrent fan-out</td><td><code>asyncio.gather</code> across adapters &times; dates, merge results</td></tr>
+        <tr><td>1.4</td><td>XHR intercept (primary extraction)</td><td><code>page.on("response")</code> &rarr; capture the site's own fare JSON, no HTML parsing. Each adapter has <code>is_fare_xhr()</code> + <code>parse_xhr()</code></td></tr>
+        <tr><td>1.5</td><td>CSS-selector fallback extraction</td><td>XHR shape missing &rarr; parse rendered fare cards from the DOM (Playwright locators). Vision-LLM path removed.</td></tr>
+        <tr><td>1.6</td><td>Normalise contract</td><td><code>{flight_id, route, price, currency, departure_ts, airline, source}</code> &mdash; every later module depends on this</td></tr>
+        <tr><td>1.7</td><td>Merge + dedupe</td><td>key = <code>airline + flight_no + departure_ts</code>, duplicate count logged</td></tr>
+        <tr><td>1.8</td><td>Per-domain rate limiter</td><td>1 req / few sec per domain, token-bucket, configurable</td></tr>
+        <tr><td>1.9</td><td><code>robots.txt</code> parser + honour</td><td>fetch, cache, respect disallow, honour <code>Retry-After</code></td></tr>
+        <tr><td>1.10</td><td>Rotating User-Agent</td><td>pool of realistic UAs, per-session rotation, realistic headers / viewport</td></tr>
+        <tr><td>1.11</td><td>Anti-bot / captcha detection</td><td>403 / captcha page / block signature detected &rarr; mark source failed, trigger fallback</td></tr>
+        <tr><td>1.12</td><td>Off-peak scheduler</td><td>APScheduler / cron &mdash; bulk pre-scrape overnight, keeps cache warm</td></tr>
+        <tr><td>1.13</td><td>Per-source status report</td><td><code>{source: {status, fares, latency_ms, extraction_path}}</code> &rarr; feeds console + status strip</td></tr>
+        <tr><td>1.14</td><td>Timeout + retry with backoff</td><td>per-page timeout, N retries with exponential backoff, then fallback</td></tr>
+      </tbody>
+    </table>
+
+    <h3>1B &nbsp;Fallback Chain &mdash; 3-tier resilience</h3>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>1.15</td><td>Tier 1 &mdash; Travelpayouts API fallback</td><td>live scrape fails / blocked &rarr; <code>api.travelpayouts.com</code> (Aviasales data: <code>prices_for_dates</code> / cheapest fares) for that route, mapped into the same normalise contract. Token in <code>.env</code>.</td></tr>
+        <tr><td>1.16</td><td>Travelpayouts client</td><td><code>httpx.AsyncClient</code>, auth header, response &rarr; <code>list[dict]</code> in record shape, currency normalised to INR</td></tr>
+        <tr><td>1.17</td><td>Tier 2 &mdash; on-disk cache snapshot</td><td>Travelpayouts also unreachable (offline) &rarr; newest cached JSON for <code>source_corridor_date</code></td></tr>
+        <tr><td>1.18</td><td>Cache writer</td><td>every successful scrape / API response written to disk, timestamped, <code>data/cache/</code></td></tr>
+        <tr><td>1.19</td><td>Cache seed script</td><td>Kaggle dataset &rarr; 30&ndash;50 rows/corridor as initial cache (record shape) so the pipeline runs on day one</td></tr>
+        <tr><td>1.20</td><td>Fallback tagging</td><td>each record + run tagged <code>ingestion_source</code> = <code>live_scrape</code> / <code>travelpayouts</code> / <code>cache</code>, console emits <code>[SCRAPE][FALLBACK]</code></td></tr>
+        <tr><td>1.21</td><td>Graceful degradation</td><td>1 source blocked &rarr; other 4 + Travelpayouts still contribute; run completes, <code>sources_degraded</code> count reported</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 2 -->
+  <section>
+    <div class="sec-head"><span class="num">02</span><h2>Festival Flag Engine &mdash; <code>pipeline/festival.py</code></h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>2.1</td><td><code>holidays.India</code> date builder</td><td><code>holidays.India(years=[2026, 2027])</code>, filter to major festivals (Diwali, Holi, Dussehra, Christmas, Guru Nanak Jayanti, Eid al-Fitr, Eid al-Adha)</td></tr>
+        <tr><td>2.2</td><td>&plusmn;7 day window flagging</td><td>each record: <code>is_festival_season</code> (0/1) + <code>festival_matched</code> (name), <code>window_days</code> config param</td></tr>
+        <tr><td>2.3</td><td>Flagged count + breakdown</td><td><code>{Diwali: 31, Christmas: 7}</code> per festival; festivals outside the window do not appear</td></tr>
+        <tr><td>2.4</td><td>Date-verification test</td><td><code>test_festival.py</code> &mdash; assert 2026 dates against a real calendar</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 3 -->
+  <section>
+    <div class="sec-head"><span class="num">03</span><h2>Dynamic IQR Purifier &mdash; <code>pipeline/iqr.py</code></h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>3.1</td><td>Two-tailed Tukey fence</td><td><code>Q1 &minus; k&middot;IQR</code> and <code>Q3 + k&middot;IQR</code> &mdash; catches both glitch-low (&#8377;1, null-as-0) and absurd-high</td></tr>
+        <tr><td>3.2</td><td><code>clean[]</code> / <code>anomalies[]</code> split</td><td>driven by <code>k_factor</code>; price within fence &rarr; clean, else anomaly</td></tr>
+        <tr><td>3.3</td><td>Exclusion metadata</td><td>each anomaly gets <code>exclusion_reason</code> (<code>below_lower_fence</code> / <code>above_upper_fence</code>) + the fence value</td></tr>
+        <tr><td>3.4</td><td>Fences object returned</td><td><code>{Q1, Q3, IQR, lower_fence, upper_fence}</code> &rarr; feeds histogram + console</td></tr>
+        <tr><td>3.5</td><td>Nothing deleted</td><td>anomalies logged + stored + returned &mdash; any <code>k</code> choice is reversible</td></tr>
+        <tr><td>3.6</td><td>Golden-number test</td><td><code>test_iqr.py</code> &mdash; worked example: k=1.5 &rarr; 2 excluded, k=3.0 &rarr; 1</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 4 -->
+  <section>
+    <div class="sec-head"><span class="num">04</span><h2>AI &middot; Data-Integrity Model &mdash; <code>pipeline/ml/integrity.py</code></h2></div>
+    <p class="sec-intro">Trained in-house. No external API. Runs on top of the IQR filter as a second, learned pass.</p>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>4.1</td><td>Isolation Forest anomaly detector</td><td><code>sklearn.ensemble.IsolationForest</code> &mdash; flags decoy / placeholder / bot-trap fares that IQR passes through</td></tr>
+        <tr><td>4.2</td><td>Feature engineering</td><td>price, price-per-km, deviation from route median, time-to-departure, hour-of-day, airline one-hot, source</td></tr>
+        <tr><td>4.3</td><td>Self-training pipeline (<code>train_integrity.py</code>)</td><td>trained on Kaggle historical + scraped fare corpus, no external API, runs in minutes</td></tr>
+        <tr><td>4.4</td><td>Model artifact + versioning</td><td><code>models/integrity_v1.joblib</code> + metadata (train date, rows, contamination param)</td></tr>
+        <tr><td>4.5</td><td>Inference as pure function</td><td><code>score_integrity(records) &rarr; (records + integrity_score + ml_flag, flagged_count)</code></td></tr>
+        <tr><td>4.6</td><td>IQR + ML dual layer</td><td>IQR = transparent hand-checkable baseline, ML = second pass; both logged, nothing silently deleted</td></tr>
+        <tr><td>4.7</td><td>Eval metrics</td><td>precision / recall on a labelled synthetic-injection set, printed by the train script</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5 -->
+  <section>
+    <div class="sec-head"><span class="num">05</span><h2>AI &middot; Nowcasting / Imputation Model &mdash; <code>pipeline/ml/nowcast.py</code></h2></div>
+    <p class="sec-intro">Fills route-days a live scrape missed &mdash; imputation, not forecasting. This is how central banks nowcast GDP.</p>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>5.1</td><td>Gradient-boosted regressor</td><td><code>lightgbm</code> / <code>sklearn.GradientBoostingRegressor</code> &mdash; fills sparse route-days (a route-day whose scrape failed)</td></tr>
+        <tr><td>5.2</td><td>Features</td><td>correlated routes' current prices, route history, day-of-week, days-to-departure, festival flag, fuel-price proxy</td></tr>
+        <tr><td>5.3</td><td>Confidence bands</td><td>quantile regression (10th / 90th) or bootstrap &rarr; an interval on every imputed value</td></tr>
+        <tr><td>5.4</td><td>NOT forecasting</td><td>only imputes missing <em>observed</em> route-days &mdash; never predicts future prices. Explicit in console + docs.</td></tr>
+        <tr><td>5.5</td><td>Self-training pipeline (<code>train_nowcast.py</code>)</td><td>Kaggle + accumulated scrape data, no API</td></tr>
+        <tr><td>5.6</td><td>Model artifact + versioning</td><td><code>models/nowcast_v1.joblib</code> + metrics (MAE, CI coverage)</td></tr>
+        <tr><td>5.7</td><td>Inference as pure function</td><td><code>impute_gaps(route_day_matrix) &rarr; (complete_matrix, imputed_mask, confidence_bands)</code></td></tr>
+        <tr><td>5.8</td><td>Imputation flag on output</td><td>run reports <code>imputed_route_days</code> count; index carries a confidence band to the frontend</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 6 -->
+  <section>
+    <div class="sec-head"><span class="num">06</span><h2>Weighted Laspeyres Engine &mdash; <code>pipeline/laspeyres.py</code></h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>6.1</td><td>Per-route aggregation</td><td>pandas <code>groupby("route")["price"].median()</code> (median = outlier-robust) &rarr; <code>Pt</code></td></tr>
+        <tr><td>6.2</td><td>Base-year join</td><td><code>base_year_reference.json</code> &rarr; <code>P0</code>, <code>Q0</code> per route, inner join (routes present in both)</td></tr>
+        <tr><td>6.3</td><td>Laspeyres formula</td><td><code>Index = &Sigma;(Pt&middot;Q0) / &Sigma;(P0&middot;Q0) &times; 100</code></td></tr>
+        <tr><td>6.4</td><td>Festival decomposition</td><td><code>index_all</code> vs <code>index_ex_festival</code> (re-run on non-flagged fares only) &rarr; festival component in index points</td></tr>
+        <tr><td>6.5</td><td>Per-route table returned</td><td><code>Pt, P0, Q0, pt_q0, p0_q0</code> inspectable table &rarr; PDF report + readout</td></tr>
+        <tr><td>6.6</td><td>Vectorised, deterministic</td><td>no loops, no random seeds &mdash; same input = same output</td></tr>
+        <tr><td>6.7</td><td>Golden-number test</td><td><code>test_laspeyres.py</code> &mdash; 2-route example = exactly 118.75</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 7 -->
+  <section>
+    <div class="sec-head"><span class="num">07</span><h2>AI &middot; Explainability Annotator &mdash; <code>pipeline/explain.py</code></h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>7.1</td><td>Rule-based movement annotator</td><td>LLM removed &mdash; tags each index change with a cause: festival-window proximity, k_factor change, source degradation, imputation share</td></tr>
+        <tr><td>7.2</td><td>Template output</td><td><code>"Index +3.2% vs last run &mdash; Diwali window (&plusmn;7d, 31 fares) + 1 source degraded (Cleartrip&rarr;cache)"</code></td></tr>
+        <tr><td>7.3</td><td>Delta vs previous run</td><td>pull last run for same corridor from DB, compute diff, rank drivers</td></tr>
+        <tr><td>7.4</td><td>Pure function</td><td><code>annotate(run, prev_run) &rarr; str</code> &mdash; no model, no API</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 8 -->
+  <section>
+    <div class="sec-head"><span class="num">08</span><h2>Persistence &mdash; <code>pipeline/persistence.py</code></h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>8.1</td><td>Postgres primary write</td><td><code>create_engine(PG_DSN, connect_timeout=3)</code>, <code>INSERT</code> into <code>audit_runs</code>, commit</td></tr>
+        <tr><td>8.2</td><td>SQLite WAL fallback</td><td><code>OperationalError</code> / timeout &rarr; <code>db/fallback.sqlite</code>, <code>PRAGMA journal_mode=WAL</code>, mirrored schema</td></tr>
+        <tr><td>8.3</td><td><code>db_target</code> tagging</td><td>each row tagged <code>postgres</code> / <code>sqlite_fallback</code> so it can be reconciled later</td></tr>
+        <tr><td>8.4</td><td><code>audit_runs</code> schema (both DBs)</td><td>run_id, corridor, date_range_start/end, index_value, index_ex_festival, k_factor_used, base_period, records_ingested, festival_flagged_count, anomalies_excluded_count, ml_flagged_count, imputed_route_days, scrape_sources (json), ingestion_source, db_target, created_at</td></tr>
+        <tr><td>8.5</td><td><code>schema.sql</code></td><td>one DDL file for both databases</td></tr>
+        <tr><td>8.6</td><td>Dual-failure honesty</td><td>both fail = disk is gone; an in-memory retry queue is stated future work, not claimed as solved</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 9 -->
+  <section>
+    <div class="sec-head"><span class="num">09</span><h2>API Contract</h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Method &middot; Path</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td>9.1</td><td>GET <code>/</code></td><td>serve dashboard (<code>static/index.html</code>)</td></tr>
+        <tr><td>9.2</td><td>GET <code>/api/corridors</code></td><td>dropdown options (keys of base ref)</td></tr>
+        <tr><td>9.3</td><td>GET <code>/api/execute-audit</code></td><td>run pipeline, stream logs &mdash; <code>text/event-stream</code> (SSE, <code>EventSource</code>-compatible, GET-only)</td></tr>
+        <tr><td>9.4</td><td>GET <code>/api/runs</code></td><td>last N runs for the history chart</td></tr>
+        <tr><td>9.5</td><td>POST <code>/api/import-csv</code></td><td>upload a pre-scraped fare extract &rarr; run pipeline on it (badge <code>imported csv</code>)</td></tr>
+        <tr><td>9.6</td><td>GET <code>/api/report/{run_id}</code></td><td>run data for PDF report composition</td></tr>
+        <tr><td>9.7</td><td>SSE line format</td><td><code>data: {"stage","message","run_id",...}\n\n</code>; final line <code>done:true, index, index_ex_festival, anomalies, sub_index, confidence_band</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <div class="sec-head"><span class="num">10</span><h2>Data Sources &amp; Reference</h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>10.1</td><td>Kaggle flight-price dataset script</td><td>(a) mean 2022 price/route &rarr; <code>P0</code>&nbsp; (b) 30&ndash;50 rows/corridor &rarr; cache seed&nbsp; (c) training corpus for the ML models</td></tr>
+        <tr><td>10.2</td><td>DGCA airport-pair passenger data (data.gov.in)</td><td>&rarr; <code>Q0</code> weights &mdash; <strong>not scraped</strong>, official statistic</td></tr>
+        <tr><td>10.3</td><td><code>base_year_reference.json</code></td><td><code>{route: {P0, Q0}}</code>, <code>base_period: "2022"</code>, frozen in-repo</td></tr>
+        <tr><td>10.4</td><td><code>holidays</code> package</td><td>correct lunar dates, offline</td></tr>
+        <tr><td>10.5</td><td>Travelpayouts affiliate token</td><td>free signup, <code>.env</code>, grants fallback API access</td></tr>
+        <tr><td>10.6</td><td>Scrape-target recon doc</td><td>per source: search-URL pattern + fare XHR endpoint (DevTools &rarr; Network)</td></tr>
+        <tr><td>10.7</td><td>CPI reference series</td><td>real MoSPI CPI "Transport" monthly 2022&rarr;2026 as a static array (chart overlay) &mdash; never a synthetic ramp</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 11 -->
+  <section>
+    <div class="sec-head"><span class="num">11</span><h2>Tests &amp; Ship</h2></div>
+    <table>
+      <thead><tr><th>#</th><th>Feature</th><th>Detail</th></tr></thead>
+      <tbody>
+        <tr><td>11.1</td><td><code>test_iqr.py</code></td><td>golden numbers, hand-calculated</td></tr>
+        <tr><td>11.2</td><td><code>test_laspeyres.py</code></td><td>golden numbers = 118.75</td></tr>
+        <tr><td>11.3</td><td><code>test_festival.py</code></td><td>2026 dates, &plusmn;7d boundary</td></tr>
+        <tr><td>11.4</td><td><code>test_e2e.py</code></td><td>full pipeline on cache / backup data</td></tr>
+        <tr><td>11.5</td><td><code>test_scrape_fallback.py</code></td><td>network kill &rarr; Travelpayouts &rarr; cache chain, each tier logged</td></tr>
+        <tr><td>11.6</td><td>ML model eval scripts</td><td>integrity precision / recall, nowcast MAE + CI coverage</td></tr>
+        <tr><td>11.7</td><td><code>run.py</code></td><td>starts uvicorn (pywebview optional / skipped &mdash; browser console is the shell)</td></tr>
+        <tr><td>11.8</td><td><code>requirements.txt</code> + <code>.env.example</code></td><td>fastapi, uvicorn, httpx, playwright, pandas, numpy, scikit-learn, lightgbm, holidays, sqlalchemy, pydantic-settings, apscheduler</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FALLBACK STORY -->
+  <section>
+    <div class="sec-head"><span class="num">&#9733;</span><h2>Fallback story &mdash; for the judges</h2></div>
+    <div class="box why">
+      <span class="label">say this</span>
+      <p><strong>Primary: live scraping</strong> of 5 airline / OTA portals &mdash; real headless browsers that
+         intercept each site's own fare XHR. <strong>Everything is live &mdash; that is what makes us different.</strong></p>
+      <p><strong>Tier 1 fallback:</strong> a source is blocked &rarr; the <strong>Travelpayouts (Aviasales) data API</strong>
+         supplies that route's fares.</p>
+      <p><strong>Tier 2 fallback:</strong> fully offline &rarr; the last cached scrape snapshot.</p>
+      <p>Every run reports which tier was used (<code>ingestion_source</code>). DGCA volume weights are never
+         scraped &mdash; that is an official statistic.</p>
+    </div>
+    <div class="box warn">
+      <span class="label">what changed from earlier drafts</span>
+      <p>Self-healing vision-LLM extractor (1.5c) &mdash; <span class="del">removed</span>, replaced by a CSS-selector fallback.</p>
+      <p>Free LLM API key &mdash; <span class="del">removed</span>. No external AI APIs anywhere.</p>
+      <p>Explainability LLM &mdash; <span class="del">removed</span>, replaced by a rule-based template annotator.</p>
+      <p><code>pywebview</code> desktop shell &mdash; skipped; the browser console is the shell (note: PS says
+         "desktop app", so keep <code>pywebview</code> as a ~15-line stretch goal if time allows).</p>
+    </div>
+  </section>
+
+  <!-- BUILD ORDER -->
+  <section>
+    <div class="sec-head"><span class="num">&#8250;</span><h2>Build order (do not skip ahead)</h2></div>
+    <p class="sec-intro">Engineering deep-dive &sect;10. Tell the tool: <em>"only build stage N, don't implement later stages."</em></p>
+    <ul>
+      <li><strong>1 Scaffold</strong> &mdash; folders, stub functions with correct signatures, <code>requirements.txt</code>, <code>.env.example</code>, <code>config.py</code></li>
+      <li><strong>2 Cache-seeded fallback</strong> &mdash; seed <code>data/cache/</code> from Kaggle, <code>fetch_fares</code> returns it</li>
+      <li><strong>3 SSE bridge</strong> &mdash; real <code>run_audit</code> generator, hardcoded lines, wired to <code>EventSource</code></li>
+      <li><strong>4 Festival engine</strong> &rarr; <strong>5 IQR filter</strong> &rarr; <strong>6 Laspeyres</strong> (each with its golden-number test)</li>
+      <li><strong>7 Live scraper pool</strong> &mdash; one adapter, then cache layer, then Travelpayouts fallback, then fan-out to all 5</li>
+      <li><strong>8 Persistence</strong> &mdash; Postgres (Docker) + SQLite fallback + <code>schema.sql</code></li>
+      <li><strong>9 AI models</strong> &mdash; train integrity + nowcast offline, wire inference as pure functions</li>
+      <li><strong>10 Explainability annotator + polish</strong> &mdash; <code>/api/runs</code>, CSV import, PDF report data</li>
+    </ul>
+  </section>
+
+  <footer>
+    VAYU-SUCHAK 2.0 &middot; Backend Feature List &middot; SIH26056 &middot; Team Chakravyuh &mdash; Anant &middot; Om &middot; Yakshit
+    &nbsp;|&nbsp; live-first &middot; &#8377;0 &middot; no external AI APIs
+  </footer>
+
+</div>
+</body>
+</html>
